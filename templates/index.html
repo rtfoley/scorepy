@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>FLL Score Form</title>
+  </head>
+  <body>
+      <h1>FLL Score Form</h1>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
+      <script>window.jQuery || document.write('<script src="{{
+            url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+      <script type=text/javascript>
+          $(function() {
+            $('#formId').change(function() {
+              console.log("form changed");
+              $.getJSON('/_add_numbers', {
+                treebranchcloser: $("#treebranchcloser").val(),
+                treebranchintact: $("#treebranchintact").val(),
+                cargoplane: $("#cargoplane").val()
+              }, function(data) {
+                $("#result").text(data.result);
+              });
+              return false;
+            });
+          });
+      </script>
+      <h4>Total: <span id=result>0</span></h4>
+      <p>
+        <form id=formId>
+          Is tree branch closer to mat than power lines: <select id="treebranchcloser">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select><br>
+          Is tree branch model intact: <select id="treebranchintact">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select><br>
+          Cargo Plane location: <select id="cargoplane">
+            <option value="0">None</option>
+            <option value="1">Yellow only</option>
+            <option value="2">Light Blue</option>
+          </select>
+        </form>
+    </p>
+  </body>
+</html>

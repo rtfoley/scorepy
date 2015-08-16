@@ -11,9 +11,10 @@
           $(function() {
             $('#formId').change(function() {
               console.log("form changed");
+              console.log($("#treebranchcloser").is(':checked'));
               $.getJSON('/_add_numbers', {
-                treebranchcloser: $("#treebranchcloser").val(),
-                treebranchintact: $("#treebranchintact").val(),
+                treebranchcloser: $("#treebranchcloser").is(':checked'),
+                treebranchintact: $("#treebranchintact").is(':checked'),
                 cargoplane: $("#cargoplane").val()
               }, function(data) {
                 $("#result").text(data.result);
@@ -23,22 +24,12 @@
           });
       </script>
       <h4>Total: <span id=result>0</span></h4>
-      <p>
-        <form id=formId>
-          Is tree branch closer to mat than power lines: <select id="treebranchcloser">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-          </select><br>
-          Is tree branch model intact: <select id="treebranchintact">
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-          </select><br>
-          Cargo Plane location: <select id="cargoplane">
-            <option value="0">None</option>
-            <option value="1">Yellow only</option>
-            <option value="2">Light Blue</option>
-          </select>
-        </form>
+      <form action="" method="post" name="login" id="formId">
+        {{ form.hidden_tag() }}
+        <p>Is tree branch closer to mat than power lines: {{ form.treebranchcloser }}</p>
+        <p>Is tree branch model intact: {{ form.treebranchintact }}</p>
+        <p>Cargo plane location: {{form.cargoplane}}
+        <p><input type="submit" value="Sign In"></p>
     </p>
   </body>
 </html>

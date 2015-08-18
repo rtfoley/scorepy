@@ -1,42 +1,26 @@
+# Pythonl library imports
 import flask
 from flask import render_template, request, jsonify
-from flask.ext.wtf import Form
-from wtforms import SelectField, BooleanField
 
+# Imports from other parts of the app
+from forms import ScoreForm
+from models import RobotScore
+
+# setup application
 app = flask.Flask(__name__)
 app.config.from_object('config')
 
-class ScoreForm(Form):
-    treebranchcloser = BooleanField('treebranchcloser', default=False)
-    treebranchintact = BooleanField('treebranchintact', default=False)
-    cargoplane = SelectField('cargoplane', choices=[('0', 'None'), ('1', 'Yellow only'), ('2', 'Light blue')])
-
-@app.route('/_add_numbers')
-def add_numbers():
-    treebranchcloser = request.args.get('treebranchcloser')
-    treebranchintact = request.args.get('treebranchintact')
-    cargoplane = request.args.get('cargoplane', 0, type=int)
-
-    score = 0
-    if treebranchcloser=='true' and treebranchintact=='true':
-        print 'tree success'
-        score += 30
-    score += get_plane_score(cargoplane)
-
-    return jsonify(result=score)
-
-def get_plane_score(argument):
-    switcher = {
-        0: 0,
-        1: 20,
-        2: 30,
-    }
-    return switcher.get(argument, 0)
-
+# Maine route
 @app.route("/")
-def hello():
+def index():
     form = ScoreForm()
     return render_template("index.html", form=form)
+
+# Utility method to get live score when score form is being filled out
+@app.route('/_add_numbers')
+def add_numbers():
+    score = RobotScore(treebranchcloser = request.args.get('treebranchcloser')=='true', treebranchintact = request.args.get('treebranchintact')=='true', cargoplane = request.args.get('cargoplane', 0, type=int))
+    return jsonify(result=score.getScore())
 
 if __name__ == "__main__":
     app.run(debug = True)

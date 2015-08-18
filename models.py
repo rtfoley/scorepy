@@ -1,3 +1,4 @@
+# Robot score behavior and calculation
 class RobotScore(object):
     def __init__(self, treebranchcloser = False, treebranchintact = False, cargoplane = 0):
         self.treebranchcloser = treebranchcloser

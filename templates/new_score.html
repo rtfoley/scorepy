@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>FLL Score Form</title>
+  </head>
+  <body>
+    <h1>FLL Score Form</h1>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
+    <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+    <script type=text/javascript>
+      $(function() {
+        $('#formId').change(function() {
+          console.log("form changed");
+          console.log($("#tree_branch_is_closer").is(':checked'));
+          $.getJSON('/_add_numbers', {
+            tree_branch_is_closer: $("#tree_branch_is_closer").is(':checked'),
+            tree_branch_is_intact: $("#tree_branch_is_intact").is(':checked'),
+            cargo_plane_location: $("#cargo_plane_location").val()
+          }, function(data) {
+            $("#result").text(data.result);
+          });
+          return false;
+        });
+      });
+    </script>
+    <h4>Total: <span id=result>0</span></h4>
+    <form action="" method="post" name="login" id="formId">
+      {{ form.hidden_tag() }}
+      <p>Team number: {{ form.team }}</p>
+      <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
+      <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
+      <p>Cargo plane location: {{form.cargo_plane_location}}
+      <p><input type="submit" value="Submit"></p>
+    </form>
+  </body>
+</html>

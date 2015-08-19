@@ -4,31 +4,9 @@
   </head>
   <body>
     <h1>FLL Score Form</h1>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
-    <script type=text/javascript>
-      $(function() {
-        $('#formId').change(function() {
-          console.log("form changed");
-          console.log($("#treebranchcloser").is(':checked'));
-          $.getJSON('/_add_numbers', {
-            treebranchcloser: $("#treebranchcloser").is(':checked'),
-            treebranchintact: $("#treebranchintact").is(':checked'),
-            cargoplane: $("#cargoplane").val()
-          }, function(data) {
-            $("#result").text(data.result);
-          });
-          return false;
-        });
-      });
-    </script>
-    <h4>Total: <span id=result>0</span></h4>
-    <form action="" method="post" name="login" id="formId">
-      {{ form.hidden_tag() }}
-      <p>Is tree branch closer to mat than power lines: {{ form.treebranchcloser }}</p>
-      <p>Is tree branch model intact: {{ form.treebranchintact }}</p>
-      <p>Cargo plane location: {{form.cargoplane}}
-      <p><input type="submit" value="Submit"></p>
-    </form>
+    <a href="/new">Add a new score</a>
+    {% for score in scores %}
+    <p>Team: {{ score.team }}, Score: {{ score.total }}</p>
+    {% endfor %}
   </body>
 </html>

@@ -1,16 +1,28 @@
+from flask.ext.sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 # Robot score behavior and calculation
-class RobotScore(object):
-    def __init__(self, treebranchcloser = False, treebranchintact = False, cargoplane = 0):
-        self.treebranchcloser = treebranchcloser
-        self.treebranchintact = treebranchintact
-        self.cargoplane = cargoplane
+class RobotScore(db.Model):
+    __tablename__ = 'robot_scores'
+
+    id = db.Column(db.Integer, primary_key=True)
+    team = db.Column(db.Integer)
+    tree_branch_is_closer = db.Column(db.Boolean)
+    tree_branch_is_intact = db.Column(db.Boolean)
+    cargo_plane_location = db.Column(db.Integer)
+
+    def __init__(self, team=0, tree_branch_is_closer = False, tree_branch_is_intact = False, cargo_plane_location = 0):
+        self.team = team
+        self.tree_branch_is_closer = tree_branch_is_closer
+        self.tree_branch_is_intact = tree_branch_is_intact
+        self.cargo_plane_location = cargo_plane_location
 
     def getScore(self):
         score = 0
-        if self.treebranchcloser and self.treebranchintact:
-            print 'tree success'
+        if self.tree_branch_is_closer and self.tree_branch_is_intact:
             score += 30
-        score += self.get_plane_score(self.cargoplane)
+        score += self.get_plane_score(self.cargo_plane_location)
         return score
 
     def get_plane_score(self, argument):

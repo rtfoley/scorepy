@@ -1,7 +1,8 @@
 from flask.ext.wtf import Form
-from wtforms import SelectField, BooleanField
+from wtforms import SelectField, BooleanField, IntegerField
 
 class ScoreForm(Form):
-    treebranchcloser = BooleanField('treebranchcloser', default=False)
-    treebranchintact = BooleanField('treebranchintact', default=False)
-    cargoplane = SelectField('cargoplane', choices=[('0', 'None'), ('1', 'Yellow only'), ('2', 'Light blue')])
+    team = IntegerField()
+    tree_branch_is_closer = BooleanField(default=False)
+    tree_branch_is_intact = BooleanField(default=False)
+    cargo_plane_location = SelectField(choices=[('0', 'None'), ('1', 'Yellow only'), ('2', 'Light blue')])

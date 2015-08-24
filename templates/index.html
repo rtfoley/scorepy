@@ -6,7 +6,7 @@
     <h1>FLL Score Form</h1>
     <a href="/new">Add a new score</a>
     {% for score in scores %}
-    <p>Team: {{ score.team }}, Score: {{ score.total }}</p>
+    <p>Team: {{ score.team }}, Score: {{ score.total }} <a href="{{ url_for('edit_score', score_id=score.id) }}">edit</a></p>
     {% endfor %}
   </body>
 </html>

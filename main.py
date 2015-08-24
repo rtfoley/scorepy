@@ -31,7 +31,18 @@ def new_score():
         db.session.commit()
         flash("Added score")
         return redirect(url_for("index"))
-    return render_template("new_score.html", form=form)
+    return render_template("form.html", form=form)
+
+@app.route("/edit_score/<int:score_id>", methods=['GET', 'POST'])
+def edit_score(score_id):
+    score = RobotScore.query.get(score_id)
+    form = ScoreForm(obj = score)
+    if form.validate_on_submit():
+        form.populate_obj(score)
+        db.session.commit()
+        flash("Added score")
+        return redirect(url_for("index"))
+    return render_template("form.html", form=form)
 
 # Utility method to get live score when score form is being filled out
 @app.route('/_add_numbers')

@@ -4,24 +4,24 @@ An attempt at an FLL tournament scoring application using Python and Flask
 ### Setting up and running the application:
 1. Install Python 2.7.x: https://www.python.org/downloads/
 
-* Install pip: https://pip.pypa.io/en/latest/installing.html
+2. Install pip: https://pip.pypa.io/en/latest/installing.html
 
-* Install virtualenv
+3. Install virtualenv
 ```text
 > pip install virtualenv
 ```
 
-* Clone the repository
+4. Clone the repository
 ```text
 > git clone https://github.com/rtfoley/scorepy.git
 ```
 
-* Create a virtual environment (Windows)
+5. Create a virtual environment (Windows)
 ```text
 > cd fllipit
 > virtualenv venv
 ```
-* Activate the virtual environment using one of the following commands:
+6. Activate the virtual environment using one of the following commands:
 
  * Windows systems:
 ```text
@@ -33,12 +33,12 @@ An attempt at an FLL tournament scoring application using Python and Flask
 > source venv/bin/activate
 ```
 
-* Use Pip to install dependencies
+7. Use Pip to install dependencies
 ```text
 (venv) > pip install -r requirements.txt
 ```
 
-* Run the application
+8. Run the application
 ```text
 (venv) > python main.py
 ```

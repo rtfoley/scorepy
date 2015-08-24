@@ -27,6 +27,10 @@
         });
         return false;
       }
+
+      function goBack() {
+        window.history.back();
+      }
     </script>
     <h4>Total: <span id=result>0</span></h4>
     <form action="" method="post" name="login" id="formId">
@@ -35,7 +39,7 @@
       <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
       <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
       <p>Cargo plane location: {{form.cargo_plane_location}}
-      <p><input type="submit" value="Submit"></p>
+      <p><input type="submit" value="Submit"> <button onclick="goBack()">Cancel</button></p>
     </form>
   </body>
 </html>

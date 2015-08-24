@@ -31,7 +31,7 @@ def new_score():
         db.session.commit()
         flash("Added score")
         return redirect(url_for("index"))
-    return render_template("form.html", form=form)
+    return render_template("score_form.html", form=form)
 
 @app.route("/edit_score/<int:score_id>", methods=['GET', 'POST'])
 def edit_score(score_id):
@@ -42,7 +42,7 @@ def edit_score(score_id):
         db.session.commit()
         flash("Added score")
         return redirect(url_for("index"))
-    return render_template("form.html", form=form)
+    return render_template("score_form.html", form=form)
 
 # Utility method to get live score when score form is being filled out
 @app.route('/_add_numbers')

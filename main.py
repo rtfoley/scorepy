@@ -33,6 +33,8 @@ def new_score():
         return redirect(url_for("index"))
     return render_template("score_form.html", form=form)
 
+# Edit a previously-entered score
+# TODO can this be combined with the above method?
 @app.route("/edit_score/<int:score_id>", methods=['GET', 'POST'])
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)

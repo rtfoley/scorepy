@@ -46,6 +46,17 @@ def edit_score(score_id):
         return redirect(url_for("index"))
     return render_template("score_form.html", form=form)
 
+# Return a list of scores, highest - lowest
+@app.route("/ranks", methods=['GET'])
+def ranks():
+    scores = RobotScore.query.all()
+    for score in scores:
+        score.total=score.getScore()
+    return render_template("ranks.html", scores=sorted(scores, key=by_score, reverse=True))
+
+def by_score(score):
+    return score.total
+
 # Utility method to get live score when score form is being filled out
 @app.route('/_add_numbers')
 def add_numbers():

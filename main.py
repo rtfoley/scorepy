@@ -1,6 +1,8 @@
 # Python library imports
 import flask
-from flask import flash, render_template, request, jsonify, redirect, url_for
+from flask import flash, render_template, request, jsonify, redirect, url_for, make_response
+from cStringIO import StringIO
+from xhtml2pdf import pisa
 
 # Imports from other parts of the app
 from forms import ScoreForm
@@ -53,6 +55,23 @@ def ranks():
     for score in scores:
         score.total=score.getScore()
     return render_template("ranks.html", scores=sorted(scores, key=by_score, reverse=True))
+
+def create_pdf(pdf_data):
+    pdf = StringIO()
+    pisa.CreatePDF(StringIO(pdf_data.encode('utf-8')), pdf, encoding="utf-8")
+    return pdf
+
+@app.route('/ranks.pdf')
+def rank_pdf():
+    scores = RobotScore.query.all()
+    for score in scores:
+        score.total=score.getScore()
+    pdf = create_pdf(render_template("ranks.html", scores=sorted(scores, key=by_score, reverse=True)))
+    pdf_out = pdf.getvalue()
+    response = make_response(pdf_out)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'yourfilename'
+    return response
 
 def by_score(score):
     return score.total

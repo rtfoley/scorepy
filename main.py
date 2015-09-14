@@ -63,14 +63,10 @@ def create_pdf(pdf_data):
 
 @app.route('/ranks.pdf')
 def rank_pdf():
-    scores = RobotScore.query.all()
-    for score in scores:
-        score.total=score.getScore()
-    pdf = create_pdf(render_template("ranks.html", scores=sorted(scores, key=by_score, reverse=True)))
-    pdf_out = pdf.getvalue()
-    response = make_response(pdf_out)
+    pdf = create_pdf(ranks())
+    response = make_response(pdf.getvalue())
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'yourfilename'
+    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % 'ranks.pdf'
     return response
 
 def by_score(score):

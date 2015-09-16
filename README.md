@@ -5,8 +5,7 @@ An attempt at an FLL tournament scoring application using Python and Flask
 - [x] Ability to calculate a score live as form is changed
 - [x] Ability to save scores to a database
 - [x] Ability to edit previously entered scores
-- [ ] Ranking report (.pdf)
-- [ ] Pit display that shows live-updating rankings
+- [x] Ranking report (.pdf)
 - [ ] Save database via webpage
 - [ ] upload database via webpage
 

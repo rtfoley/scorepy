@@ -1,14 +1,11 @@
-<html>
-  <head>
-    <title>FLL Score Form</title>
-  </head>
-  <body>
-    <h1>FLL Score Form</h1>
-    <a href="/new">Add a new score</a>
-    {% for score in scores %}
-    <p>Team: {{ score.team }}, Score: {{ score.total }} <a href="{{ url_for('edit_score', score_id=score.id) }}">edit</a></p>
-    {% endfor %}
-    <br>
-    <a href="{{ url_for('ranks') }}">Ranks</a>
-  </body>
-</html>
+{% extends "layout.html" %}
+{% block title %}FLL EM{% endblock %}
+{% block content %}
+  <h1>FLL Score Entry</h1>
+  <a href="/new">Add a new score</a>
+  {% for score in scores %}
+  <p>Team: {{ score.team }}, Score: {{ score.total }} <a href="{{ url_for('edit_score', score_id=score.id) }}">edit</a></p>
+  {% endfor %}
+  <br>
+  <a href="{{ url_for('ranks') }}">Ranks</a>
+{% endblock %}

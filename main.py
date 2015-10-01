@@ -25,7 +25,7 @@ def index():
 @app.route("/teams")
 def team_list():
     teams = Team.query.all()
-    return render_template("teams.html", teams=teams)
+    return render_template("teams.html", teams=sorted(teams, key=by_team))
 
 # Add a new robot score
 @app.route("/new", methods=['GET', 'POST'])
@@ -91,6 +91,9 @@ def rank_pdf():
 
 def by_score(score):
     return score.total
+
+def by_team(team):
+    return team.number
 
 # Utility method to get live score when score form is being filled out
 @app.route('/_add_numbers')

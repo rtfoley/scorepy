@@ -5,7 +5,7 @@ from cStringIO import StringIO
 from xhtml2pdf import pisa
 
 # Imports from other parts of the app
-from forms import ScoreForm
+from forms import ScoreForm, TeamForm
 from models import RobotScore, Team, db
 
 # setup application
@@ -31,7 +31,7 @@ def team_list():
 @app.route("/new", methods=['GET', 'POST'])
 def new_score():
     form = ScoreForm()
-    form.team.choices = [(t.key.id(), t.number) for t in Team.query.all()]
+    form.team.choices = [(t.id, t.number) for t in Team.query.all()]
     if form.validate_on_submit():
         score = RobotScore()
         form.populate_obj(score)
@@ -41,9 +41,18 @@ def new_score():
         return redirect(url_for("index"))
     return render_template("score_form.html", form=form)
 
-@app.route("/new_team")
+# add a new team
+@app.route("/new_team", methods=['GET', 'POST'])
 def new_team():
-    return render_template("team_form.html")
+    form = TeamForm()
+    if form.validate_on_submit():
+        team = Team()
+        form.populate_obj(team)
+        db.session.add(team)
+        db.session.commit()
+        flash("Added team")
+        return redirect(url_for("team_list"))
+    return render_template("team_form.html", form=form)
 
 # Edit a previously-entered score
 # TODO can this be combined with the above method?
@@ -51,7 +60,7 @@ def new_team():
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj = score)
-    form.team.choices = [(t.key.id(), t.number) for t in Team.query.all()]
+    form.team.choices = [(t.id, t.number) for t in Team.query.all()]
     if form.validate_on_submit():
         form.populate_obj(score)
         db.session.commit()

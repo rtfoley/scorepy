@@ -34,7 +34,7 @@
   <!--need to fix the form names/ id, etc.  Also, use {{form.submit}}?-->
   <form action="" method="post" name="login" id="formId">
     {{ form.hidden_tag() }}
-    <p>Team number: {{ form.team }}</p>
+    <p>Team number: {{ form.team_id }}</p>
     <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
     <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
     <p>Cargo plane location: {{form.cargo_plane_location}}

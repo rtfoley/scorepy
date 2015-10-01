@@ -11,7 +11,7 @@ class Team(db.Model):
     affiliation = db.Column(db.String(200))
     city = db.Column(db.String(50))
     state = db.Column(db.String(2))
-    scores = db.relationship('RobotScore')
+    scores = db.relationship('RobotScore', backref="team")
 
     def __init(self, number, name, affiliation, city, state):
         self.number = number
@@ -25,13 +25,13 @@ class RobotScore(db.Model):
     __tablename__ = 'robot_scores'
 
     id = db.Column(db.Integer, primary_key=True)
-    team = db.Column(db.Integer, db.ForeignKey('teams.id'))
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
     tree_branch_is_closer = db.Column(db.Boolean)
     tree_branch_is_intact = db.Column(db.Boolean)
     cargo_plane_location = db.Column(db.Integer)
 
     def __init__(self, team=0, tree_branch_is_closer = False, tree_branch_is_intact = False, cargo_plane_location = 0):
-        self.team = team
+        self.team_id = team
         self.tree_branch_is_closer = tree_branch_is_closer
         self.tree_branch_is_intact = tree_branch_is_intact
         self.cargo_plane_location = cargo_plane_location

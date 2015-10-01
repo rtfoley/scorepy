@@ -31,27 +31,31 @@ def team_list():
 @app.route("/new", methods=['GET', 'POST'])
 def new_score():
     form = ScoreForm()
-    form.team.choices = [(t.id, t.number) for t in sorted(Team.query.all(), key=by_team)]
-    if form.validate_on_submit():
+    form.team_id.choices = [(t.id, t.number) for t in sorted(Team.query.all(), key=by_team)]
+    if request.method == 'POST' and form.validate_on_submit():
         score = RobotScore()
         form.populate_obj(score)
         db.session.add(score)
         db.session.commit()
         flash("Added score")
         return redirect(url_for("index"))
+    elif request.method == 'POST':
+        flash('Failed validation')
     return render_template("score_form.html", form=form)
 
 # add a new team
 @app.route("/new_team", methods=['GET', 'POST'])
 def new_team():
     form = TeamForm()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         team = Team()
         form.populate_obj(team)
         db.session.add(team)
         db.session.commit()
         flash("Added team")
         return redirect(url_for("team_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
     return render_template("team_form.html", form=form)
 
 # Edit a previously-entered score
@@ -60,12 +64,14 @@ def new_team():
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj = score)
-    form.team.choices = [(t.id, t.number) for t in sorted(Team.query.all(), key=by_team)]
-    if form.validate_on_submit():
+    form.team_id.choices = [(t.id, t.number) for t in sorted(Team.query.all(), key=by_team)]
+    if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(score)
         db.session.commit()
-        flash("Added score")
+        flash("Edited score")
         return redirect(url_for("index"))
+    elif request.method == 'POST':
+        flash('Failed validation')
     return render_template("score_form.html", form=form)
 
 # Return a list of scores, highest - lowest
@@ -98,7 +104,7 @@ def by_team(team):
 # Utility method to get live score when score form is being filled out
 @app.route('/_add_numbers')
 def add_numbers():
-    score = RobotScore(tree_branch_is_closer = request.args.get('tree_branch_is_closer')=='true', tree_branch_is_intact = request.args.get('tree_branch_is_intact')=='true', cargo_plane_location = request.args.get('cargo_plane_location', 0, type=int))
+    score = RobotScore(team = 0, tree_branch_is_closer = request.args.get('tree_branch_is_closer')=='true', tree_branch_is_intact = request.args.get('tree_branch_is_intact')=='true', cargo_plane_location = request.args.get('cargo_plane_location', 0, type=int))
     return jsonify(result=score.getScore())
 
 if __name__ == "__main__":

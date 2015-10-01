@@ -2,6 +2,24 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+class Team(db.Model):
+    __tablename__ = 'teams'
+
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer, unique=True)
+    name = db.Column(db.String(50))
+    affiliation = db.Column(db.String(200))
+    city = db.Column(db.String(50))
+    state = db.Column(db.String(2))
+    scores = db.relationship('RobotScore')
+
+    def __init(self, number, name, affiliation, city, state):
+        self.number = number
+        self.name = name
+        self.affiliation = affiliation
+        self.city = city
+        self.state = state
+
 # Robot score behavior and calculation
 class RobotScore(db.Model):
     __tablename__ = 'robot_scores'

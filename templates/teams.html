@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}Teams{% endblock %}
+{% block content %}
+  <h1>Teams</h1>
+  <a href="/new_team">Add a new team</a>
+  {% for team in teams %}
+  <p>Number: {{ team.number }}, Name: {{ team.name }} <a href="#">edit</a></p>
+  {% endfor %}
+{% endblock %}

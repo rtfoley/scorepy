@@ -1,47 +1,43 @@
-<html>
-  <head>
-    <title>FLL Score Form</title>
-  </head>
-  <body>
-    <h1>FLL Score Form</h1>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
-    <script type=text/javascript>
-      // Move this javascript to another file?
-      $( document ).ready(function() {
+{% extends "layout.html" %}
+{% block title %}FLL Score Form{% endblock %}
+{% block content %}
+  <h1>FLL Score Entry</h1>
+  <script>window.jQuery || document.write('<script src="{{url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}">\x3C/script>')</script>
+  <script type=text/javascript>
+    // Move this javascript to another file?
+    $( document ).ready(function() {
+      updateTotal();
+    });
+
+    $(function() {
+      $('#formId').change(function() {
         updateTotal();
       });
+    });
 
-      $(function() {
-        $('#formId').change(function() {
-          updateTotal();
-        });
+    function updateTotal() {
+      $.getJSON('/_add_numbers', {
+        tree_branch_is_closer: $("#tree_branch_is_closer").is(':checked'),
+        tree_branch_is_intact: $("#tree_branch_is_intact").is(':checked'),
+        cargo_plane_location: $("#cargo_plane_location").val()
+      }, function(data) {
+        $("#result").text(data.result);
       });
+      return false;
+    }
 
-      function updateTotal() {
-        $.getJSON('/_add_numbers', {
-          tree_branch_is_closer: $("#tree_branch_is_closer").is(':checked'),
-          tree_branch_is_intact: $("#tree_branch_is_intact").is(':checked'),
-          cargo_plane_location: $("#cargo_plane_location").val()
-        }, function(data) {
-          $("#result").text(data.result);
-        });
-        return false;
-      }
-
-      function goBack() {
-        window.history.back();
-      }
-    </script>
-    <h4>Total: <span id=result>0</span></h4>
-    <!--need to fix the form names/ id, etc.  Also, use {{form.submit}}?-->
-    <form action="" method="post" name="login" id="formId">
-      {{ form.hidden_tag() }}
-      <p>Team number: {{ form.team }}</p>
-      <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
-      <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
-      <p>Cargo plane location: {{form.cargo_plane_location}}
-      <p><input type="submit" value="Submit"> <button onclick="goBack()">Cancel</button></p>
-    </form>
-  </body>
-</html>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+  <h4>Total: <span id=result>0</span></h4>
+  <!--need to fix the form names/ id, etc.  Also, use {{form.submit}}?-->
+  <form action="" method="post" name="login" id="formId">
+    {{ form.hidden_tag() }}
+    <p>Team number: {{ form.team }}</p>
+    <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
+    <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
+    <p>Cargo plane location: {{form.cargo_plane_location}}
+    <p><input type="submit" value="Submit"> <button onclick="goBack()">Cancel</button></p>
+  </form>
+{% endblock %}

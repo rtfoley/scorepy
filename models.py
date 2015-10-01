@@ -25,7 +25,7 @@ class RobotScore(db.Model):
     __tablename__ = 'robot_scores'
 
     id = db.Column(db.Integer, primary_key=True)
-    team = db.Column(db.Integer)
+    team = db.Column(db.Integer, db.ForeignKey('teams.id'))
     tree_branch_is_closer = db.Column(db.Boolean)
     tree_branch_is_intact = db.Column(db.Boolean)
     cargo_plane_location = db.Column(db.Integer)

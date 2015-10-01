@@ -6,7 +6,7 @@ from xhtml2pdf import pisa
 
 # Imports from other parts of the app
 from forms import ScoreForm
-from models import RobotScore, db
+from models import RobotScore, Team, db
 
 # setup application
 app = flask.Flask(__name__)
@@ -26,6 +26,7 @@ def index():
 @app.route("/new", methods=['GET', 'POST'])
 def new_score():
     form = ScoreForm()
+    form.team.choices = [(t.key.id(), t.number) for t in Team.query.all()]
     if form.validate_on_submit():
         score = RobotScore()
         form.populate_obj(score)
@@ -41,6 +42,7 @@ def new_score():
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj = score)
+    form.team.choices = [(t.key.id(), t.number) for t in Team.query.all()]
     if form.validate_on_submit():
         form.populate_obj(score)
         db.session.commit()

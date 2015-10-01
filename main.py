@@ -31,7 +31,7 @@ def team_list():
 @app.route("/new", methods=['GET', 'POST'])
 def new_score():
     form = ScoreForm()
-    form.team.choices = [(t.id, t.number) for t in Team.query.all()]
+    form.team.choices = [(t.id, t.number) for t in sorted(Team.query.all(), key=by_team)]
     if form.validate_on_submit():
         score = RobotScore()
         form.populate_obj(score)
@@ -60,7 +60,7 @@ def new_team():
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj = score)
-    form.team.choices = [(t.id, t.number) for t in Team.query.all()]
+    form.team.choices = [(t.id, t.number) for t in sorted(Team.query.all(), key=by_team)]
     if form.validate_on_submit():
         form.populate_obj(score)
         db.session.commit()

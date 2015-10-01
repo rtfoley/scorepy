@@ -22,6 +22,11 @@ def index():
         score.total=score.getScore()
     return render_template("index.html", scores=scores)
 
+@app.route("/teams")
+def team_list():
+    teams = Team.query.all()
+    return render_template("teams.html", teams=teams)
+
 # Add a new robot score
 @app.route("/new", methods=['GET', 'POST'])
 def new_score():
@@ -35,6 +40,10 @@ def new_score():
         flash("Added score")
         return redirect(url_for("index"))
     return render_template("score_form.html", form=form)
+
+@app.route("/new_team")
+def new_team():
+    return render_template("team_form.html")
 
 # Edit a previously-entered score
 # TODO can this be combined with the above method?

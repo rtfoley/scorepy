@@ -30,7 +30,7 @@
         {% for score in scores %}
         <tr>
           <td>{{ score.total }}</td>
-          <td>{{ score.team }}</td>
+          <td>{{ score.team.number }}</td>
         </tr>
         {%  endfor %}
       </tbody>

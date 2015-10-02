@@ -74,6 +74,21 @@ def edit_score(score_id):
         flash('Failed validation')
     return render_template("score_form.html", form=form)
 
+# Edit a previously-entered team
+# TODO can this be combined with the above method?
+@app.route("/edit_team/<int:team_id>", methods=['GET', 'POST'])
+def edit_team(team_id):
+    team = Team.query.get(team_id)
+    form = TeamForm(obj = team)
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(team)
+        db.session.commit()
+        flash("Edited team")
+        return redirect(url_for("team_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("team_form.html", form=form)
+
 # Return a list of scores, highest - lowest
 @app.route("/ranks", methods=['GET'])
 def ranks():

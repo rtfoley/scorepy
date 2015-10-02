@@ -4,6 +4,6 @@
   <h1>Teams</h1>
   <a href="/new_team">Add a new team</a>
   {% for team in teams %}
-  <p>Number: {{ team.number }}, Name: {{ team.name }} <a href="#">edit</a></p>
+  <p>Number: {{ team.number }}, Name: {{ team.name }} <a href="{{ url_for('edit_team', team_id=team.id) }}">edit</a></p>
   {% endfor %}
 {% endblock %}

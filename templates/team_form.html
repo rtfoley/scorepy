@@ -2,11 +2,15 @@
 {% block title %}Team Form{% endblock %}
 {% block content %}
   <script type=text/javascript>
+    // TODO move to global JS file
     function goBack() {
       window.history.back();
     }
   </script>
   <h1>Team Form</h1>
+  <!-- TODO style with bootstrap-->
+  <!-- TODO add validation -->
+  <!-- TODO need to fix the form names/ id, etc.  Also, use {{form.submit}}?-->
   <form action="" method="post" name="team_form" id="formid">
     {{ form.hidden_tag() }}
     <p>Number: {{ form.number }}</p>

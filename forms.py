@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, BooleanField, IntegerField, TextField
 
+# TODO add vailidation
 class TeamForm(Form):
     number = IntegerField()
     name = TextField()

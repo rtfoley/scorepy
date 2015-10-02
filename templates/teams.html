@@ -3,6 +3,7 @@
 {% block content %}
   <h1>Teams</h1>
   <a href="/new_team">Add a new team</a>
+  <!-- TODO add CSV import option -->
     <table class="table table-hover">
       <thead>
         <tr>
@@ -22,7 +23,9 @@
             <td>{{ team.affiliation }}</td>
             <td>{{ team.city }}</td>
             <td>{{ team.state }}</td>
+            <!-- TODO use button instead of text here -->
             <td><a href="{{ url_for('edit_team', team_id=team.id) }}">edit</a></td>
+            <!-- TODO add delete button -->
         {% endfor %}
       </tbody>
     </table>

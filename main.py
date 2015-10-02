@@ -89,6 +89,8 @@ def edit_team(team_id):
         flash('Failed validation')
     return render_template("team_form.html", form=form)
 
+# TODO add ability to delete a team
+
 # Return a list of scores, highest - lowest
 @app.route("/ranks", methods=['GET'])
 def ranks():

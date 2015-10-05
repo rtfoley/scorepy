@@ -2,6 +2,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class Team(db.Model):
     __tablename__ = 'teams'
 
@@ -20,6 +21,7 @@ class Team(db.Model):
         self.city = city
         self.state = state
 
+
 # Robot score behavior and calculation
 class RobotScore(db.Model):
     __tablename__ = 'robot_scores'
@@ -30,7 +32,10 @@ class RobotScore(db.Model):
     tree_branch_is_intact = db.Column(db.Boolean)
     cargo_plane_location = db.Column(db.Integer)
 
-    def __init__(self, team=0, tree_branch_is_closer = False, tree_branch_is_intact = False, cargo_plane_location = 0):
+    def __init__(self, team=0,
+                 tree_branch_is_closer=False,
+                 tree_branch_is_intact=False,
+                 cargo_plane_location=0):
         self.team_id = team
         self.tree_branch_is_closer = tree_branch_is_closer
         self.tree_branch_is_intact = tree_branch_is_intact

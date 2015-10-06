@@ -1,23 +1,19 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 {% block title %}Team Form{% endblock %}
 {% block content %}
-  <script type="text/javascript">
-    // TODO move to global JS file
-    function goBack() {
-      window.history.back();
-    }
-  </script>
   <h1>Team Form</h1>
   <!-- TODO style with bootstrap-->
-  <!-- TODO add validation -->
-  <!-- TODO need to fix the form names/ id, etc.  Also, use {{form.submit}}?-->
-  <form action="" method="post" name="team_form" id="formid">
-    {{ form.hidden_tag() }}
-    <p>Number: {{ form.number }}</p>
-    <p>Name: {{ form.name }}</p>
-    <p>Affiliation: {{ form.affiliation }}</p>
-    <p>City: {{ form.city }}</p>
-    <p>State: {{ form.state }}</p>
-    <p><input type="submit" value="Submit"> <button onclick="goBack()">Cancel</button></p>
+  <form action="" method="post">
+    <dl>
+      {{ form.hidden_tag() }}
+      {{ render_field(form.number) }}</p>
+      {{ render_field(form.name) }}</p>
+      {{ render_field(form.affiliation) }}</p>
+      {{ render_field(form.city) }}</p>
+      {{ render_field(form.state) }}</p>
+    </dl>
+    <!--TODO need cancel button here?-->
+    <p><input type="submit" value="Submit"></p>
   </form>
 {% endblock %}

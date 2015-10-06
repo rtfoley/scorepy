@@ -3,7 +3,6 @@ from wtforms import SelectField, BooleanField, IntegerField, TextField, \
     validators
 
 
-# TODO add vailidation
 class TeamForm(Form):
     number = IntegerField("Number", [validators.Required(),
                                      validators.NumberRange(min=1, max=99999)])
@@ -14,6 +13,7 @@ class TeamForm(Form):
     state = TextField("State", [validators.Length(min=2, max=2)])
 
 
+# TODO add validation
 class ScoreForm(Form):
     team_id = SelectField(u'Team', coerce=int)
     tree_branch_is_closer = BooleanField(default=False)

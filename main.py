@@ -101,7 +101,14 @@ def edit_team(team_id):
     return render_template("team_form.html", form=form)
 
 # TODO add ability to delete a team
-
+@app.route("/delete_team/<int:team_id>", methods=['GET', 'POST'])
+def delete_team(team_id):
+    team = Team.query.get(team_id)
+    if request.method == 'POST':
+        db.session.delete(team)
+        db.session.commit()
+        return redirect(url_for("team_list"))
+    return render_template("delete.html", identifier="team %d" % team.number)
 
 # Return a list of scores, highest - lowest
 @app.route("/ranks", methods=['GET'])

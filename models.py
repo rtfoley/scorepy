@@ -2,18 +2,41 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
+class Team(db.Model):
+    __tablename__ = 'teams'
+
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer, unique=True)
+    name = db.Column(db.String(50))
+    affiliation = db.Column(db.String(200))
+    city = db.Column(db.String(50))
+    state = db.Column(db.String(2))
+    scores = db.relationship('RobotScore', backref="team")
+
+    def __init(self, number, name, affiliation, city, state):
+        self.number = number
+        self.name = name
+        self.affiliation = affiliation
+        self.city = city
+        self.state = state
+
+
 # Robot score behavior and calculation
 class RobotScore(db.Model):
     __tablename__ = 'robot_scores'
 
     id = db.Column(db.Integer, primary_key=True)
-    team = db.Column(db.Integer)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
     tree_branch_is_closer = db.Column(db.Boolean)
     tree_branch_is_intact = db.Column(db.Boolean)
     cargo_plane_location = db.Column(db.Integer)
 
-    def __init__(self, team=0, tree_branch_is_closer = False, tree_branch_is_intact = False, cargo_plane_location = 0):
-        self.team = team
+    def __init__(self, team=0,
+                 tree_branch_is_closer=False,
+                 tree_branch_is_intact=False,
+                 cargo_plane_location=0):
+        self.team_id = team
         self.tree_branch_is_closer = tree_branch_is_closer
         self.tree_branch_is_intact = tree_branch_is_intact
         self.cargo_plane_location = cargo_plane_location

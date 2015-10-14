@@ -3,8 +3,8 @@
 {% block content %}
   <h1>FLL Score Entry</h1>
   <script>window.jQuery || document.write('<script src="{{url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}">\x3C/script>')</script>
-  <script type=text/javascript>
-    // Move this javascript to another file?
+  <script type="text/javascript">
+    // TODO move this to score-specific JS file
     $( document ).ready(function() {
       updateTotal();
     });
@@ -26,18 +26,21 @@
       return false;
     }
 
+    // TODO Move this to a global JS file
     function goBack() {
       window.history.back();
     }
   </script>
-  <h4>Total: <span id=result>0</span></h4>
-  <!--need to fix the form names/ id, etc.  Also, use {{form.submit}}?-->
+  <h4>Total: <span id="result">0</span></h4>
+  <!-- TODO need to fix the form names/ id, etc.  Also, use {{form.submit}}? -->
+  <!-- TODO style with bootstrap -->
+  <!-- TODO add validation -->
   <form action="" method="post" name="login" id="formId">
     {{ form.hidden_tag() }}
-    <p>Team number: {{ form.team }}</p>
+    <p>Team number: {{ form.team_id }}</p>
     <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
     <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
-    <p>Cargo plane location: {{form.cargo_plane_location}}
+    <p>Cargo plane location: {{form.cargo_plane_location}}</p>
     <p><input type="submit" value="Submit"> <button onclick="goBack()">Cancel</button></p>
   </form>
 {% endblock %}

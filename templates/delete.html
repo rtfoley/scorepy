@@ -1,9 +1,15 @@
 {% extends "layout.html" %}
 {% block title %}Delete{% endblock %}
 {% block content %}
+<script type="text/javascript">
+  // TODO Move this to a global JS file
+  function goBack() {
+    window.history.back();
+  }
+</script>
   <p>Really delete {{ identifier }}?<p>
   <form action="" method="post">
     <!--TODO need cancel button here?-->
-    <p><input type="submit" class="btn btn-danger" value="Delete"></p>
+    <p><button onclick="goBack()">Cancel</button>  <input type="submit" value="Delete"></p>
   </form>
 {% endblock %}

@@ -19,10 +19,11 @@ db.init_app(app)
 # Main route
 @app.route("/")
 def index():
-    scores = RobotScore.query.all()
-    for score in scores:
-        score.total = score.getScore()
-    return render_template("index.html", scores=scores)
+    teams = Team.query.all()
+    for team in teams:
+        for score in team.scores:
+            score.total = score.getScore()
+    return render_template("index.html", teams=sorted(teams, key=by_team))
 
 
 @app.route("/teams")

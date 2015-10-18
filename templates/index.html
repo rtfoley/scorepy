@@ -3,9 +3,28 @@
 {% block content %}
   <h1>FLL Score Entry</h1>
   <a href="/new">Add a new score</a>
-  {% for score in scores %}
-  <p>Team: {{ score.team.number }}, Score: {{ score.total }} <a href="{{ url_for('edit_score', score_id=score.id) }}">edit</a></p>
-  {% endfor %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th>Scores</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team in teams %}
+        <tr>
+          <td>{{ team.number }}</td>
+          <td>{{ team.name }}</td>
+          <td>
+            {% for score in team.scores %}
+              <a href="{{ url_for('edit_score', score_id=score.id) }}">{{ score.total }}</a>
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
   <br>
   <a href="{{ url_for('ranks') }}">Ranks</a>
 {% endblock %}

@@ -44,7 +44,6 @@ def new_score():
         form.populate_obj(score)
         db.session.add(score)
         db.session.commit()
-        flash("Added score")
         return redirect(url_for("index"))
     elif request.method == 'POST':
         flash('Failed validation')
@@ -60,7 +59,6 @@ def new_team():
         form.populate_obj(team)
         db.session.add(team)
         db.session.commit()
-        flash("Added team")
         return redirect(url_for("team_list"))
     elif request.method == 'POST':
         flash('Failed validation')
@@ -79,7 +77,6 @@ def edit_score(score_id):
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(score)
         db.session.commit()
-        flash("Edited score")
         return redirect(url_for("index"))
     elif request.method == 'POST':
         flash('Failed validation')
@@ -95,7 +92,6 @@ def edit_team(team_id):
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(team)
         db.session.commit()
-        flash("Edited team")
         return redirect(url_for("team_list"))
     elif request.method == 'POST':
         flash('Failed validation')

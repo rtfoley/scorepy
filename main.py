@@ -33,7 +33,7 @@ def team_list():
 
 
 # Add a new robot score
-@app.route("/new", methods=['GET', 'POST'])
+@app.route("/scores/new", methods=['GET', 'POST'])
 def new_score():
     form = ScoreForm()
     form.team_id.choices = [(t.id, t.number) for t in
@@ -52,7 +52,7 @@ def new_score():
 
 
 # add a new team
-@app.route("/new_team", methods=['GET', 'POST'])
+@app.route("/teams/new", methods=['GET', 'POST'])
 def new_team():
     form = TeamForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -69,7 +69,7 @@ def new_team():
 
 # Edit a previously-entered score
 # TODO can this be combined with the above method?
-@app.route("/edit_score/<int:score_id>", methods=['GET', 'POST'])
+@app.route("/scores/<int:score_id>/edit", methods=['GET', 'POST'])
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj=score)
@@ -88,7 +88,7 @@ def edit_score(score_id):
 
 # Edit a previously-entered team
 # TODO can this be combined with the above method?
-@app.route("/edit_team/<int:team_id>", methods=['GET', 'POST'])
+@app.route("/teams/<int:team_id>/edit", methods=['GET', 'POST'])
 def edit_team(team_id):
     team = Team.query.get(team_id)
     form = TeamForm(obj=team)
@@ -102,7 +102,7 @@ def edit_team(team_id):
     return render_template("team_form.html", form=form)
 
 # TODO add ability to delete a team
-@app.route("/delete_team/<int:team_id>", methods=['GET', 'POST'])
+@app.route("/teams/<int:team_id>/delete", methods=['GET', 'POST'])
 def delete_team(team_id):
     team = Team.query.get(team_id)
     if request.method == 'POST':

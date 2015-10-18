@@ -2,7 +2,7 @@
 {% block title %}Teams{% endblock %}
 {% block content %}
   <h1>Teams</h1>
-  <a href="/new_team">Add a new team</a>
+  <a href="{{ url_for('new_team') }}">Add a new team</a>
   <!-- TODO add CSV import option -->
     <table class="table table-hover">
       <thead>

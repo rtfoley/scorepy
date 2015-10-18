@@ -50,21 +50,6 @@ def new_score():
     return render_template("score_form.html", form=form)
 
 
-# add a new team
-@app.route("/teams/new", methods=['GET', 'POST'])
-def new_team():
-    form = TeamForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        team = Team()
-        form.populate_obj(team)
-        db.session.add(team)
-        db.session.commit()
-        return redirect(url_for("team_list"))
-    elif request.method == 'POST':
-        flash('Failed validation')
-    return render_template("team_form.html", form=form)
-
-
 # Edit a previously-entered score
 # TODO can this be combined with the above method?
 @app.route("/scores/<int:score_id>/edit", methods=['GET', 'POST'])
@@ -83,6 +68,21 @@ def edit_score(score_id):
     return render_template("score_form.html", form=form)
 
 
+# add a new team
+@app.route("/teams/new", methods=['GET', 'POST'])
+def new_team():
+    form = TeamForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        team = Team()
+        form.populate_obj(team)
+        db.session.add(team)
+        db.session.commit()
+        return redirect(url_for("team_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("team_form.html", form=form)
+
+
 # Edit a previously-entered team
 # TODO can this be combined with the above method?
 @app.route("/teams/<int:team_id>/edit", methods=['GET', 'POST'])
@@ -97,6 +97,7 @@ def edit_team(team_id):
         flash('Failed validation')
     return render_template("team_form.html", form=form)
 
+
 # TODO add ability to delete a team
 @app.route("/teams/<int:team_id>/delete", methods=['GET', 'POST'])
 def delete_team(team_id):
@@ -106,6 +107,7 @@ def delete_team(team_id):
         db.session.commit()
         return redirect(url_for("team_list"))
     return render_template("delete.html", identifier="team %d" % team.number)
+    
 
 # Return a list of scores, highest - lowest
 @app.route("/ranks", methods=['GET'])

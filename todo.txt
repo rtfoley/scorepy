@@ -1,0 +1,18 @@
+[x] basic layout (layout.html, navbar, footer, bootstrap/ fontawesome)
+[/] page shells (main, about, teams, awards, playoffs, pit display, playoff display, 404)
+[ ] login system
+[ ] event settings page (name, passwords)
+[/] team list page
+[/] team management via form
+[ ] team CSV import
+[ ] team list report
+[/] main page table
+[/] basic score management per team (with team and round selection, but using simplified score form)
+[/] rankings report
+[ ] qualification rankings display
+[ ] judge evaluation management
+[ ] award selection
+[ ] award winner selection (manual and automatic)
+[ ] award winner report
+[ ] playoff management
+[ ] playoff display

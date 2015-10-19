@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 {% block title %}FLL Score Form{% endblock %}
 {% block content %}
   <h1>FLL Score Entry</h1>
@@ -30,12 +31,14 @@
   <!-- TODO style with bootstrap -->
   <!-- TODO add validation -->
   <form action="" method="post" id="scoreForm">
-    {{ form.hidden_tag() }}
-    <p>Team number: {{ form.team_id }}</p>
-    <p>Round: {{ form.round_number }}</p>
-    <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
-    <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
-    <p>Cargo plane location: {{form.cargo_plane_location}}</p>
+    <dl>
+      {{ form.hidden_tag() }}
+      {{ render_field(form.team_id) }}
+      {{ render_field(form.round_number) }}
+      {{ render_field(form.tree_branch_is_closer) }}
+      {{ render_field(form.tree_branch_is_intact) }}
+      {{ render_field(form.cargo_plane_location) }}
+    </dl>
     <p><input type="submit" value="Submit"></p>
   </form>
 {% endblock %}

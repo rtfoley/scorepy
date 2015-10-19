@@ -17,8 +17,8 @@ class TeamForm(Form):
 class ScoreForm(Form):
     team_id = SelectField(u'Team', coerce=int)
     round_number = SelectField(u'Round', choices=[(1, '1'), (2, '2'), (3, '3')], coerce=int)
-    tree_branch_is_closer = BooleanField(default=False)
-    tree_branch_is_intact = BooleanField(default=False)
-    cargo_plane_location = SelectField(choices=[('0', 'None'),
+    tree_branch_is_closer = BooleanField(u'Is tree branch closer to mat than power lines', default=False)
+    tree_branch_is_intact = BooleanField(u'Is tree branch model intact', default=False)
+    cargo_plane_location = SelectField(u'Cargo plane location', choices=[('0', 'None'),
                                                 ('1', 'Yellow only'),
                                                 ('2', 'Light blue')])

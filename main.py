@@ -107,7 +107,7 @@ def delete_team(team_id):
         db.session.commit()
         return redirect(url_for("team_list"))
     return render_template("delete.html", identifier="team %d" % team.number)
-    
+
 
 # Return a list of scores, highest - lowest
 @app.route("/ranks", methods=['GET'])
@@ -117,6 +117,11 @@ def ranks():
         score.total = score.getScore()
     return render_template("ranks.html",
                            scores=sorted(scores, key=by_score, reverse=True))
+
+
+@app.route("/awards", methods=['GET'])
+def awards():
+    return render_template("awards.html")
 
 
 def create_pdf(pdf_data):

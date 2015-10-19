@@ -10,7 +10,7 @@
     });
 
     $(function() {
-      $('#formId').change(function() {
+      $('#scoreForm').change(function() {
         updateTotal();
       });
     });
@@ -29,7 +29,7 @@
   <h4>Total: <span id="result">0</span></h4>
   <!-- TODO style with bootstrap -->
   <!-- TODO add validation -->
-  <form action="" method="post">
+  <form action="" method="post" id="scoreForm">
     {{ form.hidden_tag() }}
     <p>Team number: {{ form.team_id }}</p>
     <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>

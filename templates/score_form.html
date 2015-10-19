@@ -32,6 +32,7 @@
   <form action="" method="post" id="scoreForm">
     {{ form.hidden_tag() }}
     <p>Team number: {{ form.team_id }}</p>
+    <p>Round: {{ form.round_number }}</p>
     <p>Is tree branch closer to mat than power lines: {{ form.tree_branch_is_closer }}</p>
     <p>Is tree branch model intact: {{ form.tree_branch_is_intact }}</p>
     <p>Cargo plane location: {{form.cargo_plane_location}}</p>

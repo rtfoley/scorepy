@@ -152,6 +152,7 @@ def by_team(team):
 @app.route('/_add_numbers')
 def add_numbers():
     score = RobotScore(team=0,
+                       round_number=0,
                        tree_branch_is_closer=request.args.get(
                            'tree_branch_is_closer') == 'true',
                        tree_branch_is_intact=request.args.get(

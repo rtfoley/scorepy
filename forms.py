@@ -16,6 +16,7 @@ class TeamForm(Form):
 # TODO add validation
 class ScoreForm(Form):
     team_id = SelectField(u'Team', coerce=int)
+    round_number = SelectField(u'Round', choices=[(1, '1'), (2, '2'), (3, '3')], coerce=int)
     tree_branch_is_closer = BooleanField(default=False)
     tree_branch_is_intact = BooleanField(default=False)
     cargo_plane_location = SelectField(choices=[('0', 'None'),

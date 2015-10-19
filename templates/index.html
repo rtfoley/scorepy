@@ -8,7 +8,9 @@
       <tr>
         <th>Number</th>
         <th>Name</th>
-        <th>Scores</th>
+        <th>Round 1</th>
+        <th>Round 2</th>
+        <th>Round 3</th>
       </tr>
     </thead>
     <tbody>
@@ -16,11 +18,21 @@
         <tr>
           <td>{{ team.number }}</td>
           <td>{{ team.name }}</td>
-          <td>
-            {% for score in team.scores %}
-              <a href="{{ url_for('edit_score', score_id=score.id) }}">{{ score.total }}</a>
-            {% endfor %}
-          </td>
+          {% if team.round1 != None %}
+            <td><a href="{{ url_for('edit_score', score_id=team.round1.id) }}">{{ team.round1.total }}</a></td>
+          {% else %}
+            <td></td>
+          {% endif %}
+          {% if team.round2 != None %}
+            <td><a href="{{ url_for('edit_score', score_id=team.round2.id) }}">{{ team.round2.total }}</a></td>
+          {% else %}
+            <td></td>
+          {% endif %}
+          {% if team.round3 != None %}
+            <td><a href="{{ url_for('edit_score', score_id=team.round3.id) }}">{{ team.round3.total }}</a></td>
+          {% else %}
+            <td></td>
+          {% endif %}
         </tr>
       {% endfor %}
     </tbody>

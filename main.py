@@ -23,6 +23,9 @@ def index():
     for team in teams:
         for score in team.scores:
             score.total = score.getScore()
+        team.round1 = next((score for score in team.scores if score.round_number == 1), None)
+        team.round2 = next((score for score in team.scores if score.round_number == 2), None)
+        team.round3 = next((score for score in team.scores if score.round_number == 3), None)
     return render_template("index.html", teams=sorted(teams, key=by_team))
 
 

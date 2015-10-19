@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, BooleanField, IntegerField, TextField, \
     validators
+from models import RobotScore
 
 
 class TeamForm(Form):
@@ -22,3 +23,20 @@ class ScoreForm(Form):
     cargo_plane_location = SelectField(u'Cargo plane location', choices=[('0', 'None'),
                                                 ('1', 'Yellow only'),
                                                 ('2', 'Light blue')])
+
+    def __init__(self, *args, **kwargs):
+        Form.__init__(self, *args, **kwargs)
+        self.score = None
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        score = RobotScore.query.filter_by(round_number=self.round_number.data).first()
+        if score is not None:
+            self.round_number.errors.append("Score already exists for this round")
+            return False
+
+        self.score = score
+        return True

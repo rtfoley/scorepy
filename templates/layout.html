@@ -28,21 +28,21 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('team_list') }}">Teams</a></li>
-            <li><a href="{{ url_for('awards') }}">Awards</a></li>
-            <li><a href="#">Playoffs</a></li>
+            <li><a href="{{ url_for('team_list') }}"><span class="fa fa-users"></span> Teams</a></li>
+            <li><a href="{{ url_for('awards') }}"><span class="fa fa-trophy"></span> Awards</a></li>
+            <li><a href=""><span class="fa fa-tachometer"></span> Playoffs</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-file-pdf-o"></span> Reports<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="#">Team List</a></li>
                 <li><a href="{{ url_for('rank_pdf') }}" target="blanks">Rankings</a></li>
                 <li><a href="#">Awards</a></li>
               </ul>
             </li>
-            <li><a href="#">Pit Display</a></li>
+            <li><a href="#"><span  class="fa fa-desktop"></span> Pit Display</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Sign In</a></li>
+            <li><a href="#"><span class="fa fa-sign-in"></span> Sign In</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

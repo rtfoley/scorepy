@@ -33,7 +33,7 @@ class ScoreForm(Form):
         if not rv:
             return False
 
-        score = RobotScore.query.filter_by(round_number=self.round_number.data).first()
+        score = RobotScore.query.filter_by(round_number=self.round_number.data, team_id=self.team_id.data).first()
         if score is not None:
             self.round_number.errors.append("Score already exists for this round")
             return False

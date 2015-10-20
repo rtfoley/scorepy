@@ -2,6 +2,7 @@
 import flask
 from flask import flash, render_template, request, jsonify, redirect, url_for, \
     make_response
+from flask_bootstrap import Bootstrap
 from cStringIO import StringIO
 from xhtml2pdf import pisa
 
@@ -12,6 +13,7 @@ from models import RobotScore, Team, db
 # setup application
 app = flask.Flask(__name__)
 app.config.from_object('config')
+Bootstrap(app)
 
 db.init_app(app)
 

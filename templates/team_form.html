@@ -1,19 +1,8 @@
+{% import "bootstrap/wtf.html" as wtf %}
 {% extends "layout.html" %}
 {% from "_formhelpers.html" import render_field %}
 {% block title %}Team Form{% endblock %}
-{% block content %}
+{% block pageContent %}
   <h1>Team Form</h1>
-  <!-- TODO style with bootstrap-->
-  <form action="" method="post">
-    <dl>
-      {{ form.hidden_tag() }}
-      {{ render_field(form.number) }}</p>
-      {{ render_field(form.name) }}</p>
-      {{ render_field(form.affiliation) }}</p>
-      {{ render_field(form.city) }}</p>
-      {{ render_field(form.state) }}</p>
-    </dl>
-    <!--TODO need cancel button here?-->
-    <p><input type="submit" value="Submit"></p>
-  </form>
+  {{ wtf.quick_form(form, action="", method="post", form_type="horizontal", horizontal_columns=('lg', 2, 10), button_map={'submit_button': 'primary'}, id="teamForm") }}
 {% endblock %}

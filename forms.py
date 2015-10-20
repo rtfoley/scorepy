@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, BooleanField, IntegerField, TextField, \
-    validators
+    validators, SubmitField
 from models import RobotScore
 
 
@@ -12,6 +12,7 @@ class TeamForm(Form):
     affiliation = TextField("Affiliation", [validators.Length(min=1, max=200)])
     city = TextField("City", [validators.Length(min=1, max=50)])
     state = TextField("State", [validators.Length(min=2, max=2)])
+    submit = SubmitField(u'Submit')
 
 
 # TODO add validation
@@ -23,6 +24,7 @@ class ScoreForm(Form):
     cargo_plane_location = SelectField(u'Cargo plane location', choices=[('0', 'None'),
                                                 ('1', 'Yellow only'),
                                                 ('2', 'Light blue')])
+    submit = SubmitField(u'Submit')
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)

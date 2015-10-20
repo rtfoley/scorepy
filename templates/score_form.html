@@ -1,7 +1,8 @@
+{% import "bootstrap/wtf.html" as wtf %}
 {% extends "layout.html" %}
 {% from "_formhelpers.html" import render_field %}
 {% block title %}FLL Score Form{% endblock %}
-{% block content %}
+{% block pageContent %}
   <h1>FLL Score Entry</h1>
   <script>window.jQuery || document.write('<script src="{{url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}">\x3C/script>')</script>
   <script type="text/javascript">
@@ -28,17 +29,5 @@
     }
   </script>
   <h4>Total: <span id="result">0</span></h4>
-  <!-- TODO style with bootstrap -->
-  <!-- TODO add validation -->
-  <form action="" method="post" id="scoreForm">
-    <dl>
-      {{ form.hidden_tag() }}
-      {{ render_field(form.team_id) }}
-      {{ render_field(form.round_number) }}
-      {{ render_field(form.tree_branch_is_closer) }}
-      {{ render_field(form.tree_branch_is_intact) }}
-      {{ render_field(form.cargo_plane_location) }}
-    </dl>
-    <p><input type="submit" value="Submit"></p>
-  </form>
+  {{ wtf.quick_form(form, action="", method="post", form_type="horizontal", horizontal_columns=('lg', 2, 10), button_map={'submit_button': 'primary'}, id="scoreForm") }}
 {% endblock %}

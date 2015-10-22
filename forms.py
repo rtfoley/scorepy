@@ -35,10 +35,16 @@ class ScoreForm(Form):
         self.score = None
 
     def validate(self):
+        # Base validation
         rv = Form.validate(self)
         if not rv:
             return False
 
+        # Team-ID and round-number fields don't exist on an 'edit' form
+        if not self.team_id or not self.round_number:
+            return True
+
+        # New score being entered, check if one already exists for team/ round
         score = RobotScore.query.filter_by(round_number=self.round_number.data,
                                            team_id=self.team_id.data).first()
         if score is not None:

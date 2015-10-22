@@ -2,16 +2,18 @@
 import flask
 from flask import flash, render_template, request, jsonify, redirect, url_for, \
     make_response
+from flask_bootstrap import Bootstrap
 from cStringIO import StringIO
 from xhtml2pdf import pisa
 
 # Imports from other parts of the app
-from forms import ScoreForm, NewScoreForm, TeamForm
+from forms import ScoreForm, TeamForm
 from models import RobotScore, Team, db
 
 # setup application
 app = flask.Flask(__name__)
 app.config.from_object('config')
+Bootstrap(app)
 
 db.init_app(app)
 
@@ -41,7 +43,7 @@ def team_list():
 # Add a new robot score
 @app.route("/scores/new", methods=['GET', 'POST'])
 def new_score():
-    form = NewScoreForm()
+    form = ScoreForm()
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
 
@@ -62,6 +64,8 @@ def new_score():
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj=score)
+    del form.team_id
+    del form.round_number
 
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(score)

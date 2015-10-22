@@ -35,7 +35,6 @@ class NewScoreForm(ScoreForm):
         if not rv:
             return False
 
-        # TODO this rejects edits to existing scores, fix
         score = RobotScore.query.filter_by(round_number=self.round_number.data, team_id=self.team_id.data).first()
         if score is not None:
             self.round_number.errors.append("Score already exists for this round")

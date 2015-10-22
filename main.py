@@ -59,7 +59,6 @@ def new_score():
 
 
 # Edit a previously-entered score
-# TODO can this be combined with the above method?
 @app.route("/scores/<int:score_id>/edit", methods=['GET', 'POST'])
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
@@ -75,6 +74,8 @@ def edit_score(score_id):
         flash('Failed validation')
     return render_template("score_form.html", form=form, team_id=score.team_id,
                            round_number=score.round_number)
+
+# TODO add ability to delete a score
 
 
 # add a new team
@@ -93,7 +94,6 @@ def new_team():
 
 
 # Edit a previously-entered team
-# TODO can this be combined with the above method?
 @app.route("/teams/<int:team_id>/edit", methods=['GET', 'POST'])
 def edit_team(team_id):
     team = Team.query.get(team_id)
@@ -107,18 +107,19 @@ def edit_team(team_id):
     return render_template("team_form.html", form=form)
 
 
-# TODO add ability to delete a team
 @app.route("/teams/<int:team_id>/delete", methods=['GET', 'POST'])
 def delete_team(team_id):
     team = Team.query.get(team_id)
     if request.method == 'POST':
         db.session.delete(team)
+        # TODO delete related scores
         db.session.commit()
         return redirect(url_for("team_list"))
     return render_template("delete.html", identifier="team %d" % team.number)
 
 
 # Return a list of scores, highest - lowest
+# TODO rank teams by best score, show all scores in report
 @app.route("/ranks", methods=['GET'])
 def ranks():
     scores = RobotScore.query.all()

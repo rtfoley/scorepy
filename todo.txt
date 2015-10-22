@@ -3,7 +3,7 @@
 [ ] login system
 [ ] event settings page (name, passwords)
 [/] team list page
-[/] team management via form
+[x] team management via form
 [ ] team CSV import
 [ ] team list report
 [/] main page table

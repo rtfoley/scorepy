@@ -33,8 +33,13 @@
   <form action="" method="post" id="scoreForm">
     <dl>
       {{ form.hidden_tag() }}
+      {% if team_id and round_number %}
+      <p>Team: {{ team_id }}</p>
+      <p>Round: {{ round_number }}<p>
+      {% else %}
       {{ render_field(form.team_id) }}
       {{ render_field(form.round_number) }}
+      {% endif %}
       {{ render_field(form.tree_branch_is_closer) }}
       {{ render_field(form.tree_branch_is_intact) }}
       {{ render_field(form.cargo_plane_location) }}

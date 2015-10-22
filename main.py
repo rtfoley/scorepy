@@ -6,7 +6,7 @@ from cStringIO import StringIO
 from xhtml2pdf import pisa
 
 # Imports from other parts of the app
-from forms import ScoreForm, TeamForm
+from forms import ScoreForm, NewScoreForm, TeamForm
 from models import RobotScore, Team, db
 
 # setup application
@@ -38,7 +38,7 @@ def team_list():
 # Add a new robot score
 @app.route("/scores/new", methods=['GET', 'POST'])
 def new_score():
-    form = ScoreForm()
+    form = NewScoreForm()
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
 
@@ -59,8 +59,6 @@ def new_score():
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj=score)
-    form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
 
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(score)
@@ -68,7 +66,7 @@ def edit_score(score_id):
         return redirect(url_for("index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("score_form.html", form=form)
+    return render_template("score_form.html", form=form, team_id=score.team_id, round_number=score.round_number)
 
 
 # add a new team

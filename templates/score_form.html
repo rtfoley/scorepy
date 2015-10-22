@@ -29,5 +29,9 @@
     }
   </script>
   <h4>Total: <span id="result">0</span></h4>
+  {% if team_id and round_number %}
+    <p>Team: {{ team_id }}</p>
+    <p>Round: {{ round_number }}<p>
+  {% endif %}
   {{ wtf.quick_form(form, action="", method="post", form_type="horizontal", horizontal_columns=('lg', 2, 10), button_map={'submit_button': 'primary'}, id="scoreForm") }}
 {% endblock %}

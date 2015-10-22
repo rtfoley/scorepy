@@ -61,8 +61,8 @@ def new_score():
 def edit_score(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj=score)
-    form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
+    del form.team_id
+    del form.round_number
 
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(score)
@@ -70,7 +70,8 @@ def edit_score(score_id):
         return redirect(url_for("index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("score_form.html", form=form)
+    return render_template("score_form.html", form=form, team_id=score.team_id,
+                           round_number=score.round_number)
 
 
 # add a new team

@@ -7,7 +7,8 @@
 [ ] team CSV import
 [ ] team list report
 [/] main page table
-[/] basic score management per team (with team and round selection, but using simplified score form)
+[x] basic score management per team (with team and round selection, but using simplified score form)
+[ ] full 2015 score form
 [/] rankings report
 [ ] qualification rankings display
 [ ] judge evaluation management

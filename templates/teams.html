@@ -23,8 +23,11 @@
           <td>{{ team.affiliation }}</td>
           <td>{{ team.city }}</td>
           <td>{{ team.state }}</td>
-          <!-- TODO use button instead of text here -->
-          <td><a href="{{ url_for('edit_team', team_id=team.id) }}">edit</a> | <a href="{{ url_for('delete_team', team_id=team.id) }}">delete</a></td>
+          <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
+          <td>
+            <a href="{{ url_for('edit_team', team_id=team.id) }}" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>
+            <a href="{{ url_for('delete_team', team_id=team.id) }}" class="btn btn-xs btn-danger fa fa-trash-o" title="delete"></a>
+          </td>
         </tr>
       {% endfor %}
     </tbody>

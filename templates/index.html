@@ -21,17 +21,27 @@
           <!--TODO add delet buttons?-->
           <!--TODO highlight best score or show in separate column-->
           {% if team.round1 != None %}
-            <td><a href="{{ url_for('edit_score', score_id=team.round1.id) }}">{{ team.round1.total }}</a></td>
+            <td>
+              <a href="{{ url_for('edit_score', score_id=team.round1.id) }}">{{ team.round1.total }}</a>
+              <!--TODO should score deletion only be an option from the edit form?-->
+              <a href="{{ url_for('delete_score', score_id=team.round1.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+            </td>
           {% else %}
             <td></td>
           {% endif %}
           {% if team.round2 != None %}
-            <td><a href="{{ url_for('edit_score', score_id=team.round2.id) }}">{{ team.round2.total }}</a></td>
+            <td>
+              <a href="{{ url_for('edit_score', score_id=team.round2.id) }}">{{ team.round2.total }}</a>
+              <a href="{{ url_for('delete_score', score_id=team.round2.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+            </td>
           {% else %}
             <td></td>
           {% endif %}
           {% if team.round3 != None %}
-            <td><a href="{{ url_for('edit_score', score_id=team.round3.id) }}">{{ team.round3.total }}</a></td>
+            <td>
+              <a href="{{ url_for('edit_score', score_id=team.round3.id) }}">{{ team.round3.total }}</a>
+              <a href="{{ url_for('delete_score', score_id=team.round3.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+            </td>
           {% else %}
             <td></td>
           {% endif %}

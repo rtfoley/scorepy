@@ -75,8 +75,15 @@ def edit_score(score_id):
     return render_template("score_form.html", form=form, team_id=score.team_id,
                            round_number=score.round_number)
 
-# TODO add ability to delete a score
-
+# Ability to delete a score
+@app.route("/scores/<int:score_id>/delete", methods=['GET', 'POST'])
+def delete_score(score_id):
+    score = RobotScore.query.get(score_id)
+    if request.method == 'POST':
+        db.session.delete(score)
+        db.session.commit()
+        return redirect(url_for("index"))
+    return render_template("delete.html", identifier="score for %d in round %d" % (score.team.number, score.round_number))
 
 # add a new team
 @app.route("/teams/new", methods=['GET', 'POST'])

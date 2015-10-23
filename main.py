@@ -27,6 +27,8 @@ def index():
         sortTeamScores(team)
     return render_template("index.html", teams=sorted(teams, key=by_team))
 
+
+# Team list
 @app.route("/teams")
 def team_list():
     teams = Team.query.all()
@@ -68,7 +70,8 @@ def edit_score(score_id):
     return render_template("score_form.html", form=form, team_id=score.team_id,
                            round_number=score.round_number)
 
-# Ability to delete a score
+
+# Delete a score
 @app.route("/scores/<int:score_id>/delete", methods=['GET', 'POST'])
 def delete_score(score_id):
     score = RobotScore.query.get(score_id)
@@ -76,7 +79,9 @@ def delete_score(score_id):
         db.session.delete(score)
         db.session.commit()
         return redirect(url_for("index"))
-    return render_template("delete.html", identifier="score for %d in round %d" % (score.team.number, score.round_number))
+    return render_template("delete.html", identifier="score for %d in round %d"
+                           % (score.team.number, score.round_number))
+
 
 # add a new team
 @app.route("/teams/new", methods=['GET', 'POST'])
@@ -107,6 +112,7 @@ def edit_team(team_id):
     return render_template("team_form.html", form=form)
 
 
+# Delete a team
 @app.route("/teams/<int:team_id>/delete", methods=['GET', 'POST'])
 def delete_team(team_id):
     team = Team.query.get(team_id)
@@ -115,7 +121,7 @@ def delete_team(team_id):
         for score in team.scores:
             db.session.delete(score)
 
-        #delete the team
+        # delete the team
         db.session.delete(team)
         db.session.commit()
         return redirect(url_for("team_list"))
@@ -123,26 +129,29 @@ def delete_team(team_id):
 
 
 # Return a list of scores, highest - lowest
-# TODO rank teams by best score, show all scores in report
 @app.route("/ranks", methods=['GET'])
 def ranks():
     teams = Team.query.all()
     for team in teams:
         sortTeamScores(team)
-    return render_template("ranks.html", teams=sorted(teams, key=by_team_best, reverse=True))
+    return render_template("ranks.html", teams=sorted(teams, key=by_team_best,
+                                                      reverse=True))
 
 
+# Awards page
 @app.route("/awards", methods=['GET'])
 def awards():
     return render_template("awards.html")
 
 
+# Create a PDF file from data
 def create_pdf(pdf_data):
     pdf = StringIO()
     pisa.CreatePDF(StringIO(pdf_data.encode('utf-8')), pdf, encoding="utf-8")
     return pdf
 
 
+# Ranks rerport in PDF
 @app.route('/ranks.pdf')
 def rank_pdf():
     pdf = create_pdf(ranks())
@@ -152,6 +161,8 @@ def rank_pdf():
                                               'ranks.pdf'
     return response
 
+
+# Calculate score totals for all scores for the team, and identify best
 def sortTeamScores(team):
     for score in team.scores:
         score.total = score.getScore()
@@ -166,14 +177,18 @@ def sortTeamScores(team):
     team.round3 = next((score for score in team.scores if
                         score.round_number == 3), None)
 
+
+# Sort scores by total
 def by_score(score):
     return score.total
 
 
+# Sort teams by number
 def by_team(team):
     return team.number
 
 
+# Sort teams by their best score total
 def by_team_best(team):
     return team.best.total
 

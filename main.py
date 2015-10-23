@@ -111,8 +111,12 @@ def edit_team(team_id):
 def delete_team(team_id):
     team = Team.query.get(team_id)
     if request.method == 'POST':
+        # delete related scores
+        for score in team.scores:
+            db.session.delete(score)
+
+        #delete the team
         db.session.delete(team)
-        # TODO delete related scores
         db.session.commit()
         return redirect(url_for("team_list"))
     return render_template("delete.html", identifier="team %d" % team.number)

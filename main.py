@@ -5,6 +5,7 @@ from flask import flash, render_template, request, jsonify, redirect, url_for, \
 from flask_bootstrap import Bootstrap
 from cStringIO import StringIO
 from xhtml2pdf import pisa
+from operator import attrgetter
 
 # Imports from other parts of the app
 from forms import ScoreForm, TeamForm
@@ -25,6 +26,10 @@ def index():
     for team in teams:
         for score in team.scores:
             score.total = score.getScore()
+        if team.scores:
+            team.best = max(team.scores, key=attrgetter('total'))
+        else:
+            team.best = None
         team.round1 = next((score for score in team.scores if
                             score.round_number == 1), None)
         team.round2 = next((score for score in team.scores if

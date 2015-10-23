@@ -24,20 +24,8 @@ db.init_app(app)
 def index():
     teams = Team.query.all()
     for team in teams:
-        for score in team.scores:
-            score.total = score.getScore()
-        if team.scores:
-            team.best = max(team.scores, key=attrgetter('total'))
-        else:
-            team.best = None
-        team.round1 = next((score for score in team.scores if
-                            score.round_number == 1), None)
-        team.round2 = next((score for score in team.scores if
-                            score.round_number == 2), None)
-        team.round3 = next((score for score in team.scores if
-                            score.round_number == 3), None)
+        sortTeamScores(team)
     return render_template("index.html", teams=sorted(teams, key=by_team))
-
 
 @app.route("/teams")
 def team_list():
@@ -138,11 +126,10 @@ def delete_team(team_id):
 # TODO rank teams by best score, show all scores in report
 @app.route("/ranks", methods=['GET'])
 def ranks():
-    scores = RobotScore.query.all()
-    for score in scores:
-        score.total = score.getScore()
-    return render_template("ranks.html",
-                           scores=sorted(scores, key=by_score, reverse=True))
+    teams = Team.query.all()
+    for team in teams:
+        sortTeamScores(team)
+    return render_template("ranks.html", teams=sorted(teams, key=by_team_best, reverse=True))
 
 
 @app.route("/awards", methods=['GET'])
@@ -165,6 +152,19 @@ def rank_pdf():
                                               'ranks.pdf'
     return response
 
+def sortTeamScores(team):
+    for score in team.scores:
+        score.total = score.getScore()
+    if team.scores:
+        team.best = max(team.scores, key=attrgetter('total'))
+    else:
+        team.best = None
+    team.round1 = next((score for score in team.scores if
+                        score.round_number == 1), None)
+    team.round2 = next((score for score in team.scores if
+                        score.round_number == 2), None)
+    team.round3 = next((score for score in team.scores if
+                        score.round_number == 3), None)
 
 def by_score(score):
     return score.total
@@ -172,6 +172,10 @@ def by_score(score):
 
 def by_team(team):
     return team.number
+
+
+def by_team_best(team):
+    return team.best.total
 
 
 # Utility method to get live score when score form is being filled out

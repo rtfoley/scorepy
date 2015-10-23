@@ -23,18 +23,44 @@
     <table repeat="1">
       <thead>
         <tr>
-          <th>Score</th>
-          <th>Team</th>
+          <th>Number</th>
+          <th>Name</th>
+          <th>Best</th>
+          <th>Round 1</th>
+          <th>Round 2</th>
+          <th>Round 3</th>
         </tr>
       </thead>
       <tbody>
-        {% for score in scores %}
-        <tr>
-          <td>{{ score.total }}</td>
-          <td>{{ score.team.number }}</td>
-        </tr>
-        {%  endfor %}
+        {% for team in teams %}
+          <tr>
+            <td>{{ team.number }}</td>
+            <td>{{ team.name }}</td>
+            {% if team.best != None %}
+              <td>{{ team.best.total }}</td>
+            {% else %}
+              <td></td>
+            {% endif %}
+
+            {% if team.round1 != None %}
+              <td>{{ team.round1.total }}</td>
+            {% else %}
+              <td></td>
+            {% endif %}
+            {% if team.round2 != None %}
+              <td>{{ team.round2.total }}</td>
+            {% else %}
+              <td></td>
+            {% endif %}
+            {% if team.round3 != None %}
+              <td>{{ team.round3.total }}</td>
+            {% else %}
+              <td></td>
+            {% endif %}
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
+
   </body>
 </html>

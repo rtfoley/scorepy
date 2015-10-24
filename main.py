@@ -190,7 +190,10 @@ def by_team(team):
 
 # Sort teams by their best score total
 def by_team_best(team):
-    return team.best.total
+    if team.best:
+        return team.best.total
+    else:
+        return 0
 
 
 # Utility method to get live score when score form is being filled out

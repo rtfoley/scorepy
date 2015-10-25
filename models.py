@@ -12,7 +12,8 @@ class Team(db.Model):
     affiliation = db.Column(db.String(200))
     city = db.Column(db.String(50))
     state = db.Column(db.String(2))
-    scores = db.relationship('RobotScore', backref="team")
+    scores = db.relationship('RobotScore', backref='team')
+    presentation = db.relationship('Presentation', uselist=False, backref='team')
 
     def __init(self, number, name, affiliation, city, state):
         self.number = number
@@ -59,3 +60,54 @@ class RobotScore(db.Model):
             2: 30,
             }
         return switcher.get(argument, 0)
+
+
+class Presentation(db.Model):
+    __tablename__ = 'presentation'
+
+    id = db.Column(db.Integer, primary_key=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+
+    # Research
+    problem_identification = db.Column(db.Integer)
+    sources_of_information = db.Column(db.Integer)
+    problem_analysis = db.Column(db.Integer)
+    existing_solutions = db.Column(db.Integer)
+
+    # Innovative Solution
+    team_solution = db.Column(db.Integer)
+    innovation = db.Column(db.Integer)
+    implementation = db.Column(db.Integer)
+
+    # Presentation
+    sharing = db.Column(db.Integer)
+    creativity = db.Column(db.Integer)
+    effectiveness = db.Column(db.Integer)
+
+    # GP
+    inclusion = db.Column(db.Integer)
+    respect = db.Column(db.Integer)
+
+    def get_research_score(self):
+        total = self.problem_identification + self.sources_of_information \
+            + self.problem_analysis + self.existing_solutions
+        return total/4.0
+
+    def get_innovative_solution_score(self):
+        total = self.team_solution + self.innovation + self.implementation
+        return total/3.0
+
+    def get_presentation_score(self):
+        total = self.sharing + self.creativity + self.effectiveness
+        return total/3.0
+
+    def get_gp_score(self):
+        total = self.inclusion + self.respect
+        return total/2.0
+
+    def get_overall_score(self):
+        total = self.get_research_score() \
+            + self.get_innovative_solution_score() \
+            + self.get_presentation_score() + self.get_gp_score()
+        return total/4.0
+

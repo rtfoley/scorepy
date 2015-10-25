@@ -2,4 +2,60 @@
 {% block title %}FLL EM{% endblock %}
 {% block pageContent %}
   <h1>Judging</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th>Presentation <a href="{{ url_for('add_presentation')}}" class="fa fa-plus-square"></a></th>
+        <th>Technical</th>
+        <th>Teamwork</th>
+        <th>Team Spirit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team in teams %}
+        <tr>
+          <td>{{ team.number }}</td>
+          <td>{{ team.name }}</td>
+          {% if team.presentation != None %}
+            <td>
+              <a href="{{ url_for('edit_presentation', presentation_id=team.presentation.id) }}">{{ "%0.2f" % team.presentation.get_overall_score() }}</a>
+              <!--TODO should score deletion only be an option from the edit form?-->
+              <a href="{{ url_for('delete_presentation', presentation_id=team.presentation.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+            </td>
+          {% else %}
+            <td></td>
+          {% endif %}
+
+          {% if team.technical != None %}
+            <td>
+              <a href="{{ url_for('edit_score', score_id=team.technical.id) }}">{{ "%0.2f" % team.technical.get_overall_score() }}</a>
+              <!--TODO should score deletion only be an option from the edit form?-->
+              <a href="{{ url_for('delete_score', score_id=team.technical.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+            </td>
+          {% else %}
+            <td></td>
+          {% endif %}
+          {% if team.teamwork != None %}
+            <td>
+              <a href="{{ url_for('edit_score', score_id=team.teamwork.id) }}">{{ "%0.2f" % team.teamwork.get_overall_score() }}</a>
+              <a href="{{ url_for('delete_score', score_id=team.teamwork.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+            </td>
+          {% else %}
+            <td></td>
+          {% endif %}
+          {% if team.team_spirit != None %}
+            <td>
+              <a href="{{ url_for('edit_score', score_id=team.team_spirit.id) }}">{{ "%0.2f" % team.team_spirit.get_overall_score() }}</a>
+              <a href="{{ url_for('delete_score', score_id=team.team_spirit.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+            </td>
+          {% else %}
+            <td></td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
 {% endblock %}

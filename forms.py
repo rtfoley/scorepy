@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, BooleanField, IntegerField, TextField, \
     validators, SubmitField
-from models import RobotScore
+from models import RobotScore, Presentation
 
 
 class TeamForm(Form):
@@ -54,3 +54,64 @@ class ScoreForm(Form):
 
         self.score = score
         return True
+
+
+class PresentationForm(Form):
+    team_id = SelectField(u'Team', coerce=int)
+    problem_identification = SelectField(u'Problem identification',
+                                         choices=[(i, i) for i in range(0, 5)],
+                                         coerce=int)
+    sources_of_information = SelectField(u'Sources of information',
+                                         choices=[(i, i) for i in range(0, 5)],
+                                         coerce=int)
+    problem_analysis = SelectField(u'Problem analysis',
+                                   choices=[(i, i) for i in range(0, 5)],
+                                   coerce=int)
+    existing_solutions = SelectField(u'Existing solutions',
+                                     choices=[(i, i) for i in range(0, 5)],
+                                     coerce=int)
+    team_solution = SelectField(u'Team solution',
+                                choices=[(i, i) for i in range(0, 5)],
+                                coerce=int)
+    innovation = SelectField(u'Innovation',
+                             choices=[(i, i) for i in range(0, 5)],
+                             coerce=int)
+    implementation = SelectField(u'Implementation',
+                                 choices=[(i, i) for i in range(0, 5)],
+                                 coerce=int)
+    sharing = SelectField(u'Sharing',
+                          choices=[(i, i) for i in range(0, 5)],
+                          coerce=int)
+    creativity = SelectField(u'Creativity',
+                             choices=[(i, i) for i in range(0, 5)],
+                             coerce=int)
+    effectiveness = SelectField(u'Effectiveness',
+                                choices=[(i, i) for i in range(0, 5)],
+                                coerce=int)
+    inclusion = SelectField(u'Inclusion',
+                            choices=[(i, i) for i in range(0, 5)],
+                            coerce=int)
+    respect = SelectField(u'Respect',
+                          choices=[(i, i) for i in range(0, 5)],
+                          coerce=int)
+    submit = SubmitField(u'Submit')
+
+    def validate(self):
+        # Base validation
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        # Team-ID fields doesn't exist on an 'edit' form
+        if not self.team_id:
+            return True
+
+        # New score being entered, check if one already exists for team/ round
+        p = Presentation.query.filter_by(team_id=self.team_id.data).first()
+        if p is not None:
+            self.team_id.errors.append("Entry already exists for this team")
+            return False
+
+        self.p = p
+        return True
+

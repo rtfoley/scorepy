@@ -8,8 +8,8 @@ from xhtml2pdf import pisa
 from operator import attrgetter
 
 # Imports from other parts of the app
-from forms import ScoreForm, TeamForm
-from models import RobotScore, Team, db
+from forms import ScoreForm, TeamForm, PresentationForm
+from models import RobotScore, Team, Presentation, db
 
 # setup application
 app = flask.Flask(__name__)
@@ -42,7 +42,8 @@ def score_list():
 
 @app.route("/judging")
 def judging_list():
-    return render_template("judging_list.html")
+    teams = Team.query.all()
+    return render_template("judging_list.html", teams=sorted(teams, key=by_team))
 
 
 # Add a new robot score
@@ -136,6 +137,52 @@ def delete_team(team_id):
         db.session.commit()
         return redirect(url_for("team_list"))
     return render_template("delete.html", identifier="team %d" % team.number)
+
+
+# Add a presentation judging evaluation
+@app.route('/judging/presentation/new', methods=['GET', 'POST'])
+def add_presentation():
+    form = PresentationForm()
+    form.team_id.choices = [(t.id, t.number) for t in
+                            sorted(Team.query.all(), key=by_team)]
+    if request.method == 'POST' and form.validate_on_submit():
+        presentation = Presentation()
+        form.populate_obj(presentation)
+        db.session.add(presentation)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, title='Presentation Form')
+
+
+# Edit a previously-entered score
+@app.route("/judging/presentation/<int:presentation_id>/edit", methods=['GET', 'POST'])
+def edit_presentation(presentation_id):
+    presentation = Presentation.query.get(presentation_id)
+    form = PresentationForm(obj=presentation)
+    del form.team_id
+
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(presentation)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, team_id=presentation.team_id,
+                           title="Presentation Form")
+
+
+# Delete a score
+@app.route("/judging/presentation/<int:presentation_id>/delete", methods=['GET', 'POST'])
+def delete_presentation(presentation_id):
+    presentation = Presentation.query.get(presentation_id)
+    if request.method == 'POST':
+        db.session.delete(presentation)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    return render_template("delete.html", identifier="presentation evaluation for team %d"
+                           % presentation.team.number)
 
 
 # Return a list of scores, highest - lowest

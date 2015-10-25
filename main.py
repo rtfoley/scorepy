@@ -22,10 +22,7 @@ db.init_app(app)
 # Main route
 @app.route("/")
 def index():
-    teams = Team.query.all()
-    for team in teams:
-        sortTeamScores(team)
-    return render_template("index.html", teams=sorted(teams, key=by_team))
+    return render_template("index.html")
 
 
 # Team list
@@ -33,6 +30,19 @@ def index():
 def team_list():
     teams = Team.query.all()
     return render_template("teams.html", teams=sorted(teams, key=by_team))
+
+
+@app.route("/scores")
+def score_list():
+    teams = Team.query.all()
+    for team in teams:
+        sortTeamScores(team)
+    return render_template("score_list.html", teams=sorted(teams, key=by_team))
+
+
+@app.route("/judging")
+def judging_list():
+    return render_template("judging_list.html")
 
 
 # Add a new robot score

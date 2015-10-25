@@ -57,7 +57,7 @@ def new_score():
         form.populate_obj(score)
         db.session.add(score)
         db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("score_list"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("score_form.html", form=form)
@@ -74,7 +74,7 @@ def edit_score(score_id):
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(score)
         db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("score_list"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("score_form.html", form=form, team_id=score.team_id,
@@ -88,7 +88,7 @@ def delete_score(score_id):
     if request.method == 'POST':
         db.session.delete(score)
         db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("score_list"))
     return render_template("delete.html", identifier="score for %d in round %d"
                            % (score.team.number, score.round_number))
 

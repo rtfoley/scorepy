@@ -139,7 +139,7 @@ def delete_team(team_id):
     return render_template("delete.html", identifier="team %d" % team.number)
 
 
-# Add a presentation judging evaluation
+# Add a presentation judging entry
 @app.route('/judging/presentation/new', methods=['GET', 'POST'])
 def add_presentation():
     form = PresentationForm()
@@ -156,7 +156,7 @@ def add_presentation():
     return render_template("basic_form.html", form=form, title='Presentation Form')
 
 
-# Edit a previously-entered score
+# Edit a previously-entered presentation judging entry
 @app.route("/judging/presentation/<int:presentation_id>/edit", methods=['GET', 'POST'])
 def edit_presentation(presentation_id):
     presentation = Presentation.query.get(presentation_id)
@@ -173,7 +173,7 @@ def edit_presentation(presentation_id):
                            title="Presentation Form")
 
 
-# Delete a score
+# Delete a presentation judging entry
 @app.route("/judging/presentation/<int:presentation_id>/delete", methods=['GET', 'POST'])
 def delete_presentation(presentation_id):
     presentation = Presentation.query.get(presentation_id)
@@ -185,7 +185,7 @@ def delete_presentation(presentation_id):
                            % presentation.team.number)
 
 
-# Add a technical judging evaluation
+# Add a technical judging entry
 @app.route('/judging/technical/new', methods=['GET', 'POST'])
 def add_technical():
     form = TechnicalForm()

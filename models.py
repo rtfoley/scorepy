@@ -15,6 +15,7 @@ class Team(db.Model):
     scores = db.relationship('RobotScore', backref='team')
     presentation = db.relationship('Presentation', uselist=False, backref='team')
     technical = db.relationship('Technical', uselist=False, backref='team')
+    teamwork = db.relationship('Teamwork', uselist=False, backref='team')
 
     def __init(self, number, name, affiliation, city, state):
         self.number = number
@@ -111,6 +112,34 @@ class Presentation(db.Model):
             + self.get_innovative_solution_score() \
             + self.get_presentation_score() + self.get_gp_score()
         return total/4.0
+
+
+class Teamwork(db.Model):
+    __tablename__ = 'teamwork'
+
+    id = db.Column(db.Integer, primary_key=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+
+    # Teamwork
+    effectiveness = db.Column(db.Integer)
+    efficiency = db.Column(db.Integer)
+    kids_do_the_work = db.Column(db.Integer)
+
+    # GP
+    inclusion = db.Column(db.Integer)
+    respect = db.Column(db.Integer)
+
+    def get_teamwork_score(self):
+        total = self.effectiveness + self.efficiency + self.kids_do_the_work
+        return total/3.0
+
+    def get_gp_score(self):
+        total = self.inclusion + self.respect
+        return total/2.0
+
+    def get_overall_score(self):
+        total = self.get_teamwork_score() + self.get_gp_score()
+        return total/2.0
 
 
 class Technical(db.Model):

@@ -8,8 +8,8 @@ from xhtml2pdf import pisa
 from operator import attrgetter
 
 # Imports from other parts of the app
-from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm
-from models import RobotScore, Team, Presentation, Technical, db
+from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, TeamworkForm
+from models import RobotScore, Team, Presentation, Technical, Teamwork, db
 
 # setup application
 app = flask.Flask(__name__)
@@ -229,6 +229,52 @@ def delete_technical(technical_id):
         return redirect(url_for("judging_list"))
     return render_template("delete.html", identifier="technical evaluation for team %d"
                            % technical.team.number)
+
+
+# Add a teamwork judging entry
+@app.route('/judging/teamwork/new', methods=['GET', 'POST'])
+def add_teamwork():
+    form = TeamworkForm()
+    form.team_id.choices = [(t.id, t.number) for t in
+                            sorted(Team.query.all(), key=by_team)]
+    if request.method == 'POST' and form.validate_on_submit():
+        teamwork = Teamwork()
+        form.populate_obj(teamwork)
+        db.session.add(teamwork)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, title='Teamwork Form')
+
+
+# Edit a previously-entered teamwork judging entry
+@app.route("/judging/teamwork/<int:teamwork_id>/edit", methods=['GET', 'POST'])
+def edit_teamwork(teamwork_id):
+    teamwork = Teamwork.query.get(teamwork_id)
+    form = TeamworkForm(obj=teamwork)
+    del form.team_id
+
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(teamwork)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, team_id=teamwork.team_id,
+                           title="Teamwork Form")
+
+
+# Delete a teamwork judging entry
+@app.route("/judging/teamwork/<int:teamwork_id>/delete", methods=['GET', 'POST'])
+def delete_teamwork(teamwork_id):
+    teamwork = Teamwork.query.get(teamwork_id)
+    if request.method == 'POST':
+        db.session.delete(teamwork)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    return render_template("delete.html", identifier="teamwork evaluation for team %d"
+                           % teamwork.team.number)
 
 
 # Return a list of scores, highest - lowest

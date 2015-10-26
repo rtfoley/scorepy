@@ -14,6 +14,7 @@ class Team(db.Model):
     state = db.Column(db.String(2))
     scores = db.relationship('RobotScore', backref='team')
     presentation = db.relationship('Presentation', uselist=False, backref='team')
+    technical = db.relationship('Technical', uselist=False, backref='team')
 
     def __init(self, number, name, affiliation, city, state):
         self.number = number
@@ -110,4 +111,45 @@ class Presentation(db.Model):
             + self.get_innovative_solution_score() \
             + self.get_presentation_score() + self.get_gp_score()
         return total/4.0
+
+
+class Technical(db.Model):
+    __tablename__ = 'technical'
+
+    id = db.Column(db.Integer, primary_key=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+
+    # Mechanical Design
+    mechanical_durability = db.Column(db.Integer)
+    mechanical_efficiency = db.Column(db.Integer)
+    mechanization = db.Column(db.Integer)
+
+    # Programming
+    programming_quality = db.Column(db.Integer)
+    programming_efficiency = db.Column(db.Integer)
+    autonomous_navigation = db.Column(db.Integer)
+
+    # Strategy and Innovation
+    design_process = db.Column(db.Integer)
+    mission_strategy = db.Column(db.Integer)
+    innovation = db.Column(db.Integer)
+
+    def get_mechanical_score(self):
+        total = self.mechanical_durability + self.mechanical_efficiency \
+            + self.mechanization
+        return total/3.0
+
+    def get_programming_score(self):
+        total = self.programming_quality + self.programming_efficiency \
+            + self.autonomous_navigation
+        return total/3.0
+
+    def get_strategy_innovation_score(self):
+        total = self.design_process + self.mission_strategy + self.innovation
+        return total/3.0
+
+    def get_overall_score(self):
+        total = self.get_mechanical_score() + self.get_programming_score() \
+            + self.get_strategy_innovation_score()
+        return total/3.0
 

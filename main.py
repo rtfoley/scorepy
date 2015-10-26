@@ -8,8 +8,8 @@ from xhtml2pdf import pisa
 from operator import attrgetter
 
 # Imports from other parts of the app
-from forms import ScoreForm, TeamForm, PresentationForm
-from models import RobotScore, Team, Presentation, db
+from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm
+from models import RobotScore, Team, Presentation, Technical, db
 
 # setup application
 app = flask.Flask(__name__)
@@ -183,6 +183,52 @@ def delete_presentation(presentation_id):
         return redirect(url_for("judging_list"))
     return render_template("delete.html", identifier="presentation evaluation for team %d"
                            % presentation.team.number)
+
+
+# Add a technical judging evaluation
+@app.route('/judging/technical/new', methods=['GET', 'POST'])
+def add_technical():
+    form = TechnicalForm()
+    form.team_id.choices = [(t.id, t.number) for t in
+                            sorted(Team.query.all(), key=by_team)]
+    if request.method == 'POST' and form.validate_on_submit():
+        technical = Technical()
+        form.populate_obj(technical)
+        db.session.add(technical)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, title='Technical Form')
+
+
+# Edit a previously-entered technical judging entry
+@app.route("/judging/technical/<int:technical_id>/edit", methods=['GET', 'POST'])
+def edit_technical(technical_id):
+    technical = Technical.query.get(technical_id)
+    form = TechnicalForm(obj=technical)
+    del form.team_id
+
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(technical)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, team_id=technical.team_id,
+                           title="Technical Form")
+
+
+# Delete a technical judging entry
+@app.route("/judging/technical/<int:technical_id>/delete", methods=['GET', 'POST'])
+def delete_technical(technical_id):
+    technical = Technical.query.get(technical_id)
+    if request.method == 'POST':
+        db.session.delete(technical)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    return render_template("delete.html", identifier="technical evaluation for team %d"
+                           % technical.team.number)
 
 
 # Return a list of scores, highest - lowest

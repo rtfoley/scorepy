@@ -8,7 +8,7 @@
         <th>Number</th>
         <th>Name</th>
         <th>Presentation <a href="{{ url_for('add_presentation')}}" class="fa fa-plus-square"></a></th>
-        <th>Technical</th>
+        <th>Technical  <a href="{{ url_for('add_technical')}}" class="fa fa-plus-square"></a></th>
         <th>Teamwork</th>
         <th>Team Spirit</th>
       </tr>
@@ -30,9 +30,9 @@
 
           {% if team.technical != None %}
             <td>
-              <a href="{{ url_for('edit_score', score_id=team.technical.id) }}">{{ "%0.2f" % team.technical.get_overall_score() }}</a>
+              <a href="{{ url_for('edit_technical', technical_id=team.technical.id) }}">{{ "%0.2f" % team.technical.get_overall_score() }}</a>
               <!--TODO should score deletion only be an option from the edit form?-->
-              <a href="{{ url_for('delete_score', score_id=team.technical.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+              <a href="{{ url_for('delete_technical', technical_id=team.technical.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
             </td>
           {% else %}
             <td></td>

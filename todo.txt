@@ -11,7 +11,7 @@
 [ ] full 2015 score form
 [/] rankings report
 [ ] qualification rankings display
-[ ] judge evaluation management
+[x] judge evaluation management
 [ ] award selection
 [ ] award winner selection (manual and automatic)
 [ ] award winner report

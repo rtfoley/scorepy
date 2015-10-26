@@ -1,5 +1,7 @@
 # Python library imports
 import flask
+import csv
+import os
 from flask import flash, render_template, request, jsonify, redirect, url_for, \
     make_response
 from flask_bootstrap import Bootstrap
@@ -110,6 +112,34 @@ def new_team():
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("team_form.html", form=form)
+
+
+@app.route("/teams/upload", methods=['GET', 'POST'])
+def upload_teams():
+    # TODO use WTF for the upload form
+    if request.method == 'POST' and 'file' in request.files:
+        # TODO remove existing file if it wasn't clean up last time
+        file = request.files['file']
+        file.save('uploaded_teams.csv')
+        teams = []
+        with open('uploaded_teams.csv') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                team = Team(number=int(row['Number']),
+                            name=row['Name'],
+                            affiliation=row['Affiliation'],
+                            city=row['City'],
+                            state=row['State'])
+                teams.append(team)
+
+        for team in teams:
+            # TODO only add teams that don't already exist
+            db.session.add(team)
+        db.session.commit()
+        # TODO flash number of imported teams
+        # TODO remove file
+        return redirect(url_for("team_list"))
+    return render_template("team_upload_form.html")
 
 
 # Edit a previously-entered team

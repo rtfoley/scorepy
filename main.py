@@ -8,8 +8,10 @@ from xhtml2pdf import pisa
 from operator import attrgetter
 
 # Imports from other parts of the app
-from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, TeamworkForm, TeamSpiritForm
-from models import RobotScore, Team, Presentation, Technical, Teamwork, TeamSpirit, db
+from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, \
+    TeamworkForm, TeamSpiritForm
+from models import RobotScore, Team, Presentation, Technical, Teamwork, \
+    TeamSpirit, db
 
 # setup application
 app = flask.Flask(__name__)
@@ -43,7 +45,8 @@ def score_list():
 @app.route("/judging")
 def judging_list():
     teams = Team.query.all()
-    return render_template("judging_list.html", teams=sorted(teams, key=by_team))
+    return render_template("judging_list.html",
+                           teams=sorted(teams, key=by_team))
 
 
 # Add a new robot score
@@ -153,11 +156,13 @@ def add_presentation():
         return redirect(url_for("judging_list"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, title='Presentation Form')
+    return render_template("basic_form.html", form=form,
+                           title='Presentation Form')
 
 
 # Edit a previously-entered presentation judging entry
-@app.route("/judging/presentation/<int:presentation_id>/edit", methods=['GET', 'POST'])
+@app.route("/judging/presentation/<int:presentation_id>/edit",
+           methods=['GET', 'POST'])
 def edit_presentation(presentation_id):
     presentation = Presentation.query.get(presentation_id)
     form = PresentationForm(obj=presentation)
@@ -169,19 +174,22 @@ def edit_presentation(presentation_id):
         return redirect(url_for("judging_list"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, team_id=presentation.team_id,
+    return render_template("basic_form.html", form=form,
+                           team_id=presentation.team_id,
                            title="Presentation Form")
 
 
 # Delete a presentation judging entry
-@app.route("/judging/presentation/<int:presentation_id>/delete", methods=['GET', 'POST'])
+@app.route("/judging/presentation/<int:presentation_id>/delete",
+           methods=['GET', 'POST'])
 def delete_presentation(presentation_id):
     presentation = Presentation.query.get(presentation_id)
     if request.method == 'POST':
         db.session.delete(presentation)
         db.session.commit()
         return redirect(url_for("judging_list"))
-    return render_template("delete.html", identifier="presentation evaluation for team %d"
+    return render_template("delete.html",
+                           identifier="presentation evaluation for team %d"
                            % presentation.team.number)
 
 
@@ -199,11 +207,13 @@ def add_technical():
         return redirect(url_for("judging_list"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, title='Technical Form')
+    return render_template("basic_form.html", form=form,
+                           title='Technical Form')
 
 
 # Edit a previously-entered technical judging entry
-@app.route("/judging/technical/<int:technical_id>/edit", methods=['GET', 'POST'])
+@app.route("/judging/technical/<int:technical_id>/edit",
+           methods=['GET', 'POST'])
 def edit_technical(technical_id):
     technical = Technical.query.get(technical_id)
     form = TechnicalForm(obj=technical)
@@ -215,19 +225,21 @@ def edit_technical(technical_id):
         return redirect(url_for("judging_list"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, team_id=technical.team_id,
-                           title="Technical Form")
+    return render_template("basic_form.html", form=form,
+                           team_id=technical.team_id, title="Technical Form")
 
 
 # Delete a technical judging entry
-@app.route("/judging/technical/<int:technical_id>/delete", methods=['GET', 'POST'])
+@app.route("/judging/technical/<int:technical_id>/delete",
+           methods=['GET', 'POST'])
 def delete_technical(technical_id):
     technical = Technical.query.get(technical_id)
     if request.method == 'POST':
         db.session.delete(technical)
         db.session.commit()
         return redirect(url_for("judging_list"))
-    return render_template("delete.html", identifier="technical evaluation for team %d"
+    return render_template("delete.html",
+                           identifier="technical evaluation for team %d"
                            % technical.team.number)
 
 
@@ -261,19 +273,21 @@ def edit_teamwork(teamwork_id):
         return redirect(url_for("judging_list"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, team_id=teamwork.team_id,
-                           title="Teamwork Form")
+    return render_template("basic_form.html", form=form,
+                           team_id=teamwork.team_id, title="Teamwork Form")
 
 
 # Delete a teamwork judging entry
-@app.route("/judging/teamwork/<int:teamwork_id>/delete", methods=['GET', 'POST'])
+@app.route("/judging/teamwork/<int:teamwork_id>/delete",
+           methods=['GET', 'POST'])
 def delete_teamwork(teamwork_id):
     teamwork = Teamwork.query.get(teamwork_id)
     if request.method == 'POST':
         db.session.delete(teamwork)
         db.session.commit()
         return redirect(url_for("judging_list"))
-    return render_template("delete.html", identifier="teamwork evaluation for team %d"
+    return render_template("delete.html",
+                           identifier="teamwork evaluation for team %d"
                            % teamwork.team.number)
 
 
@@ -291,11 +305,13 @@ def add_team_spirit():
         return redirect(url_for("judging_list"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, title='Team Spirit Form')
+    return render_template("basic_form.html", form=form,
+                           title='Team Spirit Form')
 
 
 # Edit a previously-entered team spirit judging entry
-@app.route("/judging/team_spirit/<int:team_spirit_id>/edit", methods=['GET', 'POST'])
+@app.route("/judging/team_spirit/<int:team_spirit_id>/edit",
+           methods=['GET', 'POST'])
 def edit_team_spirit(team_spirit_id):
     team_spirit = TeamSpirit.query.get(team_spirit_id)
     form = TeamSpiritForm(obj=team_spirit)
@@ -307,19 +323,22 @@ def edit_team_spirit(team_spirit_id):
         return redirect(url_for("judging_list"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, team_id=team_spirit.team_id,
+    return render_template("basic_form.html", form=form,
+                           team_id=team_spirit.team_id,
                            title="Team Spirit Form")
 
 
 # Delete a team spirit judging entry
-@app.route("/judging/team_spirit/<int:team_spirit_id>/delete", methods=['GET', 'POST'])
+@app.route("/judging/team_spirit/<int:team_spirit_id>/delete",
+           methods=['GET', 'POST'])
 def delete_team_spirit(team_spirit_id):
     team_spirit = TeamSpirit.query.get(team_spirit_id)
     if request.method == 'POST':
         db.session.delete(team_spirit)
         db.session.commit()
         return redirect(url_for("judging_list"))
-    return render_template("delete.html", identifier="team spirit evaluation for team %d"
+    return render_template("delete.html",
+                           identifier="team spirit evaluation for team %d"
                            % team_spirit.team.number)
 
 

@@ -13,7 +13,8 @@ class Team(db.Model):
     city = db.Column(db.String(50))
     state = db.Column(db.String(2))
     scores = db.relationship('RobotScore', backref='team')
-    presentation = db.relationship('Presentation', uselist=False, backref='team')
+    presentation = db.relationship('Presentation', uselist=False,
+                                   backref='team')
     technical = db.relationship('Technical', uselist=False, backref='team')
     teamwork = db.relationship('Teamwork', uselist=False, backref='team')
     team_spirit = db.relationship('TeamSpirit', uselist=False, backref='team')

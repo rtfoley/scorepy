@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, BooleanField, IntegerField, TextField, \
     validators, SubmitField
-from models import RobotScore, Presentation, Technical, Teamwork
+from models import RobotScore, Presentation, Technical, Teamwork, TeamSpirit
 
 
 class TeamForm(Form):
@@ -205,3 +205,29 @@ class TechnicalForm(Form):
         self.t = t
         return True
 
+
+class TeamSpiritForm(Form):
+    team_id = SelectField(u'Team', coerce=int)
+    inspiration = SelectField(u'Inspiration',
+                              choices=[(i, i) for i in range(0, 5)],
+                              coerce=int)
+    submit = SubmitField(u'Submit')
+
+    def validate(self):
+        # Base validation
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        # Team-ID fields doesn't exist on an 'edit' form
+        if not self.team_id:
+            return True
+
+        # New score being entered, check if one already exists for team/ round
+        t = TeamSpirit.query.filter_by(team_id=self.team_id.data).first()
+        if t is not None:
+            self.team_id.errors.append("Entry already exists for this team")
+            return False
+
+        self.t = t
+        return True

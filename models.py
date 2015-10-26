@@ -16,6 +16,7 @@ class Team(db.Model):
     presentation = db.relationship('Presentation', uselist=False, backref='team')
     technical = db.relationship('Technical', uselist=False, backref='team')
     teamwork = db.relationship('Teamwork', uselist=False, backref='team')
+    team_spirit = db.relationship('TeamSpirit', uselist=False, backref='team')
 
     def __init(self, number, name, affiliation, city, state):
         self.number = number
@@ -182,3 +183,18 @@ class Technical(db.Model):
             + self.get_strategy_innovation_score()
         return total/3.0
 
+
+class TeamSpirit(db.Model):
+    __tablename__ = 'team_spirit'
+
+    id = db.Column(db.Integer, primary_key=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+
+    # Inspiration
+    inspiration = db.Column(db.Integer)
+
+    def get_inspiration_score(self):
+        return self.inspiration
+
+    def get_overall_score(self):
+        return self.get_inspiration_score()

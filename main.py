@@ -8,8 +8,8 @@ from xhtml2pdf import pisa
 from operator import attrgetter
 
 # Imports from other parts of the app
-from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, TeamworkForm
-from models import RobotScore, Team, Presentation, Technical, Teamwork, db
+from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, TeamworkForm, TeamSpiritForm
+from models import RobotScore, Team, Presentation, Technical, Teamwork, TeamSpirit, db
 
 # setup application
 app = flask.Flask(__name__)
@@ -275,6 +275,52 @@ def delete_teamwork(teamwork_id):
         return redirect(url_for("judging_list"))
     return render_template("delete.html", identifier="teamwork evaluation for team %d"
                            % teamwork.team.number)
+
+
+# Add a team spirit judging entry
+@app.route('/judging/team_spirit/new', methods=['GET', 'POST'])
+def add_team_spirit():
+    form = TeamSpiritForm()
+    form.team_id.choices = [(t.id, t.number) for t in
+                            sorted(Team.query.all(), key=by_team)]
+    if request.method == 'POST' and form.validate_on_submit():
+        team_spirit = TeamSpirit()
+        form.populate_obj(team_spirit)
+        db.session.add(team_spirit)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, title='Team Spirit Form')
+
+
+# Edit a previously-entered team spirit judging entry
+@app.route("/judging/team_spirit/<int:team_spirit_id>/edit", methods=['GET', 'POST'])
+def edit_team_spirit(team_spirit_id):
+    team_spirit = TeamSpirit.query.get(team_spirit_id)
+    form = TeamSpiritForm(obj=team_spirit)
+    del form.team_id
+
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(team_spirit)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form, team_id=team_spirit.team_id,
+                           title="Team Spirit Form")
+
+
+# Delete a team spirit judging entry
+@app.route("/judging/team_spirit/<int:team_spirit_id>/delete", methods=['GET', 'POST'])
+def delete_team_spirit(team_spirit_id):
+    team_spirit = TeamSpirit.query.get(team_spirit_id)
+    if request.method == 'POST':
+        db.session.delete(team_spirit)
+        db.session.commit()
+        return redirect(url_for("judging_list"))
+    return render_template("delete.html", identifier="team spirit evaluation for team %d"
+                           % team_spirit.team.number)
 
 
 # Return a list of scores, highest - lowest

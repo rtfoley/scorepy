@@ -96,6 +96,7 @@ class PresentationForm(Form):
                           coerce=int)
     submit = SubmitField(u'Submit')
 
+    # TODO this code is duplicated in each judging form class, could it be combined?
     def validate(self):
         # Base validation
         rv = Form.validate(self)

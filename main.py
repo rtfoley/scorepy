@@ -119,28 +119,50 @@ def new_team():
 def upload_teams():
     form = UploadForm()
     if request.method == 'POST' and 'file' in request.files:
-        # TODO remove existing file if it wasn't clean up last time
-        file = request.files['file']
-        file.save('uploaded_teams.csv')
-        teams = []
-        with open('uploaded_teams.csv') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                team = Team(number=int(row['Number']),
-                            name=row['Name'],
-                            affiliation=row['Affiliation'],
-                            city=row['City'],
-                            state=row['State'])
-                teams.append(team)
+        # define filename for the uploaded file
+        filename = 'uploaded_teams.csv'
 
+        # delete any existing copies of the uploaded file
+        if os.path.isfile(filename):
+            os.remove(filename)
+            print 'removed file'
+
+        # get the file from the POST data
+        file = request.files['file']
+        file.save(filename)
+
+        # extract team data from file
+        teams = extractTeamsFromCsv(filename)
+
+        # add teams to database
+        teamCount = 0
         for team in teams:
-            # TODO only add teams that don't already exist
-            db.session.add(team)
-        db.session.commit()
-        # TODO flash number of imported teams
-        # TODO remove file
+            # make sure team doesn't already exist first
+            existing = Team.query.filter_by(number=team.number).first()
+            if existing is None:
+                db.session.add(team)
+                teamCount = teamCount + 1
+        if teamCount > 0:
+            db.session.commit()
+
+        flash('Imported %d teams' % teamCount)
+        os.remove(filename)
         return redirect(url_for("team_list"))
     return render_template("team_upload_form.html", form=form)
+
+
+def extractTeamsFromCsv(filename):
+    teams = []
+    with open(filename) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            team = Team(number=int(row['Number']),
+                        name=row['Name'],
+                        affiliation=row['Affiliation'],
+                        city=row['City'],
+                        state=row['State'])
+            teams.append(team)
+    return teams
 
 
 # Edit a previously-entered team

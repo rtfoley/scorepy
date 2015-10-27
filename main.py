@@ -400,6 +400,12 @@ def awards():
     return render_template("awards.html")
 
 
+# Playoffs page
+@app.route("/playoffs", methods=['GET'])
+def playoffs():
+    return render_template("playoffs.html")
+
+
 # Create a PDF file from data
 def create_pdf(pdf_data):
     pdf = StringIO()

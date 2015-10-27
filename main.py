@@ -406,6 +406,12 @@ def playoffs():
     return render_template("playoffs.html")
 
 
+# Pit Display page
+@app.route("/pit", methods=['GET'])
+def pit_display():
+    return render_template("pit_display.html")
+
+
 # Create a PDF file from data
 def create_pdf(pdf_data):
     pdf = StringIO()

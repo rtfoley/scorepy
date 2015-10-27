@@ -5,8 +5,7 @@
 [/] team list page
 [x] team management via form
 [x] team CSV import
-[ ] team list report
-[/] main page table
+[x] team list report
 [x] basic score management per team (with team and round selection, but using simplified score form)
 [ ] full 2015 score form
 [/] rankings report

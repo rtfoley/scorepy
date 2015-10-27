@@ -18,6 +18,7 @@ class Team(db.Model):
     technical = db.relationship('Technical', uselist=False, backref='team')
     teamwork = db.relationship('Teamwork', uselist=False, backref='team')
     team_spirit = db.relationship('TeamSpirit', uselist=False, backref='team')
+    awards = db.relationship('AwardWinner', backref='team')
 
     def __init(self, number, name, affiliation, city, state):
         self.number = number
@@ -199,3 +200,31 @@ class TeamSpirit(db.Model):
 
     def get_overall_score(self):
         return self.get_inspiration_score()
+
+
+class Award(db.Model):
+    __tablename__ = 'awards'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    category = db.Column(db.Enum('None',
+                                 'Research',
+                                 'Innovative Solution',
+                                 'Presentation',
+                                 'Gracious Professionalism',
+                                 'Teamwork',
+                                 'Inspiration',
+                                 'Mechanical Design',
+                                 'Programming',
+                                 'Strategy and Innovation',
+                                 'Robot Performance'))
+    winners = db.relationship('AwardWinner', backref='award')
+
+
+class AwardWinner(db.Model):
+    __tablename__ = 'award_winners'
+
+    id = db.Column(db.Integer, primary_key=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+    award_id = db.Column(db.Integer, db.ForeignKey('awards.id'))
+    place = db.Column(db.Integer)

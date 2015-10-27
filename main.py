@@ -29,6 +29,12 @@ def index():
     return render_template("index.html")
 
 
+# Settings page
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
+
+
 # Team list
 @app.route("/teams")
 def team_list():

@@ -1,5 +1,5 @@
 [x] basic layout (layout.html, navbar, footer, bootstrap/ fontawesome)
-[/] page shells (main, about, teams, awards, playoffs, pit display, playoff display, 404)
+[x] page shells (main, about, teams, awards, playoffs, pit display, playoff display)
 [ ] login system
 [ ] event settings page (name, passwords)
 [/] team list page
@@ -8,7 +8,7 @@
 [x] team list report
 [x] basic score management per team (with team and round selection, but using simplified score form)
 [ ] full 2015 score form
-[/] rankings report
+[x] rankings report
 [ ] qualification rankings display
 [x] judge evaluation management
 [ ] award selection

@@ -2,5 +2,30 @@
 {% block title %}FLL Awards{% endblock %}
 {% block pageContent %}
   <h1>Awards</h1>
-  <p>TODO</p>
+  <a href="#">Add a new award winner</a>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Team Number</th>
+        <th>Team Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for winner in award_winners %}
+        <tr>
+          <td>{{ winner.award.name }}</td>
+          <td>{{ winner.award.category }}</td>
+          <td>{{ winner.team.number }}</td>
+          <td>{{ winner.team.name }}</td>
+          <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
+          <td>
+            <a href="#" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>
+            <a href="#" class="btn btn-xs btn-danger fa fa-trash-o" title="delete"></a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

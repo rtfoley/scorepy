@@ -394,16 +394,6 @@ def delete_team_spirit(team_spirit_id):
                            identifier="team spirit evaluation for team %d"
                            % team_spirit.team.number)
 
-
-# Return a list of scores, highest - lowest
-@app.route("/ranks", methods=['GET'])
-def ranks():
-    teams = Team.query.all()
-    for team in teams:
-        sortTeamScores(team)
-    return render_template("ranks.html", teams=sorted(teams, key=by_team_best,
-                                                      reverse=True))
-
 # Awards page
 @app.route("/awards", methods=['GET'])
 def awards():
@@ -434,7 +424,12 @@ def teams_pdf():
 # Ranks rerport in PDF
 @app.route('/ranks.pdf')
 def rank_pdf():
-    pdf = create_pdf(ranks())
+    teams = Team.query.all()
+    for team in teams:
+        sortTeamScores(team)
+    ranks = render_template("ranks.html", teams=sorted(teams, key=by_team_best,
+                                                       reverse=True))
+    pdf = create_pdf(ranks)
     response = make_response(pdf.getvalue())
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \

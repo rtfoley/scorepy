@@ -13,7 +13,7 @@ from operator import attrgetter
 from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, \
     TeamworkForm, TeamSpiritForm, UploadForm
 from models import RobotScore, Team, Presentation, Technical, Teamwork, \
-    TeamSpirit, db
+    TeamSpirit, Award, db
 
 # setup application
 app = flask.Flask(__name__)
@@ -32,7 +32,8 @@ def index():
 # Settings page
 @app.route("/settings")
 def settings():
-    return render_template("settings.html")
+    awards = Award.query.all()
+    return render_template("settings.html", awards=sorted(awards, key=by_name))
 
 
 # Team list
@@ -400,6 +401,7 @@ def delete_team_spirit(team_spirit_id):
                            identifier="team spirit evaluation for team %d"
                            % team_spirit.team.number)
 
+
 # Awards page
 @app.route("/awards", methods=['GET'])
 def awards():
@@ -479,6 +481,11 @@ def by_score(score):
 # Sort teams by number
 def by_team(team):
     return team.number
+
+
+# Sort awards by name
+def by_name(award):
+    return award.name
 
 
 # Sort teams by their best score total

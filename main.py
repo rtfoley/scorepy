@@ -404,7 +404,6 @@ def ranks():
     return render_template("ranks.html", teams=sorted(teams, key=by_team_best,
                                                       reverse=True))
 
-
 # Awards page
 @app.route("/awards", methods=['GET'])
 def awards():
@@ -416,6 +415,20 @@ def create_pdf(pdf_data):
     pdf = StringIO()
     pisa.CreatePDF(StringIO(pdf_data.encode('utf-8')), pdf, encoding="utf-8")
     return pdf
+
+
+# Team PDF report
+@app.route('/teams.pdf')
+def teams_pdf():
+    teams = Team.query.all()
+    team_report = render_template("team_report.html",
+                                  teams=sorted(teams, key=by_team))
+    pdf = create_pdf(team_report)
+    response = make_response(pdf.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
+                                              'teams.pdf'
+    return response
 
 
 # Ranks rerport in PDF

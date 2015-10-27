@@ -11,7 +11,7 @@ from operator import attrgetter
 
 # Imports from other parts of the app
 from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, \
-    TeamworkForm, TeamSpiritForm
+    TeamworkForm, TeamSpiritForm, UploadForm
 from models import RobotScore, Team, Presentation, Technical, Teamwork, \
     TeamSpirit, db
 
@@ -114,9 +114,10 @@ def new_team():
     return render_template("team_form.html", form=form)
 
 
+# Upload teams via CSV file
 @app.route("/teams/upload", methods=['GET', 'POST'])
 def upload_teams():
-    # TODO use WTF for the upload form
+    form = UploadForm()
     if request.method == 'POST' and 'file' in request.files:
         # TODO remove existing file if it wasn't clean up last time
         file = request.files['file']
@@ -139,7 +140,7 @@ def upload_teams():
         # TODO flash number of imported teams
         # TODO remove file
         return redirect(url_for("team_list"))
-    return render_template("team_upload_form.html")
+    return render_template("team_upload_form.html", form=form)
 
 
 # Edit a previously-entered team

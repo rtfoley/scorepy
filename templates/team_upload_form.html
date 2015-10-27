@@ -1,11 +1,8 @@
 {% extends "layout.html" %}
-{% block title %}FLL Awards{% endblock %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Team CSV Upload{% endblock %}
 {% block pageContent %}
   <h1>Team Upload</h1>
   <!-- TODO use WTF for the form -->
-  <form action="./upload" method="post" enctype="multipart/form-data">
-    <p><input type="file" name="file">
-       <input type="submit" value="Upload">
-     </p>
-  </form>
+  {{ wtf.quick_form(form, action="./upload", method="post", form_type="horizontal", horizontal_columns=('lg', 2, 10), button_map={'submit_button': 'primary'}, id="uploadForm") }}
 {% endblock %}

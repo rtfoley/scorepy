@@ -4,7 +4,7 @@
 [ ] event settings page (name, passwords)
 [/] team list page
 [x] team management via form
-[ ] team CSV import
+[x] team CSV import
 [ ] team list report
 [/] main page table
 [x] basic score management per team (with team and round selection, but using simplified score form)

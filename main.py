@@ -1,5 +1,7 @@
 # Python library imports
 import flask
+import csv
+import os
 from flask import flash, render_template, request, jsonify, redirect, url_for, \
     make_response
 from flask_bootstrap import Bootstrap
@@ -9,7 +11,7 @@ from operator import attrgetter
 
 # Imports from other parts of the app
 from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, \
-    TeamworkForm, TeamSpiritForm
+    TeamworkForm, TeamSpiritForm, UploadForm
 from models import RobotScore, Team, Presentation, Technical, Teamwork, \
     TeamSpirit, db
 
@@ -110,6 +112,57 @@ def new_team():
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("team_form.html", form=form)
+
+
+# Upload teams via CSV file
+@app.route("/teams/upload", methods=['GET', 'POST'])
+def upload_teams():
+    form = UploadForm()
+    if request.method == 'POST' and 'file' in request.files:
+        # define filename for the uploaded file
+        filename = 'uploaded_teams.csv'
+
+        # delete any existing copies of the uploaded file
+        if os.path.isfile(filename):
+            os.remove(filename)
+            print 'removed file'
+
+        # get the file from the POST data
+        file = request.files['file']
+        file.save(filename)
+
+        # extract team data from file
+        teams = extractTeamsFromCsv(filename)
+
+        # add teams to database
+        teamCount = 0
+        for team in teams:
+            # make sure team doesn't already exist first
+            existing = Team.query.filter_by(number=team.number).first()
+            if existing is None:
+                db.session.add(team)
+                teamCount = teamCount + 1
+        if teamCount > 0:
+            db.session.commit()
+
+        flash('Imported %d teams' % teamCount)
+        os.remove(filename)
+        return redirect(url_for("team_list"))
+    return render_template("team_upload_form.html", form=form)
+
+
+def extractTeamsFromCsv(filename):
+    teams = []
+    with open(filename) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            team = Team(number=int(row['Number']),
+                        name=row['Name'],
+                        affiliation=row['Affiliation'],
+                        city=row['City'],
+                        state=row['State'])
+            teams.append(team)
+    return teams
 
 
 # Edit a previously-entered team

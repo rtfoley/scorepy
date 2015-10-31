@@ -15,8 +15,8 @@
     <tbody>
       {% for winner in award_winners %}
         <tr>
-          <td>{{ winner.award.name }}</td>
-          <td>{{ winner.award.category }}</td>
+          <td>{{ winner.category.name }}</td>
+          <td>{{ winner.place }}
           <td>{{ winner.team.number }}</td>
           <td>{{ winner.team.name }}</td>
           <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->

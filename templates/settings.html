@@ -13,10 +13,9 @@
       </tr>
     </thead>
     <tbody>
-      {% for award in awards %}
+      {% for category in award_categories %}
         <tr>
-          <td>{{ award.name }}</td>
-          <td>{{ award.category }}</td>
+          <td>{{ category.name }}</td>
           <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
           <td>
             <a href="#" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>

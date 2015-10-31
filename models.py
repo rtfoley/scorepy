@@ -202,23 +202,12 @@ class TeamSpirit(db.Model):
         return self.get_inspiration_score()
 
 
-class Award(db.Model):
-    __tablename__ = 'awards'
+class AwardCategory(db.Model):
+    __tablename__ = 'award_categories'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
-    category = db.Column(db.Enum('None',
-                                 'Research',
-                                 'Innovative Solution',
-                                 'Presentation',
-                                 'Gracious Professionalism',
-                                 'Teamwork',
-                                 'Inspiration',
-                                 'Mechanical Design',
-                                 'Programming',
-                                 'Strategy and Innovation',
-                                 'Robot Performance'))
-    winners = db.relationship('AwardWinner', backref='award')
+    winner = db.relationship('AwardWinner', backref='category')
 
 
 class AwardWinner(db.Model):
@@ -226,5 +215,5 @@ class AwardWinner(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
-    award_id = db.Column(db.Integer, db.ForeignKey('awards.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('award_categories.id'))
     place = db.Column(db.Integer)

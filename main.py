@@ -11,7 +11,7 @@ from operator import attrgetter
 
 # Imports from other parts of the app
 from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, \
-    TeamworkForm, TeamSpiritForm, UploadForm, AwardCategoryForm
+    TeamworkForm, TeamSpiritForm, UploadForm, AwardCategoryForm, AwardWinnerForm
 from models import RobotScore, Team, Presentation, Technical, Teamwork, \
     TeamSpirit, AwardCategory, AwardWinner, db
 
@@ -449,10 +449,64 @@ def delete_award_category(award_category_id):
                            % award_category.name)
 
 
+# Add a new award winner
+@app.route("/awards/add", methods=['GET', 'POST'])
+def add_award_winner():
+    form = AwardWinnerForm()
+    form.category_id.choices = [(c.id, c.name) for c in
+                                sorted(AwardCategory.query.all(), key=by_name)]
+    form.team_id.choices = [(t.id, t.number) for t in
+                            sorted(Team.query.all(), key=by_team)]
+
+    if request.method == 'POST' and form.validate_on_submit():
+        award_winner = AwardWinner()
+        form.populate_obj(award_winner)
+        db.session.add(award_winner)
+        db.session.commit()
+        return redirect(url_for("awards"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form,
+                           title="Award Winner Form")
+
+
+# Edit a previously-entered award winner
+@app.route("/awards/<int:award_winner_id>/edit", methods=['GET', 'POST'])
+def edit_award_winner(award_winner_id):
+    award_winner = AwardWinner.query.get(award_winner_id)
+    form = AwardWinnerForm(obj=award_winner)
+    form.category_id.choices = [(c.id, c.name) for c in
+                                sorted(AwardCategory.query.all(), key=by_name)]
+    form.team_id.choices = [(t.id, t.number) for t in
+                            sorted(Team.query.all(), key=by_team)]
+
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(award_winner)
+        db.session.commit()
+        return redirect(url_for("awards"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form,
+                           title="Award Winner Form")
+
+
+# Delete an award winner
+@app.route("/awards/<int:award_winner_id>/delete", methods=['GET', 'POST'])
+def delete_award_winner(award_winner_id):
+    award_winner = AwardWinner.query.get(award_winner_id)
+    if request.method == 'POST':
+        db.session.delete(award_winner)
+        db.session.commit()
+        return redirect(url_for("awards"))
+    return render_template("delete.html", identifier="award winner for %s by team %d"
+                           % (award_winner.category.name, award_winner.team.number))
+
+
 # Awards page
 @app.route("/awards", methods=['GET'])
 def awards():
     award_winners = AwardWinner.query.all()
+    # TODO sort by award category then place
     return render_template("awards.html",
                            award_winners=sorted(award_winners,
                                                 key=winner_by_award_name))

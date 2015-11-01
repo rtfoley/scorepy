@@ -12,7 +12,8 @@
 [ ] qualification rankings display
 [x] judge evaluation management
 [ ] award selection
-[ ] award winner selection (manual and automatic)
+[ ] award winner selection (manual)
+[ ] award winner selection (automatic)
 [ ] award winner report
 [ ] playoff management
 [ ] playoff display

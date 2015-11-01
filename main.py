@@ -11,7 +11,7 @@ from operator import attrgetter
 
 # Imports from other parts of the app
 from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, \
-    TeamworkForm, TeamSpiritForm, UploadForm
+    TeamworkForm, TeamSpiritForm, UploadForm, AwardCategoryForm
 from models import RobotScore, Team, Presentation, Technical, Teamwork, \
     TeamSpirit, AwardCategory, AwardWinner, db
 
@@ -400,6 +400,53 @@ def delete_team_spirit(team_spirit_id):
     return render_template("delete.html",
                            identifier="team spirit evaluation for team %d"
                            % team_spirit.team.number)
+
+
+# Add a team spirit judging entry
+@app.route('/settings/award_categories/new', methods=['GET', 'POST'])
+def add_award_category():
+    form = AwardCategoryForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        award_category = AwardCategory()
+        form.populate_obj(award_category)
+        db.session.add(award_category)
+        db.session.commit()
+        return redirect(url_for("settings"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form,
+                           title='Award Category Form')
+
+
+# Edit a previously-entered team spirit judging entry
+@app.route("/settings/award_categories/<int:award_category_id>/edit",
+           methods=['GET', 'POST'])
+def edit_award_category(award_category_id):
+    award_category = AwardCategory.query.get(award_category_id)
+    form = AwardCategoryForm(obj=award_category)
+
+    if request.method == 'POST' and form.validate_on_submit():
+        form.populate_obj(award_category)
+        db.session.commit()
+        return redirect(url_for("settings"))
+    elif request.method == 'POST':
+        flash('Failed validation')
+    return render_template("basic_form.html", form=form,
+                           title="Award Category Form")
+
+
+# Delete a team spirit judging entry
+@app.route("/settings/award_categories/<int:award_category_id>/delete",
+           methods=['GET', 'POST'])
+def delete_award_category(award_category_id):
+    award_category = AwardCategory.query.get(award_category_id)
+    if request.method == 'POST':
+        db.session.delete(award_category)
+        db.session.commit()
+        return redirect(url_for("settings"))
+    return render_template("delete.html",
+                           identifier="award category '%s'"
+                           % award_category.name)
 
 
 # Awards page

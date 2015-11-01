@@ -2,24 +2,23 @@
 {% block title %}FLL System Settings{% endblock %}
 {% block pageContent %}
   <h1>Settings</h1>
-  <a href="#">Add a new award</a>
+  <a href="{{ url_for('add_award_category') }}">Add a new award category</a>
   <!-- TODO add CSV import option -->
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Name</th>
         <th>Category</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      {% for category in award_categories %}
+      {% for category in categories %}
         <tr>
           <td>{{ category.name }}</td>
           <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
           <td>
-            <a href="#" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>
-            <a href="#" class="btn btn-xs btn-danger fa fa-trash-o" title="delete"></a>
+            <a href="{{ url_for('edit_award_category', award_category_id=category.id) }}" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>
+            <a href="{{ url_for('delete_award_category', award_category_id=category.id) }}" class="btn btn-xs btn-danger fa fa-trash-o" title="delete"></a>
           </td>
         </tr>
       {% endfor %}

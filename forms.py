@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, BooleanField, IntegerField, TextField, \
     validators, SubmitField, FileField
-from models import RobotScore, Presentation, Technical, Teamwork, TeamSpirit
+from models import RobotScore, Presentation, Technical, Teamwork, TeamSpirit, AwardCategory
 
 
 class TeamForm(Form):
@@ -237,3 +237,10 @@ class TeamSpiritForm(Form):
 class UploadForm(Form):
     file = FileField(u'', [validators.regexp(u'^.*\.csv$')])
     submit = SubmitField(u'Upload')
+
+
+class AwardCategoryForm(Form):
+    name = TextField("Name", [validators.Required(),
+                              validators.Length(min=1, max=50)])
+    submit = SubmitField(u'Submit')
+

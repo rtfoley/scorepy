@@ -25,17 +25,17 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('team_list') }}"><span class="fa fa-users"></span> Teams</a></li>
-        <li><a href="{{ url_for('score_list') }}"><span class="fa fa-calculator"></span> Scores</a></li>
-        <li><a href="{{ url_for('judging_list') }}"><span class="fa fa-gavel"></span> Judging</a></li>
-        <li><a href="{{ url_for('awards') }}"><span class="fa fa-trophy"></span> Awards</a></li>
+        <li><a href="{{ url_for('teams.index') }}"><span class="fa fa-users"></span> Teams</a></li>
+        <li><a href="{{ url_for('scoring.index') }}"><span class="fa fa-calculator"></span> Scores</a></li>
+        <li><a href="{{ url_for('judging.index') }}"><span class="fa fa-gavel"></span> Judging</a></li>
+        <li><a href="{{ url_for('awards.index') }}"><span class="fa fa-trophy"></span> Awards</a></li>
         <li><a href="{{ url_for('playoffs') }}"><span class="fa fa-tachometer"></span> Playoffs</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-file-pdf-o"></span> Reports<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="{{ url_for('teams_pdf') }}" target="blanks">Team List</a></li>
-            <li><a href="{{ url_for('rank_pdf') }}" target="blanks">Rankings</a></li>
-            <li><a href="#">Awards</a></li>
+            <li><a href="{{ url_for('teams.teams_pdf') }}" target="blanks">Team List</a></li>
+            <li><a href="{{ url_for('scoring.ranks_pdf') }}" target="blanks">Rankings</a></li>
+            <li><a href="{{ url_for('awards.index') }}">Awards</a></li>
           </ul>
         </li>
         <li><a href="{{ url_for('pit_display') }}" target="blank"><span class="fa fa-desktop"></span> Pit Display</a></li>

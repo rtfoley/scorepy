@@ -17,7 +17,7 @@
     });
 
     function updateTotal() {
-      $.getJSON('/_add_numbers', {
+      $.getJSON('/scores/_add_numbers', {
         tree_branch_is_closer: $("#tree_branch_is_closer").is(':checked'),
         tree_branch_is_intact: $("#tree_branch_is_intact").is(':checked'),
         cargo_plane_location: $("#cargo_plane_location").val()

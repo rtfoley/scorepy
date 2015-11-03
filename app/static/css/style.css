@@ -1,0 +1,11 @@
+.btn-selector.active {
+  background-color: rgb(83, 221, 113);
+}
+
+.btn-selector:hover {
+  background-color: rgb(197, 252, 110);
+}
+
+.btn-selector:focus {
+  background-color: rgb(34, 176, 11);
+}

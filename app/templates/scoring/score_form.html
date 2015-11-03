@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_helpers.html" as macros %}
 {% block title %}FLL Score Form{% endblock %}
 {% block pageContent %}
   <h1>FLL Score Entry</h1>
@@ -32,5 +33,11 @@
     <p>Team: {{ team_id }}</p>
     <p>Round: {{ round_number }}<p>
   {% endif %}
-  {{ wtf.quick_form(form, action="", method="post", form_type="horizontal", horizontal_columns=('lg', 2, 10), button_map={'submit_button': 'primary'}, id="scoreForm") }}
+  {% call macros.render_form(form) %}
+      {{ macros.render_field(form.team_id, placeholder='00000') }}
+      {{ macros.render_field(form.round_number) }}
+      {{ macros.render_checkbox_field(form.tree_branch_is_closer) }}
+      {{ macros.render_checkbox_field(form.tree_branch_is_intact) }}
+      {{ macros.render_radio_field(form.cargo_plane_location) }}
+  {% endcall %}
 {% endblock %}

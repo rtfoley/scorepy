@@ -39,7 +39,7 @@ def ranks_pdf():
 
 
 # Add a new robot score
-@mod_scoring.route("/scores/new", methods=['GET', 'POST'])
+@mod_scoring.route("/add", methods=['GET', 'POST'])
 def add():
     form = ScoreForm()
     form.team_id.choices = [(t.id, t.number) for t in
@@ -57,7 +57,7 @@ def add():
 
 
 # Edit a previously-entered score
-@mod_scoring.route("/scores/<int:score_id>/edit", methods=['GET', 'POST'])
+@mod_scoring.route("/<int:score_id>/edit", methods=['GET', 'POST'])
 def edit(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj=score)
@@ -77,7 +77,7 @@ def edit(score_id):
 
 
 # Delete a score
-@mod_scoring.route("/scores/<int:score_id>/delete", methods=['GET', 'POST'])
+@mod_scoring.route("/<int:score_id>/delete", methods=['GET', 'POST'])
 def delete(score_id):
     score = RobotScore.query.get(score_id)
     if request.method == 'POST':

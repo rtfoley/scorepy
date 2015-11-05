@@ -54,10 +54,17 @@
 {% macro render_radio_field(field) -%}
   <div class="btn-group" data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}
-      <label class="btn btn-primary btn-selector">
-        <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}">{{ label }}</input>
-      </label>
+      {% if field.data == value %}
+        <label class="btn btn-primary btn-selector active">
+          <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}" checked="checked">{{ label }}
+        </label>
+      {% else %}
+        <label class="btn btn-primary btn-selector">
+          <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}">{{ label }}
+        </label>
+      {% endif %}
     {% endfor %}
+  </div>
 {%- endmacro %}
 
 {# Renders WTForm in bootstrap way. There are two ways to call function:
@@ -92,7 +99,7 @@
                     {{ render_field(f) }}
                 {% endif %}
             {% endfor %}
-        {% endif %}
+        {% endif %}<br><br>
         <button type="submit" class="{{ btn_class }}">{{ action_text }} </button>
     </form>
 {%- endmacro %}

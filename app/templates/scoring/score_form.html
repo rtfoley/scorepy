@@ -12,7 +12,8 @@
     });
 
     $(function() {
-      $('#scoreForm').change(function() {
+      $('.scoreForm').change(function() {
+        console.log("form changed");
         updateTotal();
       });
     });
@@ -21,7 +22,7 @@
       $.getJSON('/scores/_add_numbers', {
         tree_branch_is_closer: $("#tree_branch_is_closer").is(':checked'),
         tree_branch_is_intact: $("#tree_branch_is_intact").is(':checked'),
-        cargo_plane_location: $("#cargo_plane_location").val()
+        cargo_plane_location: $("input[name='cargo_plane_location']:checked").val()
       }, function(data) {
         $("#result").text(data.result);
       });
@@ -29,13 +30,14 @@
     }
   </script>
   <h4>Total: <span id="result">0</span></h4>
-  {% if team_id and round_number %}
-    <p>Team: {{ team_id }}</p>
-    <p>Round: {{ round_number }}<p>
-  {% endif %}
-  {% call macros.render_form(form) %}
-      {{ macros.render_field(form.team_id, placeholder='00000') }}
+  {% call macros.render_form(form, class_="scoreForm") %}
+    {% if team_id and round_number %}
+      <p>Team: {{ team_id }}</p>
+      <p>Round: {{ round_number }}<p>
+    {% else %}
+      {{ macros.render_field(form.team_id) }}
       {{ macros.render_field(form.round_number) }}
+    {% endif %}
       {{ macros.render_checkbox_field(form.tree_branch_is_closer) }}
       {{ macros.render_checkbox_field(form.tree_branch_is_intact) }}
       {{ macros.render_radio_field(form.cargo_plane_location) }}

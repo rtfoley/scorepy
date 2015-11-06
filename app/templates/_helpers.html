@@ -50,6 +50,7 @@
     {{ macros.render_radio_field(form.answers) }}
  #}
 {% macro render_radio_field(field) -%}
+  {{ field.label(class="control-label") }}
   <div class="btn-group" data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}
       {% if field.data == value %}
@@ -89,6 +90,7 @@
       {{ caller() }}
     {% else %}
       {% for f in form %}
+      <div>
         {% if f.type == 'BooleanField' %}
           {{ render_checkbox_field(f) }}
         {% elif f.type == 'RadioField' %}
@@ -96,6 +98,7 @@
         {% else %}
           {{ render_field(f) }}
         {% endif %}
+      </div>
       {% endfor %}
     {% endif %}<br><br>
     <button type="submit" class="{{ btn_class }}">{{ action_text }} </button>

@@ -55,11 +55,11 @@
   <div class="btn-group" data-toggle="buttons">
     {% for value, label, _ in field.iter_choices() %}
       {% if field.data == value %}
-        <label class="btn btn-primary btn-selector active">
+        <label class="btn btn-default btn-selector active">
           <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}" checked="checked">{{ label }}
         </label>
       {% else %}
-        <label class="btn btn-primary btn-selector">
+        <label class="btn btn-default btn-selector">
           <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}">{{ label }}
         </label>
       {% endif %}

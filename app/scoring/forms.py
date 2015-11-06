@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import SelectField, BooleanField, SubmitField
+from wtforms import SelectField, BooleanField, SubmitField, RadioField
 from models import RobotScore
 
 
@@ -12,11 +12,10 @@ class ScoreForm(Form):
                                          power lines', default=False)
     tree_branch_is_intact = BooleanField(u'Is tree branch model intact',
                                          default=False)
-    cargo_plane_location = SelectField(u'Cargo plane location',
-                                       choices=[('0', 'None'),
-                                                ('1', 'Yellow only'),
-                                                ('2', 'Light blue')])
-    submit = SubmitField(u'Submit')
+    cargo_plane_location = RadioField(u'Cargo plane location',
+                                      choices=[('0', 'None'),
+                                               ('1', 'Yellow only'),
+                                               ('2', 'Light blue')])
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)

@@ -15,4 +15,3 @@ class TeamForm(Form):
 
 class UploadForm(Form):
     file = FileField(u'', [validators.regexp(u'^.*\.csv$')])
-    submit = SubmitField(u'Upload')

@@ -3,6 +3,5 @@
 {% block title %}Team CSV Upload{% endblock %}
 {% block pageContent %}
   <h1>Team Upload</h1>
-  <!-- TODO use WTF for the form -->
   {{ macros.render_form(form, action_url="./upload", action_text="Upload", class_="upload_form") }}
 {% endblock %}

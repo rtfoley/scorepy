@@ -10,7 +10,6 @@ class TeamForm(Form):
     affiliation = TextField("Affiliation", [validators.Length(min=1, max=200)])
     city = TextField("City", [validators.Length(min=1, max=50)])
     state = TextField("State", [validators.Length(min=2, max=2)])
-    submit = SubmitField(u'Submit')
 
 
 class UploadForm(Form):

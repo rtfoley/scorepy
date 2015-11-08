@@ -54,19 +54,21 @@
     {{ macros.render_radio_field(form.answers) }}
  #}
 {% macro render_radio_field(field) -%}
-  {{ field.label(class="control-label") }}
-  <div class="btn-group" data-toggle="buttons">
-    {% for value, label, _ in field.iter_choices() %}
-      {% if field.data == value %}
-        <label class="btn btn-default btn-selector active">
-          <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}" checked="checked">{{ label }}
-        </label>
-      {% else %}
-        <label class="btn btn-default btn-selector">
-          <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}">{{ label }}
-        </label>
-      {% endif %}
-    {% endfor %}
+  <div class="form-group">
+    {{ field.label(class="control-label") }}
+    <div class="btn-group" data-toggle="buttons">
+      {% for value, label, _ in field.iter_choices() %}
+        {% if field.data == value %}
+          <label class="btn btn-default btn-selector active">
+            <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}" checked="checked">{{ label }}
+          </label>
+        {% else %}
+          <label class="btn btn-default btn-selector">
+            <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}">{{ label }}
+          </label>
+        {% endif %}
+      {% endfor %}
+    </div>
   </div>
 {%- endmacro %}
 
@@ -104,7 +106,7 @@
         {% endif %}
       </div>
       {% endfor %}
-    {% endif %}<br><br>
+    {% endif %}
     <button type="submit" class="{{ btn_class }}">{{ action_text }} </button>
   </form>
 {%- endmacro %}

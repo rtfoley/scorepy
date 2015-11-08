@@ -15,7 +15,8 @@ class ScoreForm(Form):
     cargo_plane_location = RadioField(u'Cargo plane location',
                                       choices=[('0', 'None'),
                                                ('1', 'Yellow only'),
-                                               ('2', 'Light blue')])
+                                               ('2', 'Light blue')],
+                                      default=0)
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)

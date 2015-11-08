@@ -94,9 +94,9 @@ def add_numbers():
     score = RobotScore(team=0,
                        round_number=0,
                        tree_branch_is_closer=request.args.get(
-                           'tree_branch_is_closer') == 'true',
+                           'tree_branch_is_closer') == 'True',
                        tree_branch_is_intact=request.args.get(
-                           'tree_branch_is_intact') == 'true',
+                           'tree_branch_is_intact') == 'True',
                        cargo_plane_location=request.args.get(
                            'cargo_plane_location', 0, type=int))
 

@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import IntegerField, TextField, validators, SubmitField, FileField
+from wtforms import IntegerField, TextField, validators, FileField
 
 
 class TeamForm(Form):

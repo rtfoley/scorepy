@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import SelectField, BooleanField, SubmitField, RadioField
+from wtforms import SelectField, RadioField
 from models import RobotScore
 
 

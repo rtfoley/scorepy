@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import IntegerField, TextField, validators, SubmitField, FileField
+from wtforms import IntegerField, TextField, validators, FileField
 
 
 class TeamForm(Form):
@@ -10,9 +10,7 @@ class TeamForm(Form):
     affiliation = TextField("Affiliation", [validators.Length(min=1, max=200)])
     city = TextField("City", [validators.Length(min=1, max=50)])
     state = TextField("State", [validators.Length(min=2, max=2)])
-    submit = SubmitField(u'Submit')
 
 
 class UploadForm(Form):
     file = FileField(u'', [validators.regexp(u'^.*\.csv$')])
-    submit = SubmitField(u'Upload')

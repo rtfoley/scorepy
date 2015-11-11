@@ -10,17 +10,16 @@ class ScoreForm(Form):
                                coerce=int)
     tree_branch_is_closer = RadioField(u'Is tree branch closer to mat than \
                                        power lines',
-                                       choices=[(False, 'No'), (True, 'Yes')],
-                                       coerce=bool,
-                                       default=False)
+                                       choices=[('False', 'No'), ('True', 'Yes')],
+                                       default='False')
     tree_branch_is_intact = RadioField(u'Is tree branch model intact',
-                                       choices=[(False, 'No'), (True, 'Yes')],
-                                       coerce=bool,
-                                       default=False)
+                                       choices=[('False', 'No'), ('True', 'Yes')],
+                                       default='False')
     cargo_plane_location = RadioField(u'Cargo plane location',
-                                      choices=[('0', 'None'),
-                                               ('1', 'Yellow only'),
-                                               ('2', 'Light blue')],
+                                      choices=[(0, 'None'),
+                                               (1, 'Yellow only'),
+                                               (2, 'Light blue')],
+                                      coerce=int,
                                       default=0)
 
     def __init__(self, *args, **kwargs):

@@ -46,8 +46,11 @@ def add():
                             sorted(Team.query.all(), key=by_team)]
 
     if request.method == 'POST' and form.validate_on_submit():
-        score = RobotScore()
-        form.populate_obj(score)
+        score = RobotScore(team=form.team_id.data,
+                           round_number=form.round_number.data,
+                           tree_branch_is_closer=form.tree_branch_is_closer.data == 'True',
+                           tree_branch_is_intact=form.tree_branch_is_intact.data == 'True',
+                           cargo_plane_location=form.cargo_plane_location.data)
         db.session.add(score)
         db.session.commit()
         return redirect(url_for(".index"))
@@ -65,7 +68,9 @@ def edit(score_id):
     del form.round_number
 
     if request.method == 'POST' and form.validate_on_submit():
-        form.populate_obj(score)
+        score.tree_branch_is_closer = form.tree_branch_is_closer.data == 'True'
+        score.tree_branch_is_intact = form.tree_branch_is_intact.data == 'True'
+        score.cargo_plane_location = form.cargo_plane_location.data
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':

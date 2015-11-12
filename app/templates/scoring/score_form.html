@@ -19,9 +19,41 @@
 
     function updateTotal() {
       $.getJSON('/scores/_add_numbers', {
-        tree_branch_is_closer: $("input[name='tree_branch_is_closer']:checked").val(),
-        tree_branch_is_intact: $("input[name='tree_branch_is_intact']:checked").val(),
-        cargo_plane_location: $("input[name='cargo_plane_location']:checked").val()
+        bars_in_west_transfer : $("input[name='bars_in_west_transfer']:checked").val(),
+        bars_never_in_west_transfer : $("input[name='bars_never_in_west_transfer']:checked").val(),
+        black_bars_in_original_position : $("input[name='black_bars_in_original_position']:checked").val(),
+        black_bars_in_green_or_landfill : $("input[name='black_bars_in_green_or_landfill']:checked").val(),
+        black_bars_elsewhere : $("input[name='black_bars_elsewhere']:checked").val(),
+
+        methane_in_truck_or_factory : $("input[name='methane_in_truck_or_factory']:checked").val(),
+
+        truck_supports_yellow_bin : $("input[name='truck_supports_yellow_bin']:checked").val(),
+        yellow_bin_east_of_guide : $("input[name='yellow_bin_east_of_guide']:checked").val(),
+
+        anyone_in_sorter_area : $("input[name='anyone_in_sorter_area']:checked").val(),
+
+        engine_installed : $("input[name='engine_installed']:checked").val(),
+        car_folded_in_east_transfer : $("input[name='car_folded_in_east_transfer']:checked").val(),
+        car_never_in_safety : $("input[name='car_never_in_safety']:checked").val(),
+
+        compost_ejected_not_in_safety : $("input[name='compost_ejected_not_in_safety']:checked").val(),
+        compost_ejected_in_safety : $("input[name='compost_ejected_in_safety']:checked").val(),
+
+        plastic_bags_in_safety : $("input[name='plastic_bags_in_safety']:checked").val(),
+        animals_in_circles_without_bags : $("input[name='animals_in_circles_without_bags']:checked").val(),
+        chicken_in_small_landfill_circle : $("input[name='chicken_in_small_landfill_circle']:checked").val(),
+
+        all_beams_not_in_setup_position : $("input[name='all_beams_not_in_setup_position']:checked").val(),
+
+        green_bins_in_opp_safety : $("input[name='green_bins_in_opp_safety']:checked").val(),
+        opp_green_bins_in_safety : $("input[name='opp_green_bins_in_safety']:checked").val(),
+
+        valuables_in_safety : $("input[name='valuables_in_safety']:checked").val(),
+
+        planes_in_safety : $("input[name='planes_in_safety']:checked").val(),
+
+        compost_in_toy_package : $("input[name='compost_in_toy_package']:checked").val(),
+        package_in_original_condition : $("input[name='package_in_original_condition']:checked").val()
       }, function(data) {
         $("#result").text(data.result);
       });

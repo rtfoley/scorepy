@@ -39,15 +39,18 @@ def ranks_pdf():
 
 
 # Add a new robot score
-@mod_scoring.route("/scores/new", methods=['GET', 'POST'])
+@mod_scoring.route("/add", methods=['GET', 'POST'])
 def add():
     form = ScoreForm()
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
 
     if request.method == 'POST' and form.validate_on_submit():
-        score = RobotScore()
-        form.populate_obj(score)
+        score = RobotScore(team=form.team_id.data,
+                           round_number=form.round_number.data,
+                           tree_branch_is_closer=form.tree_branch_is_closer.data == 'True',
+                           tree_branch_is_intact=form.tree_branch_is_intact.data == 'True',
+                           cargo_plane_location=form.cargo_plane_location.data)
         db.session.add(score)
         db.session.commit()
         return redirect(url_for(".index"))
@@ -57,7 +60,7 @@ def add():
 
 
 # Edit a previously-entered score
-@mod_scoring.route("/scores/<int:score_id>/edit", methods=['GET', 'POST'])
+@mod_scoring.route("/<int:score_id>/edit", methods=['GET', 'POST'])
 def edit(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj=score)
@@ -65,7 +68,9 @@ def edit(score_id):
     del form.round_number
 
     if request.method == 'POST' and form.validate_on_submit():
-        form.populate_obj(score)
+        score.tree_branch_is_closer = form.tree_branch_is_closer.data == 'True'
+        score.tree_branch_is_intact = form.tree_branch_is_intact.data == 'True'
+        score.cargo_plane_location = form.cargo_plane_location.data
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
@@ -77,7 +82,7 @@ def edit(score_id):
 
 
 # Delete a score
-@mod_scoring.route("/scores/<int:score_id>/delete", methods=['GET', 'POST'])
+@mod_scoring.route("/<int:score_id>/delete", methods=['GET', 'POST'])
 def delete(score_id):
     score = RobotScore.query.get(score_id)
     if request.method == 'POST':
@@ -94,9 +99,9 @@ def add_numbers():
     score = RobotScore(team=0,
                        round_number=0,
                        tree_branch_is_closer=request.args.get(
-                           'tree_branch_is_closer') == 'true',
+                           'tree_branch_is_closer') == 'True',
                        tree_branch_is_intact=request.args.get(
-                           'tree_branch_is_intact') == 'true',
+                           'tree_branch_is_intact') == 'True',
                        cargo_plane_location=request.args.get(
                            'cargo_plane_location', 0, type=int))
 

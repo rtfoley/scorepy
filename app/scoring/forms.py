@@ -9,15 +9,29 @@ class ScoreForm(Form):
                                choices=[(1, '1'), (2, '2'), (3, '3')],
                                coerce=int)
     # M04 yellow/ blue bars
-    bars_in_west_transfer = IntegerField('Yellow/ Blue Bars in matching green bins completely on/in West Transfer',
-                                         default=0)
-    bars_never_in_west_transfer = IntegerField(
-        'Yellow/ Blue Bars in matching green bins NEVER completely on/in West Transfer ', default=0)
+    bars_in_west_transfer = RadioField('Yellow/ Blue Bars in matching green bins completely on/in West Transfer',
+                                       choices=[(x, '%d' % x) for x in range(0, 16)],
+                                       coerce=int,
+                                       default=0)
+    bars_never_in_west_transfer = RadioField(
+        'Yellow/ Blue Bars in matching green bins NEVER completely on/in West Transfer ',
+        choices=[(x, '%d' % x) for x in range(0, 16)],
+        coerce=int,
+        default=0)
 
     # M04 black bars
-    black_bars_in_original_position = IntegerField('Black Bars in original position / scoring Flower Box', default=12)
-    black_bars_in_green_or_landfill = IntegerField('Black bars in matching Green Bin or Landfill', default=0)
-    black_bars_elsewhere = IntegerField('Black bars elsewhere in play', default=0)
+    black_bars_in_original_position = RadioField('Black Bars in original position / scoring Flower Box',
+                                                 choices=[(x, '%d' % x) for x in range(0, 13)],
+                                                 coerce=int,
+                                                 default=12)
+    black_bars_in_green_or_landfill = RadioField('Black bars in matching Green Bin or Landfill',
+                                                 choices=[(x, '%d' % x) for x in range(0, 9)],
+                                                 coerce=int,
+                                                 default=0)
+    black_bars_elsewhere = RadioField('Black bars elsewhere in play',
+                                      choices=[(x, '%d' % x) for x in range(0, 13)],
+                                      coerce=int,
+                                      default=0)
 
     # M02 Methane
     methane_in_truck_or_factory = RadioField(u'Methane in Truck and/or Factory',

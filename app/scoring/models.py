@@ -164,14 +164,55 @@ class RobotScore(db.Model):
         self.compost_in_toy_package = compost_in_toy_package
         self.package_in_original_condition = package_in_original_condition
 
-    def getScore(self):
+    def get_score(self):
         score = 0
-        return score
 
-    def get_plane_score(self, argument):
-        switcher = {
-            0: 0,
-            1: 20,
-            2: 30,
-        }
-        return switcher.get(argument, 0)
+        # M01 Recycling
+        score += (self.green_bins_in_opp_safety + self.opp_green_bins_in_safety) * 60
+
+        # M02 Methane
+        score += self.methane_in_truck_or_factory * 40
+
+        # M03 Transport
+        score += 50 if self.truck_supports_yellow_bin else 0
+        score += 60 if self.yellow_bin_east_of_guide else 0
+
+        # M04 Sorting
+        score += self.bars_in_west_transfer * 7
+        score += self.bars_never_in_west_transfer * 6
+        score += self.black_bars_in_original_position * 8
+        score += self.black_bars_in_green_or_landfill * 3
+        score -= self.black_bars_elsewhere * 8
+
+        # M05 Careers
+        score += 60 if self.anyone_in_sorter_area else 0
+
+        # M06 Scrap Cars
+        if self.car_never_in_safety:
+            if self.car_folded_in_east_transfer:
+                score += 50
+            elif self.engine_installed:
+                score += 65
+
+        # M07 Cleanup
+        score += self.plastic_bags_in_safety * 30
+        score += self.animals_in_circles_without_bags * 20
+        score += 35 if self.chicken_in_small_landfill_circle else 0
+
+        # M08 Composting
+        score += 60 if self.compost_ejected_not_in_safety and not self.compost_ejected_in_safety else 0
+        score += 80 if self.compost_ejected_in_safety and not self.compost_ejected_not_in_safety else 0
+
+        # M09 Salvage
+        score += 60 if self.valuables_in_safety else 0
+
+        # M10 Demolition
+        score += 85 if self.all_beams_not_in_setup_position else 0
+
+        # M11 Purchasing Decisions
+        score += self.planes_in_safety * 40
+
+        # M12 Repurposing
+        score += 40 if self.compost_in_toy_package and self.package_in_original_condition else 0
+
+        return score

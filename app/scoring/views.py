@@ -15,7 +15,7 @@ mod_scoring = Blueprint('scoring', __name__, url_prefix='/scores')
 def index():
     teams = Team.query.all()
     for team in teams:
-        sortTeamScores(team)
+        sort_team_scores(team)
     return render_template("scoring/score_list.html",
                            teams=sorted(teams, key=by_team))
 
@@ -25,7 +25,7 @@ def index():
 def ranks_pdf():
     teams = Team.query.all()
     for team in teams:
-        sortTeamScores(team)
+        sort_team_scores(team)
     ranks = render_template("scoring/ranks.html",
                             teams=sorted(teams, key=by_team_best,
                                          reverse=True))
@@ -47,9 +47,7 @@ def add():
     if request.method == 'POST' and form.validate_on_submit():
         score = RobotScore(team=form.team_id.data,
                            round_number=form.round_number.data,
-                           tree_branch_is_closer=form.tree_branch_is_closer.data == 'True',
-                           tree_branch_is_intact=form.tree_branch_is_intact.data == 'True',
-                           cargo_plane_location=form.cargo_plane_location.data,
+
                            # M04 yellow/ blue bars
                            bars_in_west_transfer=form.bars_in_west_transfer.data,
                            bars_never_in_west_transfer=form.bars_never_in_west_transfer.data,
@@ -243,13 +241,13 @@ def add_numbers():
                        # M12 Repurposing
                        compost_in_toy_package=request.args.get('compost_in_toy_package') == 'True',
                        package_in_original_condition=request.args.get('package_in_original_condition') == 'True')
-    return jsonify(result=score.getScore())
+    return jsonify(result=score.get_score())
 
 
 # Calculate score totals for all scores for the team, and identify best
-def sortTeamScores(team):
+def sort_team_scores(team):
     for score in team.scores:
-        score.total = score.getScore()
+        score.total = score.get_score()
     if team.scores:
         team.best = max(team.scores, key=attrgetter('total'))
     else:

@@ -164,6 +164,7 @@ class RobotScore(db.Model):
         self.compost_in_toy_package = compost_in_toy_package
         self.package_in_original_condition = package_in_original_condition
 
+    # TODO need unit testing for this
     def get_score(self):
         score = 0
 

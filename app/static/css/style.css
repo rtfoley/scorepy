@@ -3,9 +3,3 @@
 .btn-selector.active {
   background-color: #5cb85c !important;
 }
-
-.form-actions {
-    margin: 0;
-    background-color: transparent;
-    text-align: center;
-}

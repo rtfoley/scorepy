@@ -20,6 +20,7 @@ class ScoreForm(Form):
         default=0)
 
     # M04 black bars
+    # TODO add validation to ensure the sum of these three fields is 12
     black_bars_in_original_position = RadioField('Black Bars in original position / scoring Flower Box',
                                                  choices=[(x, '%d' % x) for x in range(0, 13)],
                                                  coerce=int,
@@ -55,6 +56,7 @@ class ScoreForm(Form):
                                        default='False')
 
     # M06 Scrap Cars
+    # TODO add validation to ensure that engine_installed and folded conditions aren't both true
     engine_installed = RadioField(u'Engine/ Windshield installed in unfolded car',
                                   choices=[('False', 'No'), ('True', 'Yes')],
                                   default='False')
@@ -66,6 +68,7 @@ class ScoreForm(Form):
                                      default='False')
 
     # M08 Composting
+    # TODO add validation to ensure these both aren't 'yes'
     compost_ejected_not_in_safety = RadioField(u'Compost ejected, NOT completely in Safety',
                                                choices=[('False', 'No'), ('True', 'Yes')],
                                                default='False')

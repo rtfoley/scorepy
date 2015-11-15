@@ -68,7 +68,6 @@ class ScoreForm(Form):
                                      default='False')
 
     # M08 Composting
-    # TODO add validation to ensure these both aren't 'yes'
     compost_ejected_not_in_safety = RadioField(u'Compost ejected, NOT completely in Safety',
                                                choices=[('False', 'No'), ('True', 'Yes')],
                                                default='False')
@@ -145,16 +144,20 @@ class ScoreForm(Form):
             return False
 
         # Team-ID and round-number fields don't exist on an 'edit' form
-        if not self.team_id or not self.round_number:
-            return True
-
-        # New score being entered, check if one already exists for team/ round
-        score = RobotScore.query.filter_by(round_number=self.round_number.data,
-                                           team_id=self.team_id.data).first()
-        if score is not None:
-            self.round_number.errors.append("Score already exists for this \
+        if self.team_id and self.round_number:
+            # New score being entered, check if one already exists for team/ round
+            score = RobotScore.query.filter_by(round_number=self.round_number.data,
+                                               team_id=self.team_id.data).first()
+            if score is not None:
+                self.round_number.errors.append("Score already exists for this \
                                             round")
+                return False
+
+            self.score = score
+
+        if self.compost_ejected_in_safety.data == 'True' and self.compost_ejected_not_in_safety.data == 'True':
+            self.compost_ejected_not_in_safety.errors.append("Compost cannot be both in and not in safety")
+            self.compost_ejected_in_safety.errors.append("Compost cannot be both in and not in safety")
             return False
 
-        self.score = score
         return True

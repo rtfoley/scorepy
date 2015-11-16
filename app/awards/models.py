@@ -1,4 +1,23 @@
+from enum import Enum
 from app import db
+
+
+class AwardCategory(Enum):
+    Champions = 0
+    Research = 1
+    Presentation = 2
+    Innovative_Solution = 3
+    Mechanical_Design = 4
+    Programming = 5
+    Strategy_and_Innovation = 6
+    Teamwork = 7
+    Inspiration = 8
+    Gracious_Professionalism = 9
+    Robot_Performance = 10
+
+    @property
+    def friendly_name(self):
+        return self._name_.replace("_", " ")+ " Award"
 
 
 class AwardWinner(db.Model):

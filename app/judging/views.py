@@ -78,8 +78,7 @@ def add_technical():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title='Technical Form')
+    return render_template("judging/technical_form.html", form=form)
 
 
 # Edit a previously-entered technical judging entry
@@ -96,8 +95,8 @@ def edit_technical(technical_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=technical.team_id, title="Technical Form")
+    return render_template("judging/technical_form.html", form=form,
+                           team_id=technical.team_id)
 
 
 # Delete a technical judging entry

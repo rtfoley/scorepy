@@ -178,9 +178,11 @@ class RobotScore(db.Model):
         score += 50 if self.truck_supports_yellow_bin else 0
         score += 60 if self.yellow_bin_east_of_guide else 0
 
-        # M04 Sorting
+        # M04 Sorting (Yellow/ Blue bars)
         score += self.bars_in_west_transfer * 7
         score += self.bars_never_in_west_transfer * 6
+
+        # M04 Sorting (Black Bars)
         score += self.black_bars_in_original_position * 8
         score += self.black_bars_in_green_or_landfill * 3
         score -= self.black_bars_elsewhere * 8
@@ -190,9 +192,9 @@ class RobotScore(db.Model):
 
         # M06 Scrap Cars
         if self.car_never_in_safety:
-            if self.car_folded_in_east_transfer:
+            if self.car_folded_in_east_transfer and not self.engine_installed:
                 score += 50
-            elif self.engine_installed:
+            elif self.engine_installed and not self.car_folded_in_east_transfer:
                 score += 65
 
         # M07 Cleanup

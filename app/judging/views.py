@@ -29,8 +29,7 @@ def add_presentation():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title='Presentation Form')
+    return render_template("judging/presentation_form.html", form=form)
 
 
 # Edit a previously-entered presentation judging entry
@@ -47,9 +46,8 @@ def edit_presentation(presentation_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=presentation.team_id,
-                           title="Presentation Form")
+    return render_template("judging/presentation_form.html", form=form,
+                           team_id=presentation.team_id)
 
 
 # Delete a presentation judging entry

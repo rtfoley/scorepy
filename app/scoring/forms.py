@@ -55,7 +55,6 @@ class ScoreForm(Form):
                                        default='False')
 
     # M06 Scrap Cars
-    # TODO add validation to ensure that engine_installed and folded conditions aren't both true
     engine_installed = RadioField(u'Engine/ Windshield installed in unfolded car',
                                   choices=[('False', 'No'), ('True', 'Yes')],
                                   default='False')
@@ -156,15 +155,23 @@ class ScoreForm(Form):
 
             self.score = score
 
+        # Check that compost isn't marked as being both in and out of safety
         if self.compost_ejected_in_safety.data == 'True' and self.compost_ejected_not_in_safety.data == 'True':
             self.compost_ejected_not_in_safety.errors.append("Compost cannot be both in and not in safety")
             self.compost_ejected_in_safety.errors.append("Compost cannot be both in and not in safety")
             form_valid = False
 
+        # Check that car isn't marked as folded and engine installed (not physically possible)
+        if self.car_folded_in_east_transfer.data == 'True' and self.engine_installed.data == 'True':
+            self.car_folded_in_east_transfer.errors.append("Engine can't be installed when car is folded")
+            self.engine_installed.errors.append("Engine can't be installed when car is folded")
+            form_valid = False
+
+        # Check that total number of black bars equals 12
         total_black_bars = self.black_bars_in_original_position.data \
                            + self.black_bars_in_green_or_landfill.data \
                            + self.black_bars_elsewhere.data
-        
+
         if total_black_bars != 12:
             self.black_bars_in_original_position.errors.append("Total number of black bars must equal 12")
             self.black_bars_in_green_or_landfill.errors.append("Total number of black bars must equal 12")

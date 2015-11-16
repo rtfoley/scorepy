@@ -29,8 +29,7 @@ def add_presentation():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title='Presentation Form')
+    return render_template("judging/presentation_form.html", form=form)
 
 
 # Edit a previously-entered presentation judging entry
@@ -47,9 +46,8 @@ def edit_presentation(presentation_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=presentation.team_id,
-                           title="Presentation Form")
+    return render_template("judging/presentation_form.html", form=form,
+                           team_id=presentation.team_id)
 
 
 # Delete a presentation judging entry
@@ -80,8 +78,7 @@ def add_technical():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title='Technical Form')
+    return render_template("judging/technical_form.html", form=form)
 
 
 # Edit a previously-entered technical judging entry
@@ -98,8 +95,8 @@ def edit_technical(technical_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=technical.team_id, title="Technical Form")
+    return render_template("judging/technical_form.html", form=form,
+                           team_id=technical.team_id)
 
 
 # Delete a technical judging entry
@@ -130,7 +127,7 @@ def add_teamwork():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, title='Teamwork Form')
+    return render_template("judging/teamwork_form.html", form=form)
 
 
 # Edit a previously-entered teamwork judging entry
@@ -147,8 +144,8 @@ def edit_teamwork(teamwork_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=teamwork.team_id, title="Teamwork Form")
+    return render_template("judging/teamwork_form.html", form=form,
+                           team_id=teamwork.team_id)
 
 
 # Delete a teamwork judging entry
@@ -179,8 +176,7 @@ def add_team_spirit():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title='Team Spirit Form')
+    return render_template("judging/team_spirit_form.html", form=form)
 
 
 # Edit a previously-entered team spirit judging entry
@@ -197,9 +193,8 @@ def edit_team_spirit(team_spirit_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=team_spirit.team_id,
-                           title="Team Spirit Form")
+    return render_template("judging/team_spirit_form.html", form=form,
+                           team_id=team_spirit.team_id)
 
 
 # Delete a team spirit judging entry

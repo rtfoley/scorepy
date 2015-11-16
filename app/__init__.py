@@ -10,7 +10,6 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 db.init_app(app)
 
-from app.awards.models import AwardCategory
 
 @app.route("/")
 def index():
@@ -32,19 +31,13 @@ def pit_display():
 # Pit Display page
 @app.route("/settings", methods=['GET'])
 def settings():
-    categories = AwardCategory.query.all()
-    return render_template("settings.html", categories=sorted(categories, key=by_name))
+    return render_template("settings.html")
 
 
 # Sample HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
-
-
-# Sort awards by name
-def by_name(award):
-    return award.name
 
 
 # Import a module / component using its blueprint handler variable (mod_auth)

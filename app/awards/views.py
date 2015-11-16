@@ -21,7 +21,7 @@ def index():
 
 
 # Add a new award winner
-@mod_awards.route("/awards/add", methods=['GET', 'POST'])
+@mod_awards.route("/add", methods=['GET', 'POST'])
 def add_award_winner():
     form = AwardWinnerForm()
     form.team_id.choices = [(t.id, t.number) for t in
@@ -40,7 +40,7 @@ def add_award_winner():
 
 
 # Edit a previously-entered award winner
-@mod_awards.route("/awards/<int:award_winner_id>/edit", methods=['GET', 'POST'])
+@mod_awards.route("/<int:award_winner_id>/edit", methods=['GET', 'POST'])
 def edit_award_winner(award_winner_id):
     award_winner = AwardWinner.query.get(award_winner_id)
     form = AwardWinnerForm(obj=award_winner)
@@ -58,7 +58,7 @@ def edit_award_winner(award_winner_id):
 
 
 # Delete an award winner
-@mod_awards.route("/awards/<int:award_winner_id>/delete", methods=['GET', 'POST'])
+@mod_awards.route("/<int:award_winner_id>/delete", methods=['GET', 'POST'])
 def delete_award_winner(award_winner_id):
     award_winner = AwardWinner.query.get(award_winner_id)
     if request.method == 'POST':

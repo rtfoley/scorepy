@@ -10,7 +10,7 @@ An attempt at an FLL tournament scoring application using Python and Flask
 - [x] team CSV import
 - [x] team list report
 - [x] basic score management per team (with team and round selection, but using simplified score form)
-- [ ] full 2015 score form
+- [x] full 2015 score form
 - [x] rankings report
 - [ ] qualification rankings display
 - [x] judge evaluation management

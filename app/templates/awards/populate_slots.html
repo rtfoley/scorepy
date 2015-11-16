@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Populate Slots{% endblock %}
+{% block pageContent %}
+<script type="text/javascript">
+  // TODO Move this to a global JS file
+  function goBack() {
+    window.history.back();
+  }
+</script>
+  <p>Populate award winner slots?<p>
+  <form action="" method="post">
+    <p><button class="btn" onclick="goBack()">Cancel</button>  <input type="submit" class="btn btn-primary" value="Yes"></p>
+  </form>
+{% endblock %}

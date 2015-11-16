@@ -69,6 +69,15 @@ def delete_award_winner(award_winner_id):
                            % (award_winner.category.name, award_winner.team.number))
 
 
+@mod_awards.route("/populate_slots", methods=['GET', 'POST'])
+def populate_slots():
+    if request.method == 'POST':
+        # TODO populate award winner slots
+        flash("Populated slots")
+        return redirect(url_for(".index"))
+    return render_template("awards/populate_slots.html")
+
+
 # Sort teams by number
 def by_team(team):
     return team.number

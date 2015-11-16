@@ -127,7 +127,7 @@ def add_teamwork():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form, title='Teamwork Form')
+    return render_template("judging/teamwork_form.html", form=form)
 
 
 # Edit a previously-entered teamwork judging entry
@@ -144,8 +144,8 @@ def edit_teamwork(teamwork_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=teamwork.team_id, title="Teamwork Form")
+    return render_template("judging/teamwork_form.html", form=form,
+                           team_id=teamwork.team_id)
 
 
 # Delete a teamwork judging entry

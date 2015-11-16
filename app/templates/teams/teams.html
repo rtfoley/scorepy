@@ -14,6 +14,7 @@
         <th>Affiliation</th>
         <th>City</th>
         <th>State</th>
+        <th>Rookie</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -25,6 +26,7 @@
           <td>{{ team.affiliation }}</td>
           <td>{{ team.city }}</td>
           <td>{{ team.state }}</td>
+          <td>{{ team.is_rookie }}</td>
           <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
           <td>
             <a href="{{ url_for('.edit', team_id=team.id) }}" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>

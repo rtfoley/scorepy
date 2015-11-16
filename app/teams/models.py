@@ -12,6 +12,7 @@ class Team(db.Model):
     affiliation = db.Column(db.String(200))
     city = db.Column(db.String(50))
     state = db.Column(db.String(2))
+    is_rookie = db.Column(db.Boolean)
     scores = db.relationship('RobotScore', backref='team')
     presentation = db.relationship('Presentation', uselist=False,
                                    backref='team')
@@ -19,9 +20,10 @@ class Team(db.Model):
     teamwork = db.relationship('Teamwork', uselist=False, backref='team')
     team_spirit = db.relationship('TeamSpirit', uselist=False, backref='team')
 
-    def __init(self, number, name, affiliation, city, state):
+    def __init(self, number, name, affiliation, city, state, is_rookie):
         self.number = number
         self.name = name
         self.affiliation = affiliation
         self.city = city
         self.state = state
+        self.is_rookie = is_rookie

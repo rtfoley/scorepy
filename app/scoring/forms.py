@@ -20,7 +20,6 @@ class ScoreForm(Form):
         default=0)
 
     # M04 black bars
-    # TODO add validation to ensure the sum of these three fields is 12
     black_bars_in_original_position = RadioField('Black Bars in original position / scoring Flower Box',
                                                  choices=[(x, '%d' % x) for x in range(0, 13)],
                                                  coerce=int,
@@ -143,6 +142,8 @@ class ScoreForm(Form):
         if not rv:
             return False
 
+        form_valid = True
+
         # Team-ID and round-number fields don't exist on an 'edit' form
         if self.team_id and self.round_number:
             # New score being entered, check if one already exists for team/ round
@@ -151,13 +152,23 @@ class ScoreForm(Form):
             if score is not None:
                 self.round_number.errors.append("Score already exists for this \
                                             round")
-                return False
+                form_valid = False
 
             self.score = score
 
         if self.compost_ejected_in_safety.data == 'True' and self.compost_ejected_not_in_safety.data == 'True':
             self.compost_ejected_not_in_safety.errors.append("Compost cannot be both in and not in safety")
             self.compost_ejected_in_safety.errors.append("Compost cannot be both in and not in safety")
-            return False
+            form_valid = False
 
-        return True
+        total_black_bars = self.black_bars_in_original_position.data \
+                           + self.black_bars_in_green_or_landfill.data \
+                           + self.black_bars_elsewhere.data
+        
+        if total_black_bars != 12:
+            self.black_bars_in_original_position.errors.append("Total number of black bars must equal 12")
+            self.black_bars_in_green_or_landfill.errors.append("Total number of black bars must equal 12")
+            self.black_bars_elsewhere.errors.append("Total number of black bars must equal 12")
+            form_valid = False
+
+        return form_valid

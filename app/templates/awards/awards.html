@@ -16,7 +16,7 @@
       {% for winner in award_winners %}
         <tr>
           <!-- TODO need to show string value here -->
-          <td>{{ winner.category_id }}</td>
+          <td>{{ winner.category_name }}</td>
           <td>
             {% if winner.place==0 %}
               1st

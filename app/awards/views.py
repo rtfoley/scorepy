@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, flash, request, redirect, \
     url_for
 from app import db
 from app.teams.models import Team
-from models import AwardWinner
+from models import AwardWinner, AwardCategory
 from forms import AwardWinnerForm
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -14,9 +14,10 @@ mod_awards = Blueprint('awards', __name__, url_prefix='/awards')
 def index():
     award_winners = AwardWinner.query.all()
     # TODO sort by award category then place
-    return render_template("awards/awards.html",
-                           award_winners=sorted(award_winners,
-                                                key=winner_by_award_name))
+    award_winners = sorted(award_winners, key=winner_by_award_name)
+    for winner in award_winners:
+        winner.category_name = AwardCategory(winner.category_id).friendly_name
+    return render_template("awards/awards.html", award_winners=award_winners)
 
 
 # Add a new award winner

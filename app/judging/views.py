@@ -176,8 +176,7 @@ def add_team_spirit():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title='Team Spirit Form')
+    return render_template("judging/team_spirit_form.html", form=form)
 
 
 # Edit a previously-entered team spirit judging entry
@@ -194,9 +193,8 @@ def edit_team_spirit(team_spirit_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           team_id=team_spirit.team_id,
-                           title="Team Spirit Form")
+    return render_template("judging/team_spirit_form.html", form=form,
+                           team_id=team_spirit.team_id)
 
 
 # Delete a team spirit judging entry

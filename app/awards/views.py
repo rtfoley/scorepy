@@ -66,7 +66,7 @@ def delete_award_winner(award_winner_id):
         db.session.commit()
         return redirect(url_for(".index"))
     return render_template("delete.html", identifier="award winner for %s by team %d"
-                           % (award_winner.category.name, award_winner.team.number))
+                           % (AwardCategory(award_winner.category_id).friendly_name, award_winner.team.number))
 
 
 @mod_awards.route("/populate_slots", methods=['GET', 'POST'])

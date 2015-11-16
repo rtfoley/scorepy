@@ -68,6 +68,19 @@
 {%- endmacro %}
 
 {#
+  Renders a checkbox field
+#}
+{% macro render_checkbox_field(field) -%}
+ {% call render_with_errors(field) %}
+    <div class="checkbox">
+      <label>
+        {{ field(type='checkbox', **kwargs) }}
+      </label>
+    </div>
+  {%- endcall %}
+{%- endmacro %}
+
+{#
   Render a submit field
 #}
 {% macro render_submit(action_text='Submit', btn_class='btn btn-default') -%}

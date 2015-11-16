@@ -81,7 +81,8 @@ def extractTeamsFromCsv(filename):
                         name=row['Name'],
                         affiliation=row['Affiliation'],
                         city=row['City'],
-                        state=row['State'])
+                        state=row['State'],
+                        is_rookie=row['Rookie'] == 'True')
             teams.append(team)
     return teams
 

@@ -1,36 +1,153 @@
 {% extends "layout.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% import "_helpers.html" as macros %}
 {% block title %}FLL Score Form{% endblock %}
 {% block pageContent %}
-  <h1>FLL Score Entry</h1>
-  <script>window.jQuery || document.write('<script src="{{url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}">\x3C/script>')</script>
-  <script type="text/javascript">
-    // TODO move this to score-specific JS file
-    $( document ).ready(function() {
-      updateTotal();
-    });
+    <script>window.jQuery || document.write('<script src="{{url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}">\x3C/script>')</script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            updateTotal();
+            $("#scrollingForm").css('height', $(window).height()-220);
+        });
 
-    $(function() {
-      $('#scoreForm').change(function() {
-        updateTotal();
-      });
-    });
+        // TODO move this to score-specific JS file
+        $(function() {
+            $('.scoreForm').change(function() {
+                console.log("form changed");
+                updateTotal();
+            });
+        });
 
-    function updateTotal() {
-      $.getJSON('/scores/_add_numbers', {
-        tree_branch_is_closer: $("#tree_branch_is_closer").is(':checked'),
-        tree_branch_is_intact: $("#tree_branch_is_intact").is(':checked'),
-        cargo_plane_location: $("#cargo_plane_location").val()
-      }, function(data) {
-        $("#result").text(data.result);
-      });
-      return false;
-    }
-  </script>
-  <h4>Total: <span id="result">0</span></h4>
-  {% if team_id and round_number %}
-    <p>Team: {{ team_id }}</p>
-    <p>Round: {{ round_number }}<p>
-  {% endif %}
-  {{ wtf.quick_form(form, action="", method="post", form_type="horizontal", horizontal_columns=('lg', 2, 10), button_map={'submit_button': 'primary'}, id="scoreForm") }}
+        function updateTotal() {
+            $.getJSON('/scores/_add_numbers', {
+                bars_in_west_transfer : $("input[name='bars_in_west_transfer']:checked").val(),
+                bars_never_in_west_transfer : $("input[name='bars_never_in_west_transfer']:checked").val(),
+                black_bars_in_original_position : $("input[name='black_bars_in_original_position']:checked").val(),
+                black_bars_in_green_or_landfill : $("input[name='black_bars_in_green_or_landfill']:checked").val(),
+                black_bars_elsewhere : $("input[name='black_bars_elsewhere']:checked").val(),
+
+                methane_in_truck_or_factory : $("input[name='methane_in_truck_or_factory']:checked").val(),
+
+                truck_supports_yellow_bin : $("input[name='truck_supports_yellow_bin']:checked").val(),
+                yellow_bin_east_of_guide : $("input[name='yellow_bin_east_of_guide']:checked").val(),
+
+                anyone_in_sorter_area : $("input[name='anyone_in_sorter_area']:checked").val(),
+
+                engine_installed : $("input[name='engine_installed']:checked").val(),
+                car_folded_in_east_transfer : $("input[name='car_folded_in_east_transfer']:checked").val(),
+                car_never_in_safety : $("input[name='car_never_in_safety']:checked").val(),
+
+                compost_ejected_not_in_safety : $("input[name='compost_ejected_not_in_safety']:checked").val(),
+                compost_ejected_in_safety : $("input[name='compost_ejected_in_safety']:checked").val(),
+
+                plastic_bags_in_safety : $("input[name='plastic_bags_in_safety']:checked").val(),
+                animals_in_circles_without_bags : $("input[name='animals_in_circles_without_bags']:checked").val(),
+                chicken_in_small_landfill_circle : $("input[name='chicken_in_small_landfill_circle']:checked").val(),
+
+                all_beams_not_in_setup_position : $("input[name='all_beams_not_in_setup_position']:checked").val(),
+
+                green_bins_in_opp_safety : $("input[name='green_bins_in_opp_safety']:checked").val(),
+                opp_green_bins_in_safety : $("input[name='opp_green_bins_in_safety']:checked").val(),
+
+                valuables_in_safety : $("input[name='valuables_in_safety']:checked").val(),
+
+                planes_in_safety : $("input[name='planes_in_safety']:checked").val(),
+
+                compost_in_toy_package : $("input[name='compost_in_toy_package']:checked").val(),
+                package_in_original_condition : $("input[name='package_in_original_condition']:checked").val()
+            }, function(data) {
+                $("#result").text(data.result);
+            });
+            return false;
+        }
+    </script>
+    <div class="row">
+        <h1>FLL Score Entry</h1>
+        <h4>Total: <span id="result">0</span></h4>
+    </div>
+    {% call macros.render_form(form, class_="scoreForm", include_submit=false) %}
+        <div id="scrollingForm" class="row" style="overflow-y: scroll;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">General Information</h3>
+                </div>
+                <div class="panel-body">
+                    {% if team_id and round_number %}
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Team</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ team_id }}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Round</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static">{{ round_number }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                        {{ macros.render_field(form.team_id) }}
+                        {{ macros.render_field(form.round_number) }}
+                    {% endif %}
+                </div>
+            </div>
+            {{ macros.render_fields("M04: Sorting (Yellow/ Blue bars in matching Green Bins)",
+                                    form.bars_in_west_transfer,
+                                    form.bars_never_in_west_transfer) }}
+
+            {{ macros.render_fields("M04: Sorting (Black Bars in matching Green Bin)",
+                                    form.black_bars_in_original_position,
+                                    form.black_bars_in_green_or_landfill,
+                                    form.black_bars_elsewhere) }}
+
+            {{ macros.render_fields("M02: Methane", form.methane_in_truck_or_factory) }}
+
+            {{ macros.render_fields("M03: Transport",
+                                    form.truck_supports_yellow_bin,
+                                    form.yellow_bin_east_of_guide) }}
+
+            {{ macros.render_fields("M06: Scrap Cars",
+                                    form.engine_installed,
+                                    form.car_folded_in_east_transfer,
+                                    form.car_never_in_safety) }}
+
+            {{ macros.render_fields("M05: Careers", form.anyone_in_sorter_area) }}
+
+            {{ macros.render_fields("M08: Composting",
+                                    form.compost_ejected_not_in_safety,
+                                    form.compost_ejected_in_safety) }}
+
+            {{ macros.render_fields("M07: Cleanup",
+                                    form.plastic_bags_in_safety,
+                                    form.animals_in_circles_without_bags,
+                                    form.chicken_in_small_landfill_circle) }}
+
+            {{ macros.render_fields("M03: Transport",
+                                    form.truck_supports_yellow_bin,
+                                    form.yellow_bin_east_of_guide) }}
+
+            {{ macros.render_fields("M06: Scrap Cars",
+                                    form.engine_installed,
+                                    form.car_folded_in_east_transfer,
+                                    form.car_never_in_safety) }}
+
+            {{ macros.render_fields("M03: Transport",
+                                    form.truck_supports_yellow_bin,
+                                    form.yellow_bin_east_of_guide) }}
+
+            {{ macros.render_fields("M10: Demolition", form.all_beams_not_in_setup_position) }}
+
+            {{ macros.render_fields("M01: Sorting",
+                                    form.green_bins_in_opp_safety,
+                                    form.opp_green_bins_in_safety) }}
+
+            {{ macros.render_fields("M09: Salvage", form.valuables_in_safety) }}
+
+            {{ macros.render_fields("M11: Purchasing Decisions", form.planes_in_safety) }}
+
+            {{ macros.render_fields("M12: Repurposing",
+                                    form.compost_in_toy_package,
+                                    form.package_in_original_condition) }}
+            {{ macros.render_submit(style_='padding-left: 23px') }}
+        </div>
+    {% endcall %}
 {% endblock %}

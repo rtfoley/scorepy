@@ -2,12 +2,10 @@
 from flask import Flask
 from flask import render_template
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask_bootstrap import Bootstrap
 
 # setup application
 app = Flask(__name__)
 app.config.from_object('config')
-Bootstrap(app)
 
 db = SQLAlchemy(app)
 db.init_app(app)

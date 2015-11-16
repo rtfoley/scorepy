@@ -1,77 +1,84 @@
-{%- extends "bootstrap/base.html" %}
-{% import "bootstrap/utils.html" as utils %}
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">FLL EvM</a>
+        </div>
 
-{% block styles -%}
-{{super()}}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-{%- endblock %}
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('teams.index') }}"><span class="fa fa-users"></span> Teams</a></li>
+            <li><a href="{{ url_for('scoring.index') }}"><span class="fa fa-calculator"></span> Scores</a></li>
+            <li><a href="{{ url_for('judging.index') }}"><span class="fa fa-gavel"></span> Judging</a></li>
+            <li><a href="{{ url_for('awards.index') }}"><span class="fa fa-trophy"></span> Awards</a></li>
+            <li><a href="{{ url_for('playoffs') }}"><span class="fa fa-tachometer"></span> Playoffs</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-file-pdf-o"></span> Reports<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('teams.teams_pdf') }}" target="blanks">Team List</a></li>
+                <li><a href="{{ url_for('scoring.ranks_pdf') }}" target="blanks">Rankings</a></li>
+                <li><a href="{{ url_for('awards.index') }}">Awards</a></li>
+              </ul>
+            </li>
+            <li><a href="{{ url_for('pit_display') }}" target="blank"><span class="fa fa-desktop"></span> Pit Display</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('settings') }}"><span class="fa fa-cog"></span> Settings</a></li>
+            <li><a href="#"><span class="fa fa-sign-in"></span> Sign In</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
 
-{% block navbar %}
-<!-- Fixed navbar -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">FLL EvM</a>
+    <main id="content" role="main" class="container" style="padding-top: 70px;">
+
+      <!--Display messages-->
+      <!-- TODO remove message feature? -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-block alert-error fade in">
+              <a class="close" data-dismiss="alert">&times;</a>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <!--Main block-->
+      {% block pageContent %}
+      {% endblock %}
+
+    </main>
+    <br>
+
+    <!--Footer-->
+    <div id="footer" class="container">
+      {% block footer %}
+      &copy; Copyright 2015 by Ryan Foley.
+      {% endblock %}
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('teams.index') }}"><span class="fa fa-users"></span> Teams</a></li>
-        <li><a href="{{ url_for('scoring.index') }}"><span class="fa fa-calculator"></span> Scores</a></li>
-        <li><a href="{{ url_for('judging.index') }}"><span class="fa fa-gavel"></span> Judging</a></li>
-        <li><a href="{{ url_for('awards.index') }}"><span class="fa fa-trophy"></span> Awards</a></li>
-        <li><a href="{{ url_for('playoffs') }}"><span class="fa fa-tachometer"></span> Playoffs</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-file-pdf-o"></span> Reports<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{{ url_for('teams.teams_pdf') }}" target="blanks">Team List</a></li>
-            <li><a href="{{ url_for('scoring.ranks_pdf') }}" target="blanks">Rankings</a></li>
-            <li><a href="{{ url_for('awards.index') }}">Awards</a></li>
-          </ul>
-        </li>
-        <li><a href="{{ url_for('pit_display') }}" target="blank"><span class="fa fa-desktop"></span> Pit Display</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ url_for('settings') }}"><span class="fa fa-cog"></span> Settings</a></li>
-        <li><a href="#"><span class="fa fa-sign-in"></span> Sign In</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-{% endblock %}
-
-{% block content %}
-  {{super()}}
-  <div class="container">
-    {%- with messages = get_flashed_messages(with_categories=True) %}
-      {%- if messages %}
-        <div class="row">
-          <div class="col-md-12">
-            {{utils.flashed_messages(messages)}}
-          </div>
-        </div>
-      {%- endif %}
-    {%- endwith %}
-    {% block pageContent %}
-    {% endblock %}
-  </div>
-{% endblock %}
-
-{% block body %}
-  {{super()}}
-  <br>
-  <div id="footer">
-    {% block footer %}
-    &copy; Copyright 2015 by Ryan Foley.
-    {% endblock %}
-  </div>
-{% endblock %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/bootstrap.min.js') }}"></script>
+  </body>
+</html>

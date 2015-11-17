@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
   <head>
-    <!--Head-->
     {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -11,8 +10,7 @@
     {% endblock %}
   </head>
   <body>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -22,36 +20,40 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">FLL EvM</a>
+          <a class="navbar-brand" href="/">FLL EvM</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Teams</a></li>
-            <li><a href="#">Awards</a></li>
-            <li><a href="#">Playoffs</a></li>
+            <li><a href="{{ url_for('teams.index') }}"><span class="fa fa-users"></span> Teams</a></li>
+            <li><a href="{{ url_for('scoring.index') }}"><span class="fa fa-calculator"></span> Scores</a></li>
+            <li><a href="{{ url_for('judging.index') }}"><span class="fa fa-gavel"></span> Judging</a></li>
+            <li><a href="{{ url_for('awards.index') }}"><span class="fa fa-trophy"></span> Awards</a></li>
+            <li><a href="{{ url_for('playoffs') }}"><span class="fa fa-tachometer"></span> Playoffs</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-file-pdf-o"></span> Reports<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Team List</a></li>
-                <li><a href="{{ url_for('rank_pdf')}}" target="blanks">Rankings</a></li>
-                <li><a href="#">Awards</a></li>
+                <li><a href="{{ url_for('teams.teams_pdf') }}" target="blanks">Team List</a></li>
+                <li><a href="{{ url_for('scoring.ranks_pdf') }}" target="blanks">Robot Performance Rankings</a></li>
+                <li><a href="{{ url_for('teams.category_results_pdf') }}" target="blanks">Category Results</a></li>
+                <li><a href="{{ url_for('awards.awards_pdf') }}" target="blanks">Awards</a></li>
               </ul>
             </li>
-            <li><a href="#">Pit Display</a></li>
+            <li><a href="{{ url_for('pit_display') }}" target="blank"><span class="fa fa-desktop"></span> Pit Display</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Sign In</a></li>
+            <li><a href="{{ url_for('settings') }}"><span class="fa fa-cog"></span> Settings</a></li>
+            <li><a href="#"><span class="fa fa-sign-in"></span> Sign In</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
 
-    <!-- Begin page content -->
-    <main id="content" role="main" class="container">
+    <main id="content" role="main" class="container" style="padding-top: 70px;">
 
       <!--Display messages-->
+      <!-- TODO remove message feature? -->
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
@@ -64,16 +66,16 @@
       {% endwith %}
 
       <!--Main block-->
-      {% block content %}
+      {% block pageContent %}
       {% endblock %}
 
     </main>
     <br>
 
     <!--Footer-->
-    <div id="footer">
+    <div id="footer" class="container">
       {% block footer %}
-      &copy; Copyright 2015 by Ryan Foley</a>.
+      &copy; Copyright 2015 by Ryan Foley.
       {% endblock %}
     </div>
 

@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Delete{% endblock %}
+{% block pageContent %}
+<script type="text/javascript">
+  // TODO Move this to a global JS file
+  function goBack() {
+    window.history.back();
+  }
+</script>
+  <p>Really delete {{ identifier }}?<p>
+  <form action="" method="post">
+    <p><button class="btn" onclick="goBack()">Cancel</button>  <input type="submit" class="btn btn-danger" value="Delete"></p>
+  </form>
+{% endblock %}

@@ -1,13 +1,38 @@
 # ScorePy
 An attempt at an FLL tournament scoring application using Python and Flask
 
-### Prototype progress
-- [x] Ability to calculate a score live as form is changed
-- [x] Ability to save scores to a database
-- [x] Ability to edit previously entered scores
-- [x] Ranking report (.pdf)
-- [ ] Save database via webpage
-- [ ] upload database via webpage
+### 2015 Progress
+- [x] basic layout (layout.html, navbar, footer, bootstrap/ fontawesome)
+- [x] page shells (main, about, teams, awards, playoffs, pit display, playoff display)
+- [ ] event settings page (event name)
+- [x] team list page
+- [x] team management via form
+- [x] team CSV import
+- [x] team list report
+- [x] basic score management per team (with team and round selection, but using simplified score form)
+- [x] full 2015 score form
+- [x] rankings report
+- [ ] qualification rankings display
+- [x] judge evaluation management
+- [x] category results report (all 10 category scores, by team)
+- [x] manual award winner selection
+- [ ] automatic award winner selection
+- [x] award winner report
+
+### Future functionality
+- [ ] state championship qualifying report
+- [ ] login system
+- [ ] playoff management
+- [ ] playoff display
+- [ ] individualized team results reports
+- [ ] save database via UI
+- [ ] upload database via UI
+- [ ] import a match schedule
+- [ ] generate a match schedule
+- [ ] announcers report
+- [ ] referee interface
+- [ ] head referee interface
+- [ ] judges interface (with ability to add notes)
 
 ### Setting up and running the application:
 Install Python 2.7.x: https://www.python.org/downloads/
@@ -48,5 +73,5 @@ Use Pip to install dependencies
 
 Run the application
 ```text
-(venv) > python main.py
+(venv) > python run.py
 ```

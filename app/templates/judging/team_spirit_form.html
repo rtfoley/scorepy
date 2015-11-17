@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% import "_helpers.html" as macros %}
+{% block title %}FLL Team Spirit Form{% endblock %}
+{% block pageContent %}
+    <div class="row">
+        <h1>FLL Team Spirit Evaluation Entry</h1>
+    </div>
+    {% call macros.render_form(form, class_="teamSpiritForm") %}
+        {% if team_id %}
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Team</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ team_id }}</p>
+                </div>
+            </div>
+        {% else %}
+            {{ macros.render_field(form.team_id) }}
+        {% endif %}
+        {{ macros.render_field(form.inspiration) }}
+    {% endcall %}
+{% endblock %}

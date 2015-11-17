@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}Teams{% endblock %}
+{% block pageContent %}
+  <h1>Teams</h1>
+  <!-- TODO add icons to these, format as buttons-->
+  <a href="{{ url_for('.upload') }}">Upload CSV</a><br>
+  <a href="{{ url_for('.add') }}">Add a new team</a>
+  <!-- TODO add CSV import option -->
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th>Affiliation</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Rookie</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team in teams %}
+        <tr>
+          <td>{{ team.number }}</td>
+          <td>{{ team.name }}</td>
+          <td>{{ team.affiliation }}</td>
+          <td>{{ team.city }}</td>
+          <td>{{ team.state }}</td>
+          <td>{{ team.is_rookie }}</td>
+          <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
+          <td>
+            <a href="{{ url_for('.edit', team_id=team.id) }}" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>
+            <a href="{{ url_for('.delete', team_id=team.id) }}" class="btn btn-xs btn-danger fa fa-trash-o" title="delete"></a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

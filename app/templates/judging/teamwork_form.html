@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% import "_helpers.html" as macros %}
+{% block title %}FLL Teamwork Form{% endblock %}
+{% block pageContent %}
+    <div class="row">
+        <h1>FLL Teamwork Evaluation Entry</h1>
+    </div>
+    {% call macros.render_form(form, class_="teamworkForm", include_submit=false) %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">General Information</h3>
+            </div>
+            <div class="panel-body">
+                {% if team_id %}
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Team</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">{{ team_id }}</p>
+                    </div>
+                </div>
+                {% else %}
+                    {{ macros.render_field(form.team_id) }}
+                {% endif %}
+            </div>
+        </div>
+        {{ macros.render_fields("Teamwork",
+                                form.effectiveness,
+                                form.efficiency,
+                                form.kids_do_the_work) }}
+
+        {{ macros.render_fields("Gracious Professionalism",
+                                form.inclusion,
+                                form.respect) }}
+
+        {{ macros.render_submit(style_='padding-left: 23px') }}
+    {% endcall %}
+{% endblock %}

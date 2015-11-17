@@ -5,7 +5,6 @@ from app.util import create_pdf
 from app.teams.models import Team
 from forms import ScoreForm
 from models import RobotScore
-from operator import attrgetter
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_scoring = Blueprint('scoring', __name__, url_prefix='/scores')
@@ -14,8 +13,6 @@ mod_scoring = Blueprint('scoring', __name__, url_prefix='/scores')
 @mod_scoring.route("/")
 def index():
     teams = Team.query.all()
-    for team in teams:
-        sort_team_scores(team)
     return render_template("scoring/score_list.html",
                            teams=sorted(teams, key=by_team))
 
@@ -24,8 +21,6 @@ def index():
 @mod_scoring.route('/ranks.pdf')
 def ranks_pdf():
     teams = Team.query.all()
-    for team in teams:
-        sort_team_scores(team)
     ranks = render_template("scoring/ranks.html",
                             teams=sorted(teams, key=by_team_best,
                                          reverse=True))
@@ -242,20 +237,6 @@ def add_numbers():
                        compost_in_toy_package=request.args.get('compost_in_toy_package') == 'True',
                        package_in_original_condition=request.args.get('package_in_original_condition') == 'True')
     return jsonify(result=score.total)
-
-
-# Calculate score totals for all scores for the team, and identify best
-def sort_team_scores(team):
-    if team.scores:
-        team.best = max(team.scores, key=attrgetter('total'))
-    else:
-        team.best = None
-    team.round1 = next((score for score in team.scores if
-                        score.round_number == 1), None)
-    team.round2 = next((score for score in team.scores if
-                        score.round_number == 2), None)
-    team.round3 = next((score for score in team.scores if
-                        score.round_number == 3), None)
 
 
 # Sort teams by number

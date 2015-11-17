@@ -2,6 +2,7 @@ from app import db
 from app.scoring.models import RobotScore
 from app.judging.models import Presentation, Technical, Teamwork, TeamSpirit
 from app.awards.models import AwardWinner
+from operator import attrgetter
 
 
 class Team(db.Model):
@@ -29,3 +30,26 @@ class Team(db.Model):
         self.city = city
         self.state = state
         self.is_rookie = is_rookie
+
+    def get_score_for_round(self, round_number):
+        return next((score for score in self.scores if
+                     score.round_number == round_number), None)
+
+    @property
+    def round1(self):
+        return self.get_score_for_round(1)
+
+    @property
+    def round2(self):
+        return self.get_score_for_round(2)
+
+    @property
+    def round3(self):
+        return self.get_score_for_round(3)
+
+    @property
+    def best(self):
+        if self.scores:
+            return max(self.scores, key=attrgetter('total'))
+        else:
+            return None

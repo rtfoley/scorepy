@@ -27,27 +27,32 @@ class Presentation(db.Model):
     inclusion = db.Column(db.Integer)
     respect = db.Column(db.Integer)
 
-    def get_research_score(self):
+    @property
+    def research_score(self):
         total = self.problem_identification + self.sources_of_information \
             + self.problem_analysis + self.existing_solutions
         return total/4.0
 
-    def get_innovative_solution_score(self):
+    @property
+    def innovative_solution_score(self):
         total = self.team_solution + self.innovation + self.implementation
         return total/3.0
 
-    def get_presentation_score(self):
+    @property
+    def presentation_score(self):
         total = self.sharing + self.creativity + self.effectiveness
         return total/3.0
 
-    def get_gp_score(self):
+    @property
+    def gp_score(self):
         total = self.inclusion + self.respect
         return total/2.0
 
-    def get_overall_score(self):
-        total = self.get_research_score() \
-            + self.get_innovative_solution_score() \
-            + self.get_presentation_score() + self.get_gp_score()
+    @property
+    def overall_score(self):
+        total = self.research_score \
+            + self.innovative_solution_score \
+            + self.presentation_score + self.gp_score
         return total/4.0
 
 
@@ -66,16 +71,19 @@ class Teamwork(db.Model):
     inclusion = db.Column(db.Integer)
     respect = db.Column(db.Integer)
 
-    def get_teamwork_score(self):
+    @property
+    def teamwork_score(self):
         total = self.effectiveness + self.efficiency + self.kids_do_the_work
         return total/3.0
 
-    def get_gp_score(self):
+    @property
+    def gp_score(self):
         total = self.inclusion + self.respect
         return total/2.0
 
-    def get_overall_score(self):
-        total = self.get_teamwork_score() + self.get_gp_score()
+    @property
+    def overall_score(self):
+        total = self.teamwork_score + self.gp_score
         return total/2.0
 
 
@@ -100,23 +108,27 @@ class Technical(db.Model):
     mission_strategy = db.Column(db.Integer)
     innovation = db.Column(db.Integer)
 
-    def get_mechanical_score(self):
+    @property
+    def mechanical_score(self):
         total = self.mechanical_durability + self.mechanical_efficiency \
             + self.mechanization
         return total/3.0
 
-    def get_programming_score(self):
+    @property
+    def programming_score(self):
         total = self.programming_quality + self.programming_efficiency \
             + self.autonomous_navigation
         return total/3.0
 
-    def get_strategy_innovation_score(self):
+    @property
+    def strategy_innovation_score(self):
         total = self.design_process + self.mission_strategy + self.innovation
         return total/3.0
 
-    def get_overall_score(self):
-        total = self.get_mechanical_score() + self.get_programming_score() \
-            + self.get_strategy_innovation_score()
+    @property
+    def overall_score(self):
+        total = self.mechanical_score + self.programming_score \
+            + self.strategy_innovation_score
         return total/3.0
 
 
@@ -129,8 +141,10 @@ class TeamSpirit(db.Model):
     # Inspiration
     inspiration = db.Column(db.Integer)
 
-    def get_inspiration_score(self):
+    @property
+    def inspiration_score(self):
         return self.inspiration
 
-    def get_overall_score(self):
-        return self.get_inspiration_score()
+    @property
+    def overall_score(self):
+        return self.inspiration_score

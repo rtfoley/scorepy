@@ -13,8 +13,8 @@ mod_awards = Blueprint('awards', __name__, url_prefix='/awards')
 @mod_awards.route("/", methods=['GET'])
 def index():
     award_winners = AwardWinner.query.all()
-    # TODO sort by award category then place
-    award_winners = sorted(award_winners, key=winner_by_award_name)
+
+    award_winners = sorted(award_winners, key = lambda x: x.friendly_award_name)
     for winner in award_winners:
         winner.category_name = AwardCategory(winner.category_id).friendly_name
     return render_template("awards/awards.html", award_winners=award_winners)
@@ -79,12 +79,3 @@ def populate_slots():
 def by_team(team):
     return team.number
 
-
-# Sort awards by name
-def by_name(award):
-    return award.name
-
-
-# Sort award winners by category
-def winner_by_award_name(award_winner):
-    return award_winner.category_id

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, request, redirect, \
-    url_for
+    url_for, make_response
 from app import db
+from app.util import create_pdf
 from app.teams.models import Team
 from models import AwardWinner, AwardCategory
 from forms import AwardWinnerForm
@@ -18,6 +19,24 @@ def index():
     for winner in award_winners:
         winner.category_name = AwardCategory(winner.category_id).friendly_name
     return render_template("awards/awards.html", award_winners=award_winners)
+
+
+# Award winner report
+@mod_awards.route("/awards_report.pdf")
+def awards_pdf():
+    award_winners = AwardWinner.query.all()
+
+    award_winners = sorted(award_winners, key = lambda x: x.friendly_award_name)
+    for winner in award_winners:
+        winner.category_name = AwardCategory(winner.category_id).friendly_name
+
+    awards = render_template("awards/awards_report.html", award_winners=award_winners)
+    pdf = create_pdf(awards)
+    response = make_response(pdf.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
+                                              'ranks.pdf'
+    return response
 
 
 # Edit a previously-entered award winner

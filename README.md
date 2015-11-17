@@ -17,7 +17,7 @@ An attempt at an FLL tournament scoring application using Python and Flask
 - [ ] category results report (all 10 category scores, by team)
 - [x] manual award winner selection
 - [ ] automatic award winner selection
-- [ ] award winner report
+- [x] award winner report
 
 ### Future functionality
 - [ ] state championship qualifying report

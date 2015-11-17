@@ -35,7 +35,8 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-file-pdf-o"></span> Reports<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{{ url_for('teams.teams_pdf') }}" target="blanks">Team List</a></li>
-                <li><a href="{{ url_for('scoring.ranks_pdf') }}" target="blanks">Rankings</a></li>
+                <li><a href="{{ url_for('scoring.ranks_pdf') }}" target="blanks">Robot Performance Rankings</a></li>
+                <li><a href="{{ url_for('teams.category_results_pdf') }}" target="blanks">Category Results</a></li>
                 <li><a href="{{ url_for('awards.awards_pdf') }}" target="blanks">Awards</a></li>
               </ul>
             </li>

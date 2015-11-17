@@ -20,6 +20,20 @@ def index():
                            teams=sorted(teams, key=by_team))
 
 
+@mod_teams.route("/category_results.pdf", methods=['GET'])
+def category_results_pdf():
+    teams = Team.query.all()
+    data = render_template("teams/category_results.html",
+                           teams=sorted(teams, key=by_team))
+
+    pdf = create_pdf(data)
+    response = make_response(pdf.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
+                                              'category_results.pdf'
+    return response
+
+
 # add a new team
 @mod_teams.route("/new", methods=['GET', 'POST'])
 def add():

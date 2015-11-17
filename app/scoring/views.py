@@ -241,13 +241,11 @@ def add_numbers():
                        # M12 Repurposing
                        compost_in_toy_package=request.args.get('compost_in_toy_package') == 'True',
                        package_in_original_condition=request.args.get('package_in_original_condition') == 'True')
-    return jsonify(result=score.get_score())
+    return jsonify(result=score.total)
 
 
 # Calculate score totals for all scores for the team, and identify best
 def sort_team_scores(team):
-    for score in team.scores:
-        score.total = score.get_score()
     if team.scores:
         team.best = max(team.scores, key=attrgetter('total'))
     else:

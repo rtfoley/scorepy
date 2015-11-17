@@ -165,7 +165,8 @@ class RobotScore(db.Model):
         self.package_in_original_condition = package_in_original_condition
 
     # TODO need unit testing for this
-    def get_score(self):
+    @property
+    def total(self):
         score = 0
 
         # M01 Recycling

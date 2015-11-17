@@ -53,3 +53,10 @@ class Team(db.Model):
             return max(self.scores, key=attrgetter('total'))
         else:
             return None
+
+    @property
+    def gp_score(self):
+        if self.teamwork and self.presentation:
+            return (self.teamwork.gp_score + self.presentation.gp_score) / 2.0
+        else:
+            return None

@@ -2,5 +2,39 @@
 {% block title %}FLL Awards{% endblock %}
 {% block pageContent %}
   <h1>Awards</h1>
-  <p>TODO</p>
+  <a href="{{ url_for('.populate_slots') }}">Populate slots</a>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Place</th>
+        <th>Team Number</th>
+        <th>Team Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for winner in award_winners %}
+        <tr>
+          <td>{{ winner.category_name }}</td>
+          <td>
+            {% if winner.place==0 %}
+              1st
+            {% elif winner.place==1 %}
+              2nd
+            {% else %}
+              3rd
+            {% endif %}
+          </td>
+          <td>{{ winner.team.number }}</td>
+          <td>{{ winner.team.name }}</td>
+          <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
+          <td>
+            <a href="{{ url_for('.assign_award_winner', award_winner_id=winner.id) }}">Assign</a> |
+            <a href="{{ url_for('.clear_award_winner', award_winner_id=winner.id) }}">Clear</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

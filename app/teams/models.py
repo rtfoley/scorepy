@@ -1,6 +1,7 @@
 from app import db
 from app.scoring.models import RobotScore
 from app.judging.models import Presentation, Technical, Teamwork, TeamSpirit
+from app.awards.models import AwardWinner
 
 
 class Team(db.Model):
@@ -19,6 +20,7 @@ class Team(db.Model):
     technical = db.relationship('Technical', uselist=False, backref='team')
     teamwork = db.relationship('Teamwork', uselist=False, backref='team')
     team_spirit = db.relationship('TeamSpirit', uselist=False, backref='team')
+    awards = db.relationship('AwardWinner', backref='team')
 
     def __init(self, number, name, affiliation, city, state, is_rookie):
         self.number = number

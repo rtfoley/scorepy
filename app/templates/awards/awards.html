@@ -2,7 +2,7 @@
 {% block title %}FLL Awards{% endblock %}
 {% block pageContent %}
   <h1>Awards</h1>
-  <a href="{{ url_for('.add_award_winner') }}">Add a new award winner</a> | <a href="{{ url_for('.populate_slots') }}">Populate slots</a>
+  <a href="{{ url_for('.populate_slots') }}">Populate slots</a>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -15,7 +15,6 @@
     <tbody>
       {% for winner in award_winners %}
         <tr>
-          <!-- TODO need to show string value here -->
           <td>{{ winner.category_name }}</td>
           <td>
             {% if winner.place==0 %}
@@ -30,8 +29,8 @@
           <td>{{ winner.team.name }}</td>
           <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
           <td>
-            <a href="{{ url_for('.edit_award_winner', award_winner_id=winner.id) }}" class="btn btn-xs btn-primary fa fa-pencil-square-o" title="edit"></a>
-            <a href="{{ url_for('.delete_award_winner', award_winner_id=winner.id) }}" class="btn btn-xs btn-danger fa fa-trash-o" title="delete"></a>
+            <a href="{{ url_for('.assign_award_winner', award_winner_id=winner.id) }}">Assign</a> |
+            <a href="{{ url_for('.clear_award_winner', award_winner_id=winner.id) }}">Clear</a>
           </td>
         </tr>
       {% endfor %}

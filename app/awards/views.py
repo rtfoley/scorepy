@@ -20,28 +20,9 @@ def index():
     return render_template("awards/awards.html", award_winners=award_winners)
 
 
-# Add a new award winner
-@mod_awards.route("/add", methods=['GET', 'POST'])
-def add_award_winner():
-    form = AwardWinnerForm()
-    form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
-
-    if request.method == 'POST' and form.validate_on_submit():
-        award_winner = AwardWinner()
-        form.populate_obj(award_winner)
-        db.session.add(award_winner)
-        db.session.commit()
-        return redirect(url_for(".index"))
-    elif request.method == 'POST':
-        flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title="Award Winner Form")
-
-
 # Edit a previously-entered award winner
-@mod_awards.route("/<int:award_winner_id>/edit", methods=['GET', 'POST'])
-def edit_award_winner(award_winner_id):
+@mod_awards.route("/<int:award_winner_id>/assign", methods=['GET', 'POST'])
+def assign_award_winner(award_winner_id):
     award_winner = AwardWinner.query.get(award_winner_id)
     form = AwardWinnerForm(obj=award_winner)
     form.team_id.choices = [(t.id, t.number) for t in
@@ -53,26 +34,42 @@ def edit_award_winner(award_winner_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("basic_form.html", form=form,
-                           title="Award Winner Form")
+    return render_template("awards/award_winner_form.html", form=form,
+                           award=award_winner.friendly_award_name)
 
 
 # Delete an award winner
 @mod_awards.route("/<int:award_winner_id>/delete", methods=['GET', 'POST'])
-def delete_award_winner(award_winner_id):
+def clear_award_winner(award_winner_id):
     award_winner = AwardWinner.query.get(award_winner_id)
     if request.method == 'POST':
-        db.session.delete(award_winner)
+        award_winner.team_id = None
+        db.session.add(award_winner)
         db.session.commit()
         return redirect(url_for(".index"))
-    return render_template("delete.html", identifier="award winner for %s by team %d"
-                           % (AwardCategory(award_winner.category_id).friendly_name, award_winner.team.number))
+    return render_template("delete.html", identifier="award winner for %s"
+                           % award_winner.friendly_award_name)
 
 
 @mod_awards.route("/populate_slots", methods=['GET', 'POST'])
 def populate_slots():
     if request.method == 'POST':
-        # TODO populate award winner slots
+        # Remove any existing winners
+        for existing_winner in AwardWinner.query.all():
+            db.session.delete(existing_winner)
+        db.session.commit()
+
+        # Seed new slots
+        slots = []
+        for category in AwardCategory:
+            if category == AwardCategory.Champions or category == AwardCategory.Robot_Performance:
+                for i in range(0, 2):
+                    slots.append(AwardWinner(category_id=category.value, place=i))
+            else:
+                slots.append(AwardWinner(category_id=category.value, place=0))
+        for slot in slots:
+            db.session.add(slot)
+        db.session.commit()
         flash("Populated slots")
         return redirect(url_for(".index"))
     return render_template("awards/populate_slots.html")

@@ -35,9 +35,9 @@ class AwardWinner(db.Model):
 
     @property
     def friendly_award_name(self):
-        if self.place==0:
+        if self.place == 0:
             place_text = "1st"
-        elif self.place==1:
+        elif self.place == 1:
             place_text = "2nd"
         else:
             place_text = "3rd"

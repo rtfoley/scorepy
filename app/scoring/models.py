@@ -219,4 +219,4 @@ class RobotScore(db.Model):
         # M12 Repurposing
         score += 40 if self.compost_in_toy_package and self.package_in_original_condition else 0
 
-        return score
+        return score if score > 0 else 0

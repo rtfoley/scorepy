@@ -32,6 +32,32 @@ def ranks_pdf():
     return response
 
 
+# API endpoint providing rank data for the pit display
+@mod_scoring.route("/api")
+def api():
+    # Get and sort the teams by rank
+    teams = Team.query.all()
+    ranked_teams = sorted(teams, key=by_team_best, reverse=True)
+
+    # build the JSON data
+    data = []
+    i = 1
+    for team in ranked_teams:
+        data.append({
+            "number": team.number,
+            "name": team.name,
+            "affiliation": team.affiliation,
+            "round1": team.round1.total if team.round1 is not None else "",
+            "round2": team.round2.total if team.round2 is not None else "",
+            "round3": team.round3.total if team.round3 is not None else "",
+            "bestScore": team.best.total if team.best is not None else "",
+            "rank": i
+        })
+        i += 1
+
+    return jsonify(ranks=data)
+
+
 # Add a new robot score
 @mod_scoring.route("/add", methods=['GET', 'POST'])
 def add():

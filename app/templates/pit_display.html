@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <script src="{{ url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/libs/bootstrap.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/libs/moment.min.js') }}"></script>
@@ -25,14 +26,14 @@
                         }
                     },
                     "columns": [
-                        { "data": "rank", "class": "aligncenter" },
-                        { "data": "number", "class": "aligncenter"},
-                        { "data": "name", "class": "aligncenter" },
-                        { "data": "affiliation", "class": "aligncenter" },
-                        { "data": "round1", "class": "aligncenter" },
-                        { "data": "round2", "class": "aligncenter" },
-                        { "data": "round3", "class": "aligncenter" },
-                        { "data": "bestScore", "class": "aligncenter" }
+                        { "data": "rank", "class": "align_center" },
+                        { "data": "number", "class": "align_center"},
+                        { "data": "name", "class": "align_center" },
+                        { "data": "affiliation", "class": "align_center" },
+                        { "data": "round1", "class": "align_center" },
+                        { "data": "round2", "class": "align_center" },
+                        { "data": "round3", "class": "align_center" },
+                        { "data": "bestScore", "class": "align_center" }
                     ],
                     "info": false
                 });
@@ -59,33 +60,6 @@
                 }, 10000);
             });
         </script>
-      <style>
-          /* Put your CSS here */
-          .aligncenter {
-              text-align: center;
-          }
-
-          img {
-              height: 100px;
-              margin-top: 10px;
-              margin-bottom: 10px;
-              margin-right: 10px;
-              margin-left: 10px;
-          }
-
-          #title {
-              text-align: center;
-              margin-top: 15px;
-          }
-
-          #subtitle {
-              text-align: center;
-          }
-
-          .roundHeader {
-              text-align: center;
-          }
-      </style>
     </head>
     <body>
         <div id="pitDisplay">

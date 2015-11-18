@@ -25,7 +25,7 @@ def playoffs():
 # Pit Display page
 @app.route("/pit", methods=['GET'])
 def pit_display():
-    return render_template("pit_display.html")
+    return render_template("pit_display.html", title="Southern Maine FLL Qualifier", subtitle="Rankings")
 
 
 # Pit Display page

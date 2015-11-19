@@ -41,8 +41,7 @@ def api():
 
     # build the JSON data
     data = []
-    i = 1
-    for team in ranked_teams:
+    for i, team in enumerate(ranked_teams):
         data.append({
             "number": team.number,
             "name": team.name,
@@ -51,9 +50,8 @@ def api():
             "round2": team.round2.total if team.round2 is not None else "",
             "round3": team.round3.total if team.round3 is not None else "",
             "bestScore": team.best.total if team.best is not None else "",
-            "rank": i
+            "rank": i + 1
         })
-        i += 1
 
     return jsonify(ranks=data)
 

@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, RadioField
-from .models import Presentation, Technical, Teamwork, TeamSpirit
+from .models import Presentation, Technical, CoreValues
 
 
 class PresentationForm(Form):
@@ -45,14 +45,6 @@ class PresentationForm(Form):
                                choices=[(i, i) for i in range(0, 5)],
                                coerce=int,
                                default=0)
-    inclusion = RadioField(u'Inclusion',
-                           choices=[(i, i) for i in range(0, 5)],
-                           coerce=int,
-                           default=0)
-    respect = RadioField(u'Respect',
-                         choices=[(i, i) for i in range(0, 5)],
-                         coerce=int,
-                         default=0)
 
     # TODO this code is duplicated in each judging form class, combine?
     def validate(self):
@@ -75,7 +67,7 @@ class PresentationForm(Form):
         return True
 
 
-class TeamworkForm(Form):
+class CoreValuesForm(Form):
     team_id = SelectField(u'Team', coerce=int)
     effectiveness = RadioField(u'Effectiveness',
                                choices=[(i, i) for i in range(0, 5)],
@@ -89,6 +81,18 @@ class TeamworkForm(Form):
                                   choices=[(i, i) for i in range(0, 5)],
                                   coerce=int,
                                   default=0)
+    discovery = RadioField(u'Discovery',
+                           choices=[(i, i) for i in range(0, 5)],
+                           coerce=int,
+                           default=0)
+    team_spirit = RadioField(u'Team Spirit',
+                             choices=[(i, i) for i in range(0, 5)],
+                             coerce=int,
+                             default=0)
+    integration = RadioField(u'Inspiration',
+                             choices=[(i, i) for i in range(0, 5)],
+                             coerce=int,
+                             default=0)
     inclusion = RadioField(u'Inclusion',
                            choices=[(i, i) for i in range(0, 5)],
                            coerce=int,
@@ -97,6 +101,10 @@ class TeamworkForm(Form):
                          choices=[(i, i) for i in range(0, 5)],
                          coerce=int,
                          default=0)
+    coopertition = RadioField(u'Coopertition',
+                              choices=[(i, i) for i in range(0, 5)],
+                              coerce=int,
+                              default=0)
 
     def validate(self):
         # Base validation
@@ -109,7 +117,7 @@ class TeamworkForm(Form):
             return True
 
         # New score being entered, check if one already exists for team/ round
-        t = Teamwork.query.filter_by(team_id=self.team_id.data).first()
+        t = CoreValues.query.filter_by(team_id=self.team_id.data).first()
         if t is not None:
             self.team_id.errors.append("Entry already exists for this team")
             return False
@@ -169,33 +177,6 @@ class TechnicalForm(Form):
 
         # New score being entered, check if one already exists for team/ round
         t = Technical.query.filter_by(team_id=self.team_id.data).first()
-        if t is not None:
-            self.team_id.errors.append("Entry already exists for this team")
-            return False
-
-        self.t = t
-        return True
-
-
-class TeamSpiritForm(Form):
-    team_id = SelectField(u'Team', coerce=int)
-    inspiration = RadioField(u'Inspiration',
-                             choices=[(i, i) for i in range(0, 5)],
-                             coerce=int,
-                             default=0)
-
-    def validate(self):
-        # Base validation
-        rv = Form.validate(self)
-        if not rv:
-            return False
-
-        # Team-ID fields doesn't exist on an 'edit' form
-        if not self.team_id:
-            return True
-
-        # New score being entered, check if one already exists for team/ round
-        t = TeamSpirit.query.filter_by(team_id=self.team_id.data).first()
         if t is not None:
             self.team_id.errors.append("Entry already exists for this team")
             return False

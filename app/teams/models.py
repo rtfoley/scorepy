@@ -1,6 +1,6 @@
 from app import db
 from app.scoring.models import RobotScore
-from app.judging.models import Presentation, Technical, Teamwork, TeamSpirit
+from app.judging.models import Presentation, Technical, CoreValues
 from app.awards.models import AwardWinner
 from operator import attrgetter
 
@@ -19,8 +19,7 @@ class Team(db.Model):
     presentation = db.relationship('Presentation', uselist=False,
                                    backref='team')
     technical = db.relationship('Technical', uselist=False, backref='team')
-    teamwork = db.relationship('Teamwork', uselist=False, backref='team')
-    team_spirit = db.relationship('TeamSpirit', uselist=False, backref='team')
+    core_values = db.relationship('CoreValues', uselist=False, backref='team')
     awards = db.relationship('AwardWinner', backref='team')
 
     def __init(self, number, name, affiliation, city, state, is_rookie):
@@ -51,12 +50,5 @@ class Team(db.Model):
     def best(self):
         if self.scores:
             return max(self.scores, key=attrgetter('total'))
-        else:
-            return None
-
-    @property
-    def gp_score(self):
-        if self.teamwork and self.presentation:
-            return (self.teamwork.gp_score + self.presentation.gp_score) / 2.0
         else:
             return None

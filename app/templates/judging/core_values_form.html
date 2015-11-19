@@ -27,10 +27,14 @@
                                 form.effectiveness,
                                 form.efficiency,
                                 form.kids_do_the_work) }}
-
+        {{ macros.render_fields("Inspiration",
+                                form.discovery,
+                                form.team_spirit,
+                                form.integration) }}
         {{ macros.render_fields("Gracious Professionalism",
                                 form.inclusion,
-                                form.respect) }}
+                                form.respect,
+                                form.coopertition) }}
 
         {{ macros.render_submit(style_='padding-left: 23px') }}
     {% endcall %}

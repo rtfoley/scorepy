@@ -9,8 +9,7 @@
         <th>Name</th>
         <th>Presentation <a href="{{ url_for('.add_presentation')}}" class="fa fa-plus-square"></a></th>
         <th>Technical <a href="{{ url_for('.add_technical')}}" class="fa fa-plus-square"></a></th>
-        <th>Teamwork <a href="{{ url_for('.add_teamwork')}}" class="fa fa-plus-square"></a></th>
-        <th>Team Spirit <a href="{{ url_for('.add_team_spirit')}}" class="fa fa-plus-square"></a></th>
+        <th>Teamwork <a href="{{ url_for('.add_core_values')}}" class="fa fa-plus-square"></a></th>
       </tr>
     </thead>
     <tbody>
@@ -37,18 +36,10 @@
           {% else %}
             <td></td>
           {% endif %}
-          {% if team.teamwork != None %}
+          {% if team.core_values != None %}
             <td>
-              <a href="{{ url_for('.edit_teamwork', teamwork_id=team.teamwork.id) }}">{{ "%0.2f" % team.teamwork.overall_score }}</a>
-              <a href="{{ url_for('.delete_teamwork', teamwork_id=team.teamwork.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
-            </td>
-          {% else %}
-            <td></td>
-          {% endif %}
-          {% if team.team_spirit != None %}
-            <td>
-              <a href="{{ url_for('.edit_team_spirit', team_spirit_id=team.team_spirit.id) }}">{{ "%0.2f" % team.team_spirit.overall_score }}</a>
-              <a href="{{ url_for('.delete_team_spirit', team_spirit_id=team.team_spirit.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+              <a href="{{ url_for('.edit_core_values', core_values_id=team.core_values.id) }}">{{ "%0.2f" % team.core_values.overall_score }}</a>
+              <a href="{{ url_for('.delete_core_values', core_values_id=team.core_values.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
             </td>
           {% else %}
             <td></td>

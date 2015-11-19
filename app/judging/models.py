@@ -23,10 +23,6 @@ class Presentation(db.Model):
     creativity = db.Column(db.Integer)
     effectiveness = db.Column(db.Integer)
 
-    # GP
-    inclusion = db.Column(db.Integer)
-    respect = db.Column(db.Integer)
-
     @property
     def research_score(self):
         total = self.problem_identification + self.sources_of_information \
@@ -44,20 +40,15 @@ class Presentation(db.Model):
         return total/3.0
 
     @property
-    def gp_score(self):
-        total = self.inclusion + self.respect
-        return total/2.0
-
-    @property
     def overall_score(self):
         total = self.research_score \
             + self.innovative_solution_score \
-            + self.presentation_score + self.gp_score
-        return total/4.0
+            + self.presentation_score
+        return total/3.0
 
 
-class Teamwork(db.Model):
-    __tablename__ = 'teamwork'
+class CoreValues(db.Model):
+    __tablename__ = 'corevalues'
 
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
@@ -70,6 +61,12 @@ class Teamwork(db.Model):
     # GP
     inclusion = db.Column(db.Integer)
     respect = db.Column(db.Integer)
+    coopertition = db.Column(db.Integer)
+
+    # Inspiration
+    discovery = db.Column(db.Integer)
+    team_spirit = db.Column(db.Integer)
+    integration = db.Column(db.Integer)
 
     @property
     def teamwork_score(self):
@@ -78,13 +75,18 @@ class Teamwork(db.Model):
 
     @property
     def gp_score(self):
-        total = self.inclusion + self.respect
-        return total/2.0
+        total = self.inclusion + self.respect + self.coopertition
+        return total/3.0
+
+    @property
+    def inspiration_score(self):
+        total = self.discovery + self.team_spirit + self.integration
+        return total/3.0
 
     @property
     def overall_score(self):
-        total = self.teamwork_score + self.gp_score
-        return total/2.0
+        total = self.teamwork_score + self.gp_score + self.inspiration_score
+        return total/3.0
 
 
 class Technical(db.Model):
@@ -130,21 +132,3 @@ class Technical(db.Model):
         total = self.mechanical_score + self.programming_score \
             + self.strategy_innovation_score
         return total/3.0
-
-
-class TeamSpirit(db.Model):
-    __tablename__ = 'team_spirit'
-
-    id = db.Column(db.Integer, primary_key=True)
-    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
-
-    # Inspiration
-    inspiration = db.Column(db.Integer)
-
-    @property
-    def inspiration_score(self):
-        return self.inspiration
-
-    @property
-    def overall_score(self):
-        return self.inspiration_score

@@ -131,10 +131,6 @@ class ScoreForm(Form):
                                                choices=[('False', 'No'), ('True', 'Yes')],
                                                default='False')
 
-    def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
-        self.score = None
-
     def validate(self):
         # Base validation
         rv = Form.validate(self)
@@ -152,8 +148,6 @@ class ScoreForm(Form):
                 self.round_number.errors.append("Score already exists for this \
                                             round")
                 form_valid = False
-
-            self.score = score
 
         # Check that compost isn't marked as being both in and out of safety
         if self.compost_ejected_in_safety.data == 'True' and self.compost_ejected_not_in_safety.data == 'True':

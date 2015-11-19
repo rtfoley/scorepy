@@ -66,7 +66,6 @@ class PresentationForm(Form):
             self.team_id.errors.append("Entry already exists for this team")
             return False
 
-        self.p = p
         return True
 
 
@@ -128,7 +127,6 @@ class CoreValuesForm(Form):
             self.team_id.errors.append("Entry already exists for this team")
             return False
 
-        self.t = t
         return True
 
 
@@ -190,5 +188,4 @@ class TechnicalForm(Form):
             self.team_id.errors.append("Entry already exists for this team")
             return False
 
-        self.t = t
         return True

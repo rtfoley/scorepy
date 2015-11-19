@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, \
-    url_for, jsonify, make_response
+    url_for, jsonify
 from app import db
 from app.util import create_pdf
 from app.teams.models import Team
@@ -21,15 +21,13 @@ def index():
 @mod_scoring.route('/ranks.pdf')
 def ranks_pdf():
     teams = Team.query.all()
-    ranks = render_template("scoring/ranks.html",
-                            teams=sorted(teams, key=by_team_best,
-                                         reverse=True))
-    pdf = create_pdf(ranks)
-    response = make_response(pdf.getvalue())
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
-                                              'ranks.pdf'
-    return response
+    ranked_teams = sorted(teams, key=by_team_best, reverse=True)
+    for i, team in enumerate(ranked_teams):
+        team.rank = i + 1
+
+    ranks = render_template("scoring/ranks.html", teams=ranked_teams)
+    pdf = create_pdf(ranks, 'ranks.pdf')
+    return pdf
 
 
 # API endpoint providing rank data for the pit display
@@ -41,8 +39,7 @@ def api():
 
     # build the JSON data
     data = []
-    i = 1
-    for team in ranked_teams:
+    for i, team in enumerate(ranked_teams):
         data.append({
             "number": team.number,
             "name": team.name,
@@ -51,9 +48,8 @@ def api():
             "round2": team.round2.total if team.round2 is not None else "",
             "round3": team.round3.total if team.round3 is not None else "",
             "bestScore": team.best.total if team.best is not None else "",
-            "rank": i
+            "rank": i + 1
         })
-        i += 1
 
     return jsonify(ranks=data)
 

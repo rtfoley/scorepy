@@ -1,7 +1,7 @@
 import csv
 import os
 from flask import Blueprint, flash, render_template, request, redirect, \
-    url_for, make_response
+    url_for
 from app import db
 from app.util import create_pdf
 from models import Team
@@ -18,20 +18,6 @@ def index():
     teams = Team.query.all()
     return render_template("teams/teams.html",
                            teams=sorted(teams, key=by_team))
-
-
-@mod_teams.route("/category_results.pdf", methods=['GET'])
-def category_results_pdf():
-    teams = Team.query.all()
-    data = render_template("teams/category_results.html",
-                           teams=sorted(teams, key=by_team))
-
-    pdf = create_pdf(data)
-    response = make_response(pdf.getvalue())
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
-                                              'category_results.pdf'
-    return response
 
 
 # add a new team
@@ -106,13 +92,15 @@ def extractTeamsFromCsv(filename):
 def edit(team_id):
     team = Team.query.get(team_id)
     form = TeamForm(obj=team)
+    del form.number
+
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(team)
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("teams/team_form.html", form=form)
+    return render_template("teams/team_form.html", form=form, number=team.number)
 
 
 # Delete a team
@@ -137,12 +125,18 @@ def teams_pdf():
     teams = Team.query.all()
     team_report = render_template("teams/team_report.html",
                                   teams=sorted(teams, key=by_team))
-    pdf = create_pdf(team_report)
-    response = make_response(pdf.getvalue())
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
-                                              'teams.pdf'
-    return response
+    pdf = create_pdf(team_report, 'teams.pdf')
+    return pdf
+
+
+@mod_teams.route("/category_results.pdf", methods=['GET'])
+def category_results_pdf():
+    teams = Team.query.all()
+    data = render_template("teams/category_results.html",
+                           teams=sorted(teams, key=by_team))
+
+    pdf = create_pdf(data, 'category_results.pdf')
+    return pdf
 
 
 # Sort teams by number

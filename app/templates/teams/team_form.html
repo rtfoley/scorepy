@@ -2,6 +2,22 @@
 {% import "_helpers.html" as macros %}
 {% block title %}Team Form{% endblock %}
 {% block pageContent %}
-  <h1>Team Form</h1>
-  {{ macros.render_form(form, class_="teamForm") }}
+    <h1>Team Form</h1>
+    {% call macros.render_form(form, class_="teamForm") %}
+        {% if number %}
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Number</label>
+          <div class="col-sm-9">
+              <p class="form-control-static">{{ number }}</p>
+          </div>
+        </div>
+        {% else %}
+            {{ macros.render_field(form.number) }}
+        {% endif %}
+        {{ macros.render_field(form.name) }}
+        {{ macros.render_field(form.affiliation) }}
+        {{ macros.render_field(form.city) }}
+        {{ macros.render_field(form.state) }}
+        {{ macros.render_field(form.is_rookie) }}
+    {% endcall %}
 {% endblock %}

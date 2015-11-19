@@ -92,13 +92,15 @@ def extractTeamsFromCsv(filename):
 def edit(team_id):
     team = Team.query.get(team_id)
     form = TeamForm(obj=team)
+    del form.number
+
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(team)
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("teams/team_form.html", form=form)
+    return render_template("teams/team_form.html", form=form, number=team.number)
 
 
 # Delete a team

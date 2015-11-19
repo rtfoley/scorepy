@@ -21,9 +21,11 @@ def index():
 @mod_scoring.route('/ranks.pdf')
 def ranks_pdf():
     teams = Team.query.all()
-    ranks = render_template("scoring/ranks.html",
-                            teams=sorted(teams, key=by_team_best,
-                                         reverse=True))
+    ranked_teams = sorted(teams, key=by_team_best, reverse=True)
+    for i, team in enumerate(ranked_teams):
+        team.rank = i + 1
+
+    ranks = render_template("scoring/ranks.html", teams=ranked_teams)
     pdf = create_pdf(ranks)
     response = make_response(pdf.getvalue())
     response.headers['Content-Type'] = 'application/pdf'

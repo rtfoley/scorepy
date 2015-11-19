@@ -41,7 +41,8 @@
     <table repeat="1">
       <thead>
         <tr>
-          <th>Number</th>
+          <th>Rank</th>
+          <th>Team #</th>
           <th>Name</th>
           <th>Best</th>
           <th>Round 1</th>
@@ -52,6 +53,7 @@
       <tbody>
         {% for team in teams %}
           <tr>
+            <td>{{ team.rank }}</td>
             <td>{{ team.number }}</td>
             <td>{{ team.name }}</td>
             {% if team.best != None %}

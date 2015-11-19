@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, flash, request, redirect, \
-    url_for, make_response
+    url_for
 from app import db
 from app.util import create_pdf
 from app.teams.models import Team
@@ -31,12 +31,8 @@ def awards_pdf():
         winner.category_name = AwardCategory(winner.category_id).friendly_name
 
     awards = render_template("awards/awards_report.html", award_winners=award_winners)
-    pdf = create_pdf(awards)
-    response = make_response(pdf.getvalue())
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
-                                              'ranks.pdf'
-    return response
+    pdf = create_pdf(awards, 'awards_report.pdf')
+    return pdf
 
 
 # Edit a previously-entered award winner

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, \
-    url_for, jsonify, make_response
+    url_for, jsonify
 from app import db
 from app.util import create_pdf
 from app.teams.models import Team
@@ -26,12 +26,8 @@ def ranks_pdf():
         team.rank = i + 1
 
     ranks = render_template("scoring/ranks.html", teams=ranked_teams)
-    pdf = create_pdf(ranks)
-    response = make_response(pdf.getvalue())
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % \
-                                              'ranks.pdf'
-    return response
+    pdf = create_pdf(ranks, 'ranks.pdf')
+    return pdf
 
 
 # API endpoint providing rank data for the pit display

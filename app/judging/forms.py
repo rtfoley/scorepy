@@ -5,6 +5,7 @@ from .models import Presentation, Technical, CoreValues
 
 class PresentationForm(Form):
     team_id = SelectField(u'Team', coerce=int)
+    # Research
     problem_identification = RadioField(u'Problem identification',
                                         choices=[(i, i) for i in range(0, 5)],
                                         coerce=int,
@@ -21,6 +22,7 @@ class PresentationForm(Form):
                                     choices=[(i, i) for i in range(0, 5)],
                                     coerce=int,
                                     default=0)
+    # Innovative Solution
     team_solution = RadioField(u'Team solution',
                                choices=[(i, i) for i in range(0, 5)],
                                coerce=int,
@@ -33,6 +35,7 @@ class PresentationForm(Form):
                                 choices=[(i, i) for i in range(0, 5)],
                                 coerce=int,
                                 default=0)
+    # Presentation
     sharing = RadioField(u'Sharing',
                          choices=[(i, i) for i in range(0, 5)],
                          coerce=int,
@@ -69,18 +72,7 @@ class PresentationForm(Form):
 
 class CoreValuesForm(Form):
     team_id = SelectField(u'Team', coerce=int)
-    effectiveness = RadioField(u'Effectiveness',
-                               choices=[(i, i) for i in range(0, 5)],
-                               coerce=int,
-                               default=0)
-    efficiency = RadioField(u'Efficiency',
-                            choices=[(i, i) for i in range(0, 5)],
-                            coerce=int,
-                            default=0)
-    kids_do_the_work = RadioField(u'Kids do the work',
-                                  choices=[(i, i) for i in range(0, 5)],
-                                  coerce=int,
-                                  default=0)
+    # Inspiration
     discovery = RadioField(u'Discovery',
                            choices=[(i, i) for i in range(0, 5)],
                            coerce=int,
@@ -93,6 +85,20 @@ class CoreValuesForm(Form):
                              choices=[(i, i) for i in range(0, 5)],
                              coerce=int,
                              default=0)
+    # Teamwork
+    effectiveness = RadioField(u'Effectiveness',
+                               choices=[(i, i) for i in range(0, 5)],
+                               coerce=int,
+                               default=0)
+    efficiency = RadioField(u'Efficiency',
+                            choices=[(i, i) for i in range(0, 5)],
+                            coerce=int,
+                            default=0)
+    kids_do_the_work = RadioField(u'Kids do the work',
+                                  choices=[(i, i) for i in range(0, 5)],
+                                  coerce=int,
+                                  default=0)
+    # Gracious Professionalism
     inclusion = RadioField(u'Inclusion',
                            choices=[(i, i) for i in range(0, 5)],
                            coerce=int,
@@ -128,6 +134,7 @@ class CoreValuesForm(Form):
 
 class TechnicalForm(Form):
     team_id = SelectField(u'Team', coerce=int)
+    # Mechanical Design
     mechanical_durability = RadioField(u'Mechanical durability',
                                        choices=[(i, i) for i in range(0, 5)],
                                        coerce=int,
@@ -140,6 +147,7 @@ class TechnicalForm(Form):
                                choices=[(i, i) for i in range(0, 5)],
                                coerce=int,
                                default=0)
+    # Programming
     programming_quality = RadioField(u'Programming quality',
                                      choices=[(i, i) for i in range(0, 5)],
                                      coerce=int,
@@ -152,6 +160,7 @@ class TechnicalForm(Form):
                                        choices=[(i, i) for i in range(0, 5)],
                                        coerce=int,
                                        default=0)
+    # Strategy and Innovation
     design_process = RadioField(u'Design process',
                                 choices=[(i, i) for i in range(0, 5)],
                                 coerce=int,

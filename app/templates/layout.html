@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block styles %}
+    {% endblock %}
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/bootstrap.min.js') }}"></script>
+    {% block scripts %}
+    {% endblock %}
+
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
   </head>
@@ -77,8 +85,5 @@
       &copy; Copyright 2015 by Ryan Foley.
       {% endblock %}
     </div>
-
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/bootstrap.min.js') }}"></script>
   </body>
 </html>

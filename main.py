@@ -12,7 +12,7 @@ from operator import attrgetter
 # Imports from other parts of the app
 from forms import ScoreForm, TeamForm, PresentationForm, TechnicalForm, \
     TeamworkForm, TeamSpiritForm, UploadForm, AwardCategoryForm, AwardWinnerForm
-from models import RobotScore, Team, Presentation, Technical, Teamwork, \
+from models import RobotScore, Team, Presentation, Technical, CoreValues, \
     TeamSpirit, AwardCategory, AwardWinner, db
 
 # setup application
@@ -310,7 +310,7 @@ def add_teamwork():
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
     if request.method == 'POST' and form.validate_on_submit():
-        teamwork = Teamwork()
+        teamwork = CoreValues()
         form.populate_obj(teamwork)
         db.session.add(teamwork)
         db.session.commit()
@@ -323,7 +323,7 @@ def add_teamwork():
 # Edit a previously-entered teamwork judging entry
 @app.route("/judging/teamwork/<int:teamwork_id>/edit", methods=['GET', 'POST'])
 def edit_teamwork(teamwork_id):
-    teamwork = Teamwork.query.get(teamwork_id)
+    teamwork = CoreValues.query.get(teamwork_id)
     form = TeamworkForm(obj=teamwork)
     del form.team_id
 
@@ -341,7 +341,7 @@ def edit_teamwork(teamwork_id):
 @app.route("/judging/teamwork/<int:teamwork_id>/delete",
            methods=['GET', 'POST'])
 def delete_teamwork(teamwork_id):
-    teamwork = Teamwork.query.get(teamwork_id)
+    teamwork = CoreValues.query.get(teamwork_id)
     if request.method == 'POST':
         db.session.delete(teamwork)
         db.session.commit()

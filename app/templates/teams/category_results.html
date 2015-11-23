@@ -84,21 +84,13 @@
               <td></td>
             {% endif %}
 
-            {% if team.team_spirit != None %}
-              <td>{{ "%0.2f" % team.team_spirit.inspiration_score }}</td>
+            {% if team.core_values != None %}
+              <td>{{ "%0.2f" % team.core_values.inspiration_score }}</td>
+              <td>{{ "%0.2f" % team.core_values.teamwork_score }}</td>
+              <td>{{ "%0.2f" % team.core_values.gp_score }}</td>
             {% else %}
               <td></td>
-            {% endif %}
-
-            {% if team.teamwork != None %}
-              <td>{{ "%0.2f" % team.teamwork.teamwork_score }}</td>
-            {% else %}
               <td></td>
-            {% endif %}
-
-            {% if team.gp_score != None %}
-              <td>{{ "%0.2f" % team.gp_score }}</td>
-            {% else %}
               <td></td>
             {% endif %}
           </tr>

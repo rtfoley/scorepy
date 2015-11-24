@@ -112,6 +112,18 @@ def delete(team_id):
         for score in team.scores:
             db.session.delete(score)
 
+        # delete related judging entries
+        if team.presentation is not None:
+            db.session.delete(team.presentation)
+        if team.technical is not None:
+            db.session.delete(team.technical)
+        if team.core_values is not None:
+            db.session.delete(team.core_values)
+
+        # clear any assigned awards
+        for award in team.awards:
+            award.team_id = None
+
         # delete the team
         db.session.delete(team)
         db.session.commit()

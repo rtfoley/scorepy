@@ -15,7 +15,7 @@ mod_awards = Blueprint('awards', __name__, url_prefix='/awards')
 def index():
     award_winners = AwardWinner.query.all()
 
-    award_winners = sorted(award_winners, key = lambda x: x.friendly_award_name)
+    award_winners = sorted(award_winners, key=lambda x: x.friendly_award_name)
     for winner in award_winners:
         winner.category_name = AwardCategory(winner.category_id).friendly_name
     return render_template("awards/awards.html", award_winners=award_winners)
@@ -26,7 +26,7 @@ def index():
 def awards_pdf():
     award_winners = AwardWinner.query.all()
 
-    award_winners = sorted(award_winners, key = lambda x: x.friendly_award_name)
+    award_winners = sorted(award_winners, key=lambda x: x.friendly_award_name)
     for winner in award_winners:
         winner.category_name = AwardCategory(winner.category_id).friendly_name
 
@@ -38,6 +38,17 @@ def awards_pdf():
 # Edit a previously-entered award winner
 @mod_awards.route("/<int:award_winner_id>/assign", methods=['GET', 'POST'])
 def assign_award_winner(award_winner_id):
+    return select_award_winner(award_winner_id=award_winner_id, action="assign")
+
+
+# Edit a previously-entered award winner
+@mod_awards.route("/<int:award_winner_id>/edit", methods=['GET', 'POST'])
+def edit_award_winner(award_winner_id):
+    return select_award_winner(award_winner_id=award_winner_id, action="edit")
+
+
+# Select the winning team for an award
+def select_award_winner(award_winner_id, action):
     award_winner = AwardWinner.query.get(award_winner_id)
     form = AwardWinnerForm(obj=award_winner)
     form.team_id.choices = [(t.id, t.number) for t in
@@ -49,8 +60,8 @@ def assign_award_winner(award_winner_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("awards/award_winner_form.html", form=form,
-                           award=award_winner.friendly_award_name)
+    return render_template("awards/award_winner_form.html", form=form, award=award_winner.friendly_award_name,
+                           action=action)
 
 
 # Delete an award winner
@@ -63,7 +74,7 @@ def clear_award_winner(award_winner_id):
         db.session.commit()
         return redirect(url_for(".index"))
     return render_template("delete.html", identifier="award winner for %s"
-                           % award_winner.friendly_award_name)
+                                                     % award_winner.friendly_award_name)
 
 
 @mod_awards.route("/populate_slots", methods=['GET', 'POST'])
@@ -93,4 +104,3 @@ def populate_slots():
 # Sort teams by number
 def by_team(team):
     return team.number
-

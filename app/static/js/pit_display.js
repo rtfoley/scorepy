@@ -24,6 +24,8 @@ $(document).ready(function () {
         "info": false
     });
 
+    $('.dataTables_paginate').hide()
+
     // Set up the page looping
     var page = 1;
     var pageCount = myTable.page.info().pages;

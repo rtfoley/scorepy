@@ -1,12 +1,26 @@
 {% extends "layout.html" %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/datatables.min.js') }}"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $(".table").DataTable({
+            scrollY:        '50vh',
+            scrollCollapse: true,
+            paging:         false
+            });
+        });
+    </script>
+{% endblock %}
 {% block title %}Teams{% endblock %}
 {% block pageContent %}
   <h1>Teams</h1>
   <!-- TODO add icons to these, format as buttons-->
   <a href="{{ url_for('.upload') }}">Upload CSV</a><br>
   <a href="{{ url_for('.add') }}">Add a new team</a>
-  <!-- TODO add CSV import option -->
-  <table class="table table-hover">
+  <table class="table table-hover display" width="100%">
     <thead>
       <tr>
         <th>Number</th>

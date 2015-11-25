@@ -48,8 +48,12 @@
           <td>{{ winner.team.name }}</td>
           <!-- TODO fix alignment so text and buttons are aligned on horizontal center -->
           <td>
-            <a href="{{ url_for('.assign_award_winner', award_winner_id=winner.id) }}">Assign</a> |
-            <a href="{{ url_for('.clear_award_winner', award_winner_id=winner.id) }}">Clear</a>
+            {% if winner.team == None %}
+              <a href="{{ url_for('.assign_award_winner', award_winner_id=winner.id) }}">Assign</a>
+            {% else %}
+              <a href="{{ url_for('.edit_award_winner', award_winner_id=winner.id) }}">Edit</a>
+            {% endif %}
+            | <a href="{{ url_for('.clear_award_winner', award_winner_id=winner.id) }}">Clear</a>
           </td>
         </tr>
       {% endfor %}

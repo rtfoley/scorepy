@@ -38,17 +38,6 @@ def awards_pdf():
 # Edit a previously-entered award winner
 @mod_awards.route("/<int:award_winner_id>/assign", methods=['GET', 'POST'])
 def assign_award_winner(award_winner_id):
-    return select_award_winner(award_winner_id=award_winner_id, action="assign")
-
-
-# Edit a previously-entered award winner
-@mod_awards.route("/<int:award_winner_id>/edit", methods=['GET', 'POST'])
-def edit_award_winner(award_winner_id):
-    return select_award_winner(award_winner_id=award_winner_id, action="edit")
-
-
-# Select the winning team for an award
-def select_award_winner(award_winner_id, action):
     award_winner = AwardWinner.query.get(award_winner_id)
     form = AwardWinnerForm(obj=award_winner)
     form.team_id.choices = [(t.id, t.number) for t in
@@ -60,8 +49,7 @@ def select_award_winner(award_winner_id, action):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("awards/award_winner_form.html", form=form, award=award_winner.friendly_award_name,
-                           action=action)
+    return render_template("awards/award_winner_form.html", form=form, award=award_winner.friendly_award_name)
 
 
 # Delete an award winner

@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% import "_helpers.html" as macros %}
+{% block title %}Login{% endblock %}
+{% block pageContent %}
+  <h1>Login</h1>
+  {{ macros.render_form(form, action_url="", action_text="Login", class_="login_form") }}
+{% endblock %}

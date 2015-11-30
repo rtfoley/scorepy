@@ -3,7 +3,7 @@ from flask import Flask
 from flask import render_template, redirect, url_for, flash
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
-from flask.ext.login import login_user, logout_user
+from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.login import login_required
 
@@ -25,7 +25,7 @@ db.init_app(app)
 
 
 from models import User
-from forms import LoginForm
+from forms import LoginForm, ChangePasswordForm
 
 
 @login_manager.user_loader
@@ -60,6 +60,25 @@ def logout():
     logout_user()
 
     return redirect(url_for('index'))
+
+
+@app.route('/change_password', methods=["GET", "POST"])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=current_user.username).first()
+        if user.is_correct_password(form.old_password.data) and form.new_password.data == form.new_password_confirm.data:
+            user.password = form.new_password.data
+            db.session.commit()
+            return redirect(url_for('index'))
+        if not user.is_correct_password(form.old_password.data):
+            form.old_password.errors.append("Old password is incorrect")
+        if form.new_password.data != form.new_password_confirm.data:
+            form.new_password.errors.append("New passwords do not match")
+            form.new_password_confirm.errors.append("New passwords do not match")
+
+    return render_template("change_password.html", form=form)
 
 
 # Playoffs page

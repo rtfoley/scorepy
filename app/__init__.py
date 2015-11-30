@@ -5,6 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.login import login_user, logout_user
 from flask.ext.bcrypt import Bcrypt
+from flask.ext.login import login_required
 
 # Setup application
 app = Flask(__name__)
@@ -54,6 +55,7 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
 
@@ -62,6 +64,7 @@ def logout():
 
 # Playoffs page
 @app.route("/playoffs", methods=['GET'])
+@login_required
 def playoffs():
     return render_template("playoffs.html")
 
@@ -74,6 +77,7 @@ def pit_display():
 
 # Pit Display page
 @app.route("/settings", methods=['GET'])
+@login_required
 def settings():
     return render_template("settings.html")
 

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, \
     url_for, jsonify
+from flask.ext.login import login_required
 from app import db
 from app.util import create_pdf
 from app.teams.models import Team
@@ -11,6 +12,7 @@ mod_scoring = Blueprint('scoring', __name__, url_prefix='/scores')
 
 
 @mod_scoring.route("/")
+@login_required
 def index():
     teams = Team.query.all()
     return render_template("scoring/score_list.html",
@@ -56,6 +58,7 @@ def api():
 
 # Add a new robot score
 @mod_scoring.route("/add", methods=['GET', 'POST'])
+@login_required
 def add():
     form = ScoreForm()
     form.team_id.choices = [(t.id, t.number) for t in
@@ -124,6 +127,7 @@ def add():
 
 # Edit a previously-entered score
 @mod_scoring.route("/<int:score_id>/edit", methods=['GET', 'POST'])
+@login_required
 def edit(score_id):
     score = RobotScore.query.get(score_id)
     form = ScoreForm(obj=score)
@@ -193,6 +197,7 @@ def edit(score_id):
 
 # Delete a score
 @mod_scoring.route("/<int:score_id>/delete", methods=['GET', 'POST'])
+@login_required
 def delete(score_id):
     score = RobotScore.query.get(score_id)
     if request.method == 'POST':

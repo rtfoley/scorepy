@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
+from flask.ext.login import login_required
 from app import db
 from app.teams.models import Team
 from models import Presentation, Technical, CoreValues
@@ -6,6 +7,13 @@ from forms import PresentationForm, TechnicalForm, CoreValuesForm
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_judging = Blueprint('judging', __name__, url_prefix='/judging')
+
+
+# Restrict access to authorized users only
+@mod_judging.before_request
+@login_required
+def before_request():
+    pass
 
 
 @mod_judging.route("/")

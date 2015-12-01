@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, request, redirect, \
     url_for
+from flask.ext.login import login_required
 from app import db
 from app.util import create_pdf
 from app.teams.models import Team
@@ -8,6 +9,13 @@ from forms import AwardWinnerForm
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_awards = Blueprint('awards', __name__, url_prefix='/awards')
+
+
+# Restrict access to authorized users only
+@mod_awards.before_request
+@login_required
+def before_request():
+    pass
 
 
 # Awards page

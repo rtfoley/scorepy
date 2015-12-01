@@ -2,6 +2,7 @@ import csv
 import os
 from flask import Blueprint, flash, render_template, request, redirect, \
     url_for
+from flask.ext.login import login_required
 from app import db
 from app.util import create_pdf
 from models import Team
@@ -22,6 +23,7 @@ def index():
 
 # add a new team
 @mod_teams.route("/new", methods=['GET', 'POST'])
+@login_required
 def add():
     form = TeamForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -37,6 +39,7 @@ def add():
 
 # Upload teams via CSV file
 @mod_teams.route("/upload", methods=['GET', 'POST'])
+@login_required
 def upload():
     form = UploadForm()
     if request.method == 'POST' and 'file' in request.files:
@@ -89,6 +92,7 @@ def extractTeamsFromCsv(filename):
 
 # Edit a previously-entered team
 @mod_teams.route("/<int:team_id>/edit", methods=['GET', 'POST'])
+@login_required
 def edit(team_id):
     team = Team.query.get(team_id)
     form = TeamForm(obj=team)
@@ -105,6 +109,7 @@ def edit(team_id):
 
 # Delete a team
 @mod_teams.route("/<int:team_id>/delete", methods=['GET', 'POST'])
+@login_required
 def delete(team_id):
     team = Team.query.get(team_id)
     if request.method == 'POST':
@@ -142,6 +147,7 @@ def teams_pdf():
 
 
 @mod_teams.route("/category_results.pdf", methods=['GET'])
+@login_required
 def category_results_pdf():
     teams = Team.query.all()
     data = render_template("teams/category_results.html",

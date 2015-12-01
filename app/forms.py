@@ -1,10 +1,11 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, validators
+from wtforms import StringField, PasswordField, BooleanField, validators
 
 
 class LoginForm(Form):
     username = StringField('Username', [validators.DataRequired()])
     password = PasswordField('Password', [validators.DataRequired()])
+    remember_me = BooleanField('Remember me?', default=False)
 
 
 class ChangePasswordForm(Form):

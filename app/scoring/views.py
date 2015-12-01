@@ -208,6 +208,13 @@ def delete(score_id):
                                                      % (score.team.number, score.round_number))
 
 
+# Playoffs page
+@mod_scoring.route("/playoffs", methods=['GET'])
+@login_required
+def playoffs():
+    return render_template("scoring/playoffs.html")
+
+
 # Utility method to get live score when score form is being filled out
 @mod_scoring.route('/_add_numbers')
 def add_numbers():

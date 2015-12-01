@@ -1,6 +1,6 @@
 # Python library imports
 from flask import Flask
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.login import login_user, logout_user, current_user
@@ -45,7 +45,10 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.is_correct_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('index'))
+            next_page = request.args.get('next')
+
+            # TODO should validate the next parameter before using it
+            return redirect(next_page or url_for('index'))
         if user is None:
             form.username.errors.append("User does not exist")
         else:

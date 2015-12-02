@@ -140,30 +140,49 @@ def playoffs():
                            semifinal_teams=semifinal_teams, final_teams=final_teams)
 
 
-@mod_scoring.route("/playoffs/<int:round>/populate", methods=['GET', 'POST'])
+@mod_scoring.route("/playoffs/<int:selected_round>/populate", methods=['GET', 'POST'])
 @login_required
-def populate(round):
+def populate(selected_round):
     if request.method == 'POST':
-        if round==4:
-            # TODO check if all qualifying scores entered
+        if selected_round == 4:
             top_teams = sorted(Team.query.all(), key=by_team_best, reverse=True)[:8]
             for team in top_teams:
                 team.highest_round_reached = 4
             db.session.commit()
-        elif round==5:
-            # TODO check if all quarterfinal scores entered
-            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 4), key=by_quarterfinal, reverse=True)[:4]
+        elif selected_round == 5:
+            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 4), key=by_quarterfinal, reverse=True)[
+                        :4]
             for team in top_teams:
                 team.highest_round_reached = 5
             db.session.commit()
-        elif round==6:
-            # TODO check if all semifinal scores entered
+        elif selected_round == 6:
             top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 5), key=by_semifinal, reverse=True)[:2]
             for team in top_teams:
                 team.highest_round_reached = 6
             db.session.commit()
         return redirect(url_for(".playoffs"))
-    return render_template("scoring/populate_playoffs.html", round=round)
+    else:
+        # Check if all data has been entered for previous rounds
+        previous_round = 0
+        incomplete_data = None
+        if selected_round == 4:
+            previous_round = "qualifying"
+            teams = Team.query.all()
+            if any(len(team.qualifying_scores) != 3 for team in teams):
+                incomplete_data = True
+        elif selected_round == 5:
+            previous_round = get_round_name(4)
+            if any(team.quarterfinal is None for team in Team.query.filter(Team.highest_round_reached == 4)):
+                incomplete_data = True
+        elif selected_round == 6:
+            previous_round = get_round_name(5)
+            if any(team.semifinal is None for team in Team.query.filter(Team.highest_round_reached == 5)):
+                incomplete_data = True
+
+        return render_template("scoring/populate_playoffs.html",
+                               round=get_round_name(selected_round),
+                               previous_round=previous_round,
+                               incomplete_data=incomplete_data)
 
 
 # Utility method to get live score when score form is being filled out

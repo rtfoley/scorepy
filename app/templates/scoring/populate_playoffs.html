@@ -7,8 +7,14 @@
     window.history.back();
   }
 </script>
-  <p>Really populate round {{ round }}?<p>
-  <form action="" method="post">
-    <p><button class="btn" onclick="goBack()">Cancel</button>  <input type="submit" class="btn btn-primary" value="Populate"></p>
-  </form>
+    <p>
+        {% if incomplete_data %}
+            Not all {{ previous_round }} scores have been entered yet!</p>
+        {% endif %}
+        Once populated, changes to scores for previous rounds will have no effect on this round.
+    </p>
+    <p>Really populate teams for {{ round }}?</p>
+    <form action="" method="post">
+        <p><button class="btn" onclick="goBack()">Cancel</button>  <input type="submit" class="btn btn-primary" value="Populate"></p>
+    </form>
 {% endblock %}

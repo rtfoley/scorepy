@@ -15,6 +15,7 @@ class Team(db.Model):
     city = db.Column(db.String(50))
     state = db.Column(db.String(2))
     is_rookie = db.Column(db.Boolean)
+    highest_round_reached = db.Column(db.Integer)
     scores = db.relationship('RobotScore', backref='team')
     presentation = db.relationship('Presentation', uselist=False,
                                    backref='team')
@@ -29,6 +30,7 @@ class Team(db.Model):
         self.city = city
         self.state = state
         self.is_rookie = is_rookie
+        self.highest_round_reached = 0
 
     def get_score_for_round(self, round_number):
         return next((score for score in self.scores if

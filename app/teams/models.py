@@ -54,3 +54,15 @@ class Team(db.Model):
             return max(self.scores, key=attrgetter('total'))
         else:
             return None
+
+    @property
+    def quarterfinal(self):
+        return self.get_score_for_round(4)
+
+    @property
+    def semifinal(self):
+        return self.get_score_for_round(5)
+
+    @property
+    def final(self):
+        return self.get_score_for_round(6)

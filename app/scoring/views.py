@@ -105,7 +105,6 @@ def edit(score_id):
             return redirect(url_for(".index"))
         else:
             return redirect(url_for(".playoffs"))
-        return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("scoring/score_form.html",

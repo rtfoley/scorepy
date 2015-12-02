@@ -83,7 +83,7 @@ def add():
         if form.round_number.data <= 3:
             return redirect(url_for(".index"))
         else:
-            return redirect(url_for("playoffs"))
+            return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("scoring/score_form.html", form=form)
@@ -101,6 +101,10 @@ def edit(score_id):
     if request.method == 'POST' and form.validate_on_submit():
         populate_score(score, form)
         db.session.commit()
+        if score.round_number <= 3:
+            return redirect(url_for(".index"))
+        else:
+            return redirect(url_for(".playoffs"))
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
@@ -127,7 +131,8 @@ def delete(score_id):
 @mod_scoring.route("/playoffs", methods=['GET'])
 @login_required
 def playoffs():
-    return render_template("scoring/playoffs.html")
+    quarterfinal_teams = Team.query.filter(Team.highest_round_reached == 4)
+    return render_template("scoring/playoffs.html", quarterfinal_teams=quarterfinal_teams)
 
 
 # Utility method to get live score when score form is being filled out

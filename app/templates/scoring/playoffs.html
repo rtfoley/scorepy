@@ -13,46 +13,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Team 1</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Team 2</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Team 3</td>
-                    <td>30</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Team 4</td>
-                    <td>40</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Team 5</td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Team 6</td>
-                    <td>60</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Team 7</td>
-                    <td>70</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Team 8</td>
-                    <td>80</td>
-                </tr>
+                {% for team in quarterfinal_teams %}
+                    <tr>
+                        <td>{{ team.number }}</td>
+                        <td>{{ team.name }}</td>
+                        <td>
+                            {% if team.quarterfinal != None %}
+                                <!-- TODO add delete button -->
+                                <a href="{{ url_for('.edit', score_id=team.quarterfinal.id) }}">{{ team.quarterfinal.total }}</a>
+                            {% else %}
+                                <a href="{{ url_for('.add', team_id=team.id, round=4) }}">Add</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

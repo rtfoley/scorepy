@@ -66,57 +66,8 @@ def add():
 
     if request.method == 'POST' and form.validate_on_submit():
         score = RobotScore(team=form.team_id.data,
-                           round_number=form.round_number.data,
-
-                           # M04 yellow/ blue bars
-                           bars_in_west_transfer=form.bars_in_west_transfer.data,
-                           bars_never_in_west_transfer=form.bars_never_in_west_transfer.data,
-
-                           # M04 black bars
-                           black_bars_in_original_position=form.black_bars_in_original_position.data,
-                           black_bars_in_green_or_landfill=form.black_bars_in_green_or_landfill.data,
-                           black_bars_elsewhere=form.black_bars_elsewhere.data,
-
-                           # M02 Methane
-                           methane_in_truck_or_factory=form.methane_in_truck_or_factory.data,
-
-                           # M03 Transport
-                           truck_supports_yellow_bin=form.truck_supports_yellow_bin.data == 'True',
-                           yellow_bin_east_of_guide=form.yellow_bin_east_of_guide.data == 'True',
-
-                           # M05 Careers
-                           anyone_in_sorter_area=form.anyone_in_sorter_area.data == 'True',
-
-                           # M06 Scrap Cars
-                           engine_installed=form.engine_installed.data == 'True',
-                           car_folded_in_east_transfer=form.car_folded_in_east_transfer.data == 'True',
-                           car_never_in_safety=form.car_never_in_safety.data == 'True',
-
-                           # M08 Composting
-                           compost_ejected_not_in_safety=form.compost_ejected_not_in_safety.data == 'True',
-                           compost_ejected_in_safety=form.compost_ejected_in_safety.data == 'True',
-
-                           # M07 Cleanup
-                           plastic_bags_in_safety=form.plastic_bags_in_safety.data,
-                           animals_in_circles_without_bags=form.animals_in_circles_without_bags.data,
-                           chicken_in_small_landfill_circle=form.chicken_in_small_landfill_circle.data == 'True',
-
-                           # M10 Demolition
-                           all_beams_not_in_setup_position=form.all_beams_not_in_setup_position.data == 'True',
-
-                           # M01 Recycled Material
-                           green_bins_in_opp_safety=form.green_bins_in_opp_safety.data,
-                           opp_green_bins_in_safety=form.opp_green_bins_in_safety.data,
-
-                           # M09 Salvage
-                           valuables_in_safety=form.valuables_in_safety.data == 'True',
-
-                           # M11 Purchasing Decisions
-                           planes_in_safety=form.planes_in_safety.data,
-
-                           # M12 Repurposing
-                           compost_in_toy_package=form.compost_in_toy_package.data == 'True',
-                           package_in_original_condition=form.package_in_original_condition.data == 'True')
+                           round_number=form.round_number.data)
+        populate_score(score, form)
         db.session.add(score)
         db.session.commit()
         return redirect(url_for(".index"))
@@ -135,56 +86,7 @@ def edit(score_id):
     del form.round_number
 
     if request.method == 'POST' and form.validate_on_submit():
-        # M04 yellow/ blue bars
-        score.bars_in_west_transfer = form.bars_in_west_transfer.data
-        score.bars_never_in_west_transfer = form.bars_never_in_west_transfer.data
-
-        # M04 black bars
-        score.black_bars_in_original_position = form.black_bars_in_original_position.data
-        score.black_bars_in_green_or_landfill = form.black_bars_in_green_or_landfill.data
-        score.black_bars_elsewhere = form.black_bars_elsewhere.data
-
-        # M02 Methane
-        score.methane_in_truck_or_factory = form.methane_in_truck_or_factory.data
-
-        # M03 Transport
-        score.truck_supports_yellow_bin = form.truck_supports_yellow_bin.data == 'True'
-        score.yellow_bin_east_of_guide = form.yellow_bin_east_of_guide.data == 'True'
-
-        # M05 Careers
-        score.anyone_in_sorter_area = form.anyone_in_sorter_area.data == 'True'
-
-        # M06 Scrap Cars
-        score.engine_installed = form.engine_installed.data == 'True'
-        score.car_folded_in_east_transfer = form.car_folded_in_east_transfer.data == 'True'
-        score.car_never_in_safety = form.car_never_in_safety.data == 'True'
-
-        # M08 Composting
-        score.compost_ejected_not_in_safety = form.compost_ejected_not_in_safety.data == 'True'
-        score.compost_ejected_in_safety = form.compost_ejected_in_safety.data == 'True'
-
-        # M07 Cleanup
-        score.plastic_bags_in_safety = form.plastic_bags_in_safety.data
-        score.animals_in_circles_without_bags = form.animals_in_circles_without_bags.data
-        score.chicken_in_small_landfill_circle = form.chicken_in_small_landfill_circle.data == 'True'
-
-        # M10 Demolition
-        score.all_beams_not_in_setup_position = form.all_beams_not_in_setup_position.data == 'True'
-
-        # M01 Recycled Material
-        score.green_bins_in_opp_safety = form.green_bins_in_opp_safety.data
-        score.opp_green_bins_in_safety = form.opp_green_bins_in_safety.data
-
-        # M09 Salvage
-        score.valuables_in_safety = form.valuables_in_safety.data == 'True'
-
-        # M11 Purchasing Decisions
-        score.planes_in_safety = form.planes_in_safety.data
-
-        # M12 Repurposing
-        score.compost_in_toy_package = form.compost_in_toy_package.data == 'True'
-        score.package_in_original_condition = form.package_in_original_condition.data == 'True'
-
+        populate_score(score, form)
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
@@ -271,6 +173,60 @@ def add_numbers():
                        compost_in_toy_package=request.args.get('compost_in_toy_package') == 'True',
                        package_in_original_condition=request.args.get('package_in_original_condition') == 'True')
     return jsonify(result=score.total)
+
+
+# Populate a score object from form data
+# TODO this could be removed by creating a custom form field for the select-button-group fields
+def populate_score(score, form):
+    # M04 yellow/ blue bars
+    score.bars_in_west_transfer = form.bars_in_west_transfer.data
+    score.bars_never_in_west_transfer = form.bars_never_in_west_transfer.data
+
+    # M04 black bars
+    score.black_bars_in_original_position = form.black_bars_in_original_position.data
+    score.black_bars_in_green_or_landfill = form.black_bars_in_green_or_landfill.data
+    score.black_bars_elsewhere = form.black_bars_elsewhere.data
+
+    # M02 Methane
+    score.methane_in_truck_or_factory = form.methane_in_truck_or_factory.data
+
+    # M03 Transport
+    score.truck_supports_yellow_bin = form.truck_supports_yellow_bin.data == 'True'
+    score.yellow_bin_east_of_guide = form.yellow_bin_east_of_guide.data == 'True'
+
+    # M05 Careers
+    score.anyone_in_sorter_area = form.anyone_in_sorter_area.data == 'True'
+
+    # M06 Scrap Cars
+    score.engine_installed = form.engine_installed.data == 'True'
+    score.car_folded_in_east_transfer = form.car_folded_in_east_transfer.data == 'True'
+    score.car_never_in_safety = form.car_never_in_safety.data == 'True'
+
+    # M08 Composting
+    score.compost_ejected_not_in_safety = form.compost_ejected_not_in_safety.data == 'True'
+    score.compost_ejected_in_safety = form.compost_ejected_in_safety.data == 'True'
+
+    # M07 Cleanup
+    score.plastic_bags_in_safety = form.plastic_bags_in_safety.data
+    score.animals_in_circles_without_bags = form.animals_in_circles_without_bags.data
+    score.chicken_in_small_landfill_circle = form.chicken_in_small_landfill_circle.data == 'True'
+
+    # M10 Demolition
+    score.all_beams_not_in_setup_position = form.all_beams_not_in_setup_position.data == 'True'
+
+    # M01 Recycled Material
+    score.green_bins_in_opp_safety = form.green_bins_in_opp_safety.data
+    score.opp_green_bins_in_safety = form.opp_green_bins_in_safety.data
+
+    # M09 Salvage
+    score.valuables_in_safety = form.valuables_in_safety.data == 'True'
+
+    # M11 Purchasing Decisions
+    score.planes_in_safety = form.planes_in_safety.data
+
+    # M12 Repurposing
+    score.compost_in_toy_package = form.compost_in_toy_package.data == 'True'
+    score.package_in_original_condition = form.package_in_original_condition.data == 'True'
 
 
 # Sort teams by number

@@ -32,6 +32,8 @@ class TeamForm(Form):
             self.number.errors.append("Team with this number already exists")
             return False
 
+        # TODO validate that if the 'highest round reached' value is being decreased that there aren't existing scores for that round
+
         return True
 
 

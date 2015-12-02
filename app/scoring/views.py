@@ -121,7 +121,10 @@ def delete(score_id):
     if request.method == 'POST':
         db.session.delete(score)
         db.session.commit()
-        return redirect(url_for(".index"))
+        if score.round_number <= 3:
+            return redirect(url_for(".index"))
+        else:
+            return redirect(url_for(".playoffs"))
     return render_template("delete.html", identifier="score for %d in round %d"
                                                      % (score.team.number, score.round_number))
 

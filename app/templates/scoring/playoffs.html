@@ -17,10 +17,12 @@
                     <tr>
                         <td>{{ team.number }}</td>
                         <td>{{ team.name }}</td>
+                        <!-- TODO could this be made into a template helper? -->
                         <td>
                             {% if team.quarterfinal != None %}
                                 <!-- TODO add delete button -->
                                 <a href="{{ url_for('.edit', score_id=team.quarterfinal.id) }}">{{ team.quarterfinal.total }}</a>
+                                <a href="{{ url_for('.delete', score_id=team.quarterfinal.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
                             {% else %}
                                 <a href="{{ url_for('.add', team_id=team.id, round=4) }}">Add</a>
                             {% endif %}

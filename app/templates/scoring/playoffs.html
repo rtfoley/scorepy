@@ -4,6 +4,7 @@
     <h1>Playoffs</h1>
     <div class="col-md-4">
         <h2 style="text-align: center;">Quarterfinals</h2>
+        <a href="{{ url_for('.populate', round=4) }}"><p style="text-align: center;">Populate</p></a>
         <table class="table table-hover display" width="100%">
             <thead>
                 <tr>
@@ -34,6 +35,7 @@
     </div>
     <div class="col-md-4">
         <h2 style="text-align: center;">Semifinals</h2>
+        <a href="{{ url_for('.populate', round=5) }}"><p style="text-align: center;">Populate</p></a>
         <table class="table table-hover display" width="100%">
             <thead>
                 <tr>
@@ -63,6 +65,7 @@
     </div>
     <div class="col-md-4">
         <h2 style="text-align: center;">Finals</h2>
+        <a href="{{ url_for('.populate', round=6) }}"><p style="text-align: center;">Populate</p></a>
         <table class="table table-hover display" width="100%">
             <thead>
                 <tr>

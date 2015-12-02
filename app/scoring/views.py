@@ -140,6 +140,32 @@ def playoffs():
                            semifinal_teams=semifinal_teams, final_teams=final_teams)
 
 
+@mod_scoring.route("/playoffs/<int:round>/populate", methods=['GET', 'POST'])
+@login_required
+def populate(round):
+    if request.method == 'POST':
+        if round==4:
+            # TODO check if all qualifying scores entered
+            top_teams = sorted(Team.query.all(), key=by_team_best, reverse=True)[:8]
+            for team in top_teams:
+                team.highest_round_reached = 4
+            db.session.commit()
+        elif round==5:
+            # TODO check if all quarterfinal scores entered
+            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 4), key=by_quarterfinal, reverse=True)[:4]
+            for team in top_teams:
+                team.highest_round_reached = 5
+            db.session.commit()
+        elif round==6:
+            # TODO check if all semifinal scores entered
+            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 5), key=by_semifinal, reverse=True)[:2]
+            for team in top_teams:
+                team.highest_round_reached = 6
+            db.session.commit()
+        return redirect(url_for(".playoffs"))
+    return render_template("scoring/populate_playoffs.html", round=round)
+
+
 # Utility method to get live score when score form is being filled out
 @mod_scoring.route('/_add_numbers')
 def add_numbers():
@@ -261,5 +287,19 @@ def by_team(team):
 def by_team_best(team):
     if team.best:
         return team.best.total
+    else:
+        return 0
+
+
+def by_quarterfinal(team):
+    if team.quarterfinal:
+        return team.quarterfinal.total
+    else:
+        return 0
+
+
+def by_semifinal(team):
+    if team.semifinal:
+        return team.semifinal.total
     else:
         return 0

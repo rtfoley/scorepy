@@ -43,26 +43,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Team 1</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Team 2</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Team 3</td>
-                    <td>30</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Team 4</td>
-                    <td>40</td>
-                </tr>
+                {% for team in semifinal_teams %}
+                    <tr>
+                        <td>{{ team.number }}</td>
+                        <td>{{ team.name }}</td>
+                        <td>
+                            {% if team.semifinal != None %}
+                                <!-- TODO add delete button -->
+                                <a href="{{ url_for('.edit', score_id=team.semifinal.id) }}">{{ team.semifinal.total }}</a>
+                                <a href="{{ url_for('.delete', score_id=team.semifinal.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+                            {% else %}
+                                <a href="{{ url_for('.add', team_id=team.id, round=5) }}">Add</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -77,16 +72,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Team 1</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Team 2</td>
-                    <td>20</td>
-                </tr>
+                {% for team in final_teams %}
+                    <tr>
+                        <td>{{ team.number }}</td>
+                        <td>{{ team.name }}</td>
+                        <td>
+                            {% if team.final != None %}
+                                <!-- TODO add delete button -->
+                                <a href="{{ url_for('.edit', score_id=team.final.id) }}">{{ team.final.total }}</a>
+                                <a href="{{ url_for('.delete', score_id=team.final.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+                            {% else %}
+                                <a href="{{ url_for('.add', team_id=team.id, round=6) }}">Add</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

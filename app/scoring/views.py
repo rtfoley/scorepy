@@ -133,8 +133,11 @@ def delete(score_id):
 @mod_scoring.route("/playoffs", methods=['GET'])
 @login_required
 def playoffs():
-    quarterfinal_teams = Team.query.filter(Team.highest_round_reached == 4)
-    return render_template("scoring/playoffs.html", quarterfinal_teams=quarterfinal_teams)
+    quarterfinal_teams = Team.query.filter(Team.highest_round_reached >= 4)
+    semifinal_teams = Team.query.filter(Team.highest_round_reached >= 5)
+    final_teams = Team.query.filter(Team.highest_round_reached >= 6)
+    return render_template("scoring/playoffs.html", quarterfinal_teams=quarterfinal_teams,
+                           semifinal_teams=semifinal_teams, final_teams=final_teams)
 
 
 # Utility method to get live score when score form is being filled out

@@ -4,6 +4,9 @@
     <h1>Playoffs</h1>
     <div class="col-md-4">
         <h2 style="text-align: center;">Quarterfinals</h2>
+        <!-- TODO hide this until at least one score is entered for previous round -->
+        <!-- TODO hide this once the round is populated -->
+        <!-- TODO Add an option to clear this round (teams and scores) -->
         <a href="{{ url_for('.populate', selected_round=4) }}"><p style="text-align: center;">Populate</p></a>
         <table class="table table-hover display" width="100%">
             <thead>
@@ -14,6 +17,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- TODO could this be made into a template helper? -->
                 {% for team in quarterfinal_teams %}
                     <tr>
                         <td>{{ team.number }}</td>
@@ -21,7 +25,6 @@
                         <!-- TODO could this be made into a template helper? -->
                         <td>
                             {% if team.quarterfinal != None %}
-                                <!-- TODO add delete button -->
                                 <a href="{{ url_for('.edit', score_id=team.quarterfinal.id) }}">{{ team.quarterfinal.total }}</a>
                                 <a href="{{ url_for('.delete', score_id=team.quarterfinal.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
                             {% else %}
@@ -35,6 +38,9 @@
     </div>
     <div class="col-md-4">
         <h2 style="text-align: center;">Semifinals</h2>
+        <!-- TODO hide this until at least one score is entered for previous round -->
+        <!-- TODO hide this once the round is populated -->
+        <!-- TODO Add an option to clear this round (teams and scores) -->
         <a href="{{ url_for('.populate', selected_round=5) }}"><p style="text-align: center;">Populate</p></a>
         <table class="table table-hover display" width="100%">
             <thead>
@@ -45,13 +51,14 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- TODO could this be made into a template helper? -->
                 {% for team in semifinal_teams %}
                     <tr>
                         <td>{{ team.number }}</td>
                         <td>{{ team.name }}</td>
+                        <!-- TODO could this be made into a template helper? -->
                         <td>
                             {% if team.semifinal != None %}
-                                <!-- TODO add delete button -->
                                 <a href="{{ url_for('.edit', score_id=team.semifinal.id) }}">{{ team.semifinal.total }}</a>
                                 <a href="{{ url_for('.delete', score_id=team.semifinal.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
                             {% else %}
@@ -65,6 +72,9 @@
     </div>
     <div class="col-md-4">
         <h2 style="text-align: center;">Finals</h2>
+        <!-- TODO hide this until at least one score is entered for previous round -->
+        <!-- TODO hide this once the round is populated -->
+        <!-- TODO Add an option to clear this round (teams and scores) -->
         <a href="{{ url_for('.populate', selected_round=6) }}"><p style="text-align: center;">Populate</p></a>
         <table class="table table-hover display" width="100%">
             <thead>
@@ -75,13 +85,14 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- TODO could this be made into a template helper? -->
                 {% for team in final_teams %}
                     <tr>
                         <td>{{ team.number }}</td>
                         <td>{{ team.name }}</td>
+                        <!-- TODO could this be made into a template helper? -->
                         <td>
                             {% if team.final != None %}
-                                <!-- TODO add delete button -->
                                 <a href="{{ url_for('.edit', score_id=team.final.id) }}">{{ team.final.total }}</a>
                                 <a href="{{ url_for('.delete', score_id=team.final.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
                             {% else %}

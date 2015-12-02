@@ -125,8 +125,8 @@ def delete(score_id):
             return redirect(url_for(".index"))
         else:
             return redirect(url_for(".playoffs"))
-    return render_template("delete.html", identifier="score for %d in round %d"
-                                                     % (score.team.number, score.round_number))
+    return render_template("delete.html",
+                           identifier="%s score for team %d" % (get_round_name(score.round_number), score.team.number))
 
 
 # Playoffs page
@@ -303,3 +303,14 @@ def by_semifinal(team):
         return team.semifinal.total
     else:
         return 0
+
+
+def get_round_name(round_number):
+    if round_number == 4:
+        return "Quarterfinals"
+    elif round_number == 5:
+        return "Semifinals"
+    elif round_number == 6:
+        return "Finals"
+    else:
+        return "qualifying round %d" % round_number

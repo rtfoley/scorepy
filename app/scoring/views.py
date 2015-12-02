@@ -64,6 +64,13 @@ def add():
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
 
+    # Gather and preset the team ID and round number fields if provided in URL
+    preselected_team = request.args.get('team_id', default=None, type=int)
+    preselected_round = request.args.get('round', default=None, type=int)
+    if preselected_team is not None and preselected_round is not None:
+        form.team_id.data = preselected_team
+        form.round_number.data = preselected_round
+
     if request.method == 'POST' and form.validate_on_submit():
         score = RobotScore(team=form.team_id.data,
                            round_number=form.round_number.data)

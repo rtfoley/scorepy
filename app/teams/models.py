@@ -49,9 +49,13 @@ class Team(db.Model):
         return self.get_score_for_round(3)
 
     @property
+    def qualifying_scores(self):
+        return [s for s in self.scores if s is not None and s.round_number <= 3]
+
+    @property
     def best(self):
-        if self.scores:
-            return max(self.scores, key=attrgetter('total'))
+        if self.qualifying_scores:
+            return max(self.qualifying_scores, key=attrgetter('total'))
         else:
             return None
 

@@ -64,6 +64,9 @@ def add():
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
 
+    # TODO don't allow playoff options during qualifying, or qualifying during playoffs
+    form.round_number.choices = [(1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+
     # Gather and preset the team ID and round number fields if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
     preselected_round = request.args.get('round', default=None, type=int)

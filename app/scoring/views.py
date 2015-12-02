@@ -80,7 +80,10 @@ def add():
         populate_score(score, form)
         db.session.add(score)
         db.session.commit()
-        return redirect(url_for(".index"))
+        if form.round_number.data <= 3:
+            return redirect(url_for(".index"))
+        else:
+            return redirect(url_for("playoffs"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("scoring/score_form.html", form=form)

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}Populate Playoffs{% endblock %}
+{% block pageContent %}
+<script type="text/javascript">
+  // TODO Move this to a global JS file
+  function goBack() {
+    window.history.back();
+  }
+</script>
+    <p>
+        {% if incomplete_data %}
+            Not all {{ previous_round }} scores have been entered yet!</p>
+        {% endif %}
+        Once populated, changes to scores for previous rounds will have no effect on this round.
+    </p>
+    <p>Really populate teams for {{ round }}?</p>
+    <form action="" method="post">
+        <p><button class="btn" onclick="goBack()">Cancel</button>  <input type="submit" class="btn btn-primary" value="Populate"></p>
+    </form>
+{% endblock %}

@@ -15,6 +15,7 @@ class Team(db.Model):
     city = db.Column(db.String(50))
     state = db.Column(db.String(2))
     is_rookie = db.Column(db.Boolean)
+    highest_round_reached = db.Column(db.Integer)
     scores = db.relationship('RobotScore', backref='team')
     presentation = db.relationship('Presentation', uselist=False,
                                    backref='team')
@@ -29,6 +30,7 @@ class Team(db.Model):
         self.city = city
         self.state = state
         self.is_rookie = is_rookie
+        self.highest_round_reached = 0
 
     def get_score_for_round(self, round_number):
         return next((score for score in self.scores if
@@ -47,8 +49,24 @@ class Team(db.Model):
         return self.get_score_for_round(3)
 
     @property
+    def qualifying_scores(self):
+        return [s for s in self.scores if s is not None and s.round_number <= 3]
+
+    @property
     def best(self):
-        if self.scores:
-            return max(self.scores, key=attrgetter('total'))
+        if self.qualifying_scores:
+            return max(self.qualifying_scores, key=attrgetter('total'))
         else:
             return None
+
+    @property
+    def quarterfinal(self):
+        return self.get_score_for_round(4)
+
+    @property
+    def semifinal(self):
+        return self.get_score_for_round(5)
+
+    @property
+    def final(self):
+        return self.get_score_for_round(6)

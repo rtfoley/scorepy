@@ -84,13 +84,6 @@ def change_password():
     return render_template("change_password.html", form=form)
 
 
-# Playoffs page
-@app.route("/playoffs", methods=['GET'])
-@login_required
-def playoffs():
-    return render_template("playoffs.html")
-
-
 # Pit Display page
 @app.route("/pit", methods=['GET'])
 def pit_display():

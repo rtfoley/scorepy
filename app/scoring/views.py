@@ -64,62 +64,26 @@ def add():
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
 
+    # TODO don't allow playoff options during qualifying, or qualifying during playoffs
+    form.round_number.choices = [(1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+
+    # Gather and preset the team ID and round number fields if provided in URL
+    preselected_team = request.args.get('team_id', default=None, type=int)
+    preselected_round = request.args.get('round', default=None, type=int)
+    if preselected_team is not None and preselected_round is not None:
+        form.team_id.data = preselected_team
+        form.round_number.data = preselected_round
+
     if request.method == 'POST' and form.validate_on_submit():
         score = RobotScore(team=form.team_id.data,
-                           round_number=form.round_number.data,
-
-                           # M04 yellow/ blue bars
-                           bars_in_west_transfer=form.bars_in_west_transfer.data,
-                           bars_never_in_west_transfer=form.bars_never_in_west_transfer.data,
-
-                           # M04 black bars
-                           black_bars_in_original_position=form.black_bars_in_original_position.data,
-                           black_bars_in_green_or_landfill=form.black_bars_in_green_or_landfill.data,
-                           black_bars_elsewhere=form.black_bars_elsewhere.data,
-
-                           # M02 Methane
-                           methane_in_truck_or_factory=form.methane_in_truck_or_factory.data,
-
-                           # M03 Transport
-                           truck_supports_yellow_bin=form.truck_supports_yellow_bin.data == 'True',
-                           yellow_bin_east_of_guide=form.yellow_bin_east_of_guide.data == 'True',
-
-                           # M05 Careers
-                           anyone_in_sorter_area=form.anyone_in_sorter_area.data == 'True',
-
-                           # M06 Scrap Cars
-                           engine_installed=form.engine_installed.data == 'True',
-                           car_folded_in_east_transfer=form.car_folded_in_east_transfer.data == 'True',
-                           car_never_in_safety=form.car_never_in_safety.data == 'True',
-
-                           # M08 Composting
-                           compost_ejected_not_in_safety=form.compost_ejected_not_in_safety.data == 'True',
-                           compost_ejected_in_safety=form.compost_ejected_in_safety.data == 'True',
-
-                           # M07 Cleanup
-                           plastic_bags_in_safety=form.plastic_bags_in_safety.data,
-                           animals_in_circles_without_bags=form.animals_in_circles_without_bags.data,
-                           chicken_in_small_landfill_circle=form.chicken_in_small_landfill_circle.data == 'True',
-
-                           # M10 Demolition
-                           all_beams_not_in_setup_position=form.all_beams_not_in_setup_position.data == 'True',
-
-                           # M01 Recycled Material
-                           green_bins_in_opp_safety=form.green_bins_in_opp_safety.data,
-                           opp_green_bins_in_safety=form.opp_green_bins_in_safety.data,
-
-                           # M09 Salvage
-                           valuables_in_safety=form.valuables_in_safety.data == 'True',
-
-                           # M11 Purchasing Decisions
-                           planes_in_safety=form.planes_in_safety.data,
-
-                           # M12 Repurposing
-                           compost_in_toy_package=form.compost_in_toy_package.data == 'True',
-                           package_in_original_condition=form.package_in_original_condition.data == 'True')
+                           round_number=form.round_number.data)
+        populate_score(score, form)
         db.session.add(score)
         db.session.commit()
-        return redirect(url_for(".index"))
+        if form.round_number.data <= 3:
+            return redirect(url_for(".index"))
+        else:
+            return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("scoring/score_form.html", form=form)
@@ -135,58 +99,12 @@ def edit(score_id):
     del form.round_number
 
     if request.method == 'POST' and form.validate_on_submit():
-        # M04 yellow/ blue bars
-        score.bars_in_west_transfer = form.bars_in_west_transfer.data
-        score.bars_never_in_west_transfer = form.bars_never_in_west_transfer.data
-
-        # M04 black bars
-        score.black_bars_in_original_position = form.black_bars_in_original_position.data
-        score.black_bars_in_green_or_landfill = form.black_bars_in_green_or_landfill.data
-        score.black_bars_elsewhere = form.black_bars_elsewhere.data
-
-        # M02 Methane
-        score.methane_in_truck_or_factory = form.methane_in_truck_or_factory.data
-
-        # M03 Transport
-        score.truck_supports_yellow_bin = form.truck_supports_yellow_bin.data == 'True'
-        score.yellow_bin_east_of_guide = form.yellow_bin_east_of_guide.data == 'True'
-
-        # M05 Careers
-        score.anyone_in_sorter_area = form.anyone_in_sorter_area.data == 'True'
-
-        # M06 Scrap Cars
-        score.engine_installed = form.engine_installed.data == 'True'
-        score.car_folded_in_east_transfer = form.car_folded_in_east_transfer.data == 'True'
-        score.car_never_in_safety = form.car_never_in_safety.data == 'True'
-
-        # M08 Composting
-        score.compost_ejected_not_in_safety = form.compost_ejected_not_in_safety.data == 'True'
-        score.compost_ejected_in_safety = form.compost_ejected_in_safety.data == 'True'
-
-        # M07 Cleanup
-        score.plastic_bags_in_safety = form.plastic_bags_in_safety.data
-        score.animals_in_circles_without_bags = form.animals_in_circles_without_bags.data
-        score.chicken_in_small_landfill_circle = form.chicken_in_small_landfill_circle.data == 'True'
-
-        # M10 Demolition
-        score.all_beams_not_in_setup_position = form.all_beams_not_in_setup_position.data == 'True'
-
-        # M01 Recycled Material
-        score.green_bins_in_opp_safety = form.green_bins_in_opp_safety.data
-        score.opp_green_bins_in_safety = form.opp_green_bins_in_safety.data
-
-        # M09 Salvage
-        score.valuables_in_safety = form.valuables_in_safety.data == 'True'
-
-        # M11 Purchasing Decisions
-        score.planes_in_safety = form.planes_in_safety.data
-
-        # M12 Repurposing
-        score.compost_in_toy_package = form.compost_in_toy_package.data == 'True'
-        score.package_in_original_condition = form.package_in_original_condition.data == 'True'
-
+        populate_score(score, form)
         db.session.commit()
-        return redirect(url_for(".index"))
+        if score.round_number <= 3:
+            return redirect(url_for(".index"))
+        else:
+            return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("scoring/score_form.html",
@@ -203,9 +121,89 @@ def delete(score_id):
     if request.method == 'POST':
         db.session.delete(score)
         db.session.commit()
-        return redirect(url_for(".index"))
-    return render_template("delete.html", identifier="score for %d in round %d"
-                                                     % (score.team.number, score.round_number))
+        if score.round_number <= 3:
+            return redirect(url_for(".index"))
+        else:
+            return redirect(url_for(".playoffs"))
+    return render_template("delete.html",
+                           identifier="%s score for team %d" % (get_round_name(score.round_number), score.team.number))
+
+
+# Playoffs page
+@mod_scoring.route("/playoffs", methods=['GET'])
+@login_required
+def playoffs():
+    quarterfinal_teams = Team.query.filter(Team.highest_round_reached >= 4)
+    semifinal_teams = Team.query.filter(Team.highest_round_reached >= 5)
+    final_teams = Team.query.filter(Team.highest_round_reached >= 6)
+    return render_template("scoring/playoffs.html", quarterfinal_teams=quarterfinal_teams,
+                           semifinal_teams=semifinal_teams, final_teams=final_teams)
+
+
+@mod_scoring.route("/playoffs/<int:selected_round>/populate", methods=['GET', 'POST'])
+@login_required
+def populate(selected_round):
+    if request.method == 'POST':
+        if selected_round == 4:
+            top_teams = sorted(Team.query.all(), key=by_team_best, reverse=True)[:8]
+            for team in top_teams:
+                team.highest_round_reached = 4
+            db.session.commit()
+        elif selected_round == 5:
+            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 4), key=by_quarterfinal, reverse=True)[
+                        :4]
+            for team in top_teams:
+                team.highest_round_reached = 5
+            db.session.commit()
+        elif selected_round == 6:
+            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 5), key=by_semifinal, reverse=True)[:2]
+            for team in top_teams:
+                team.highest_round_reached = 6
+            db.session.commit()
+        return redirect(url_for(".playoffs"))
+    else:
+        # Check if all data has been entered for previous rounds
+        previous_round = 0
+        incomplete_data = None
+        if selected_round == 4:
+            previous_round = "qualifying"
+            teams = Team.query.all()
+            if any(len(team.qualifying_scores) != 3 for team in teams):
+                incomplete_data = True
+        elif selected_round == 5:
+            previous_round = get_round_name(4)
+            if any(team.quarterfinal is None for team in Team.query.filter(Team.highest_round_reached == 4)):
+                incomplete_data = True
+        elif selected_round == 6:
+            previous_round = get_round_name(5)
+            if any(team.semifinal is None for team in Team.query.filter(Team.highest_round_reached == 5)):
+                incomplete_data = True
+
+        return render_template("scoring/populate_playoffs.html",
+                               round=get_round_name(selected_round),
+                               previous_round=previous_round,
+                               incomplete_data=incomplete_data)
+
+
+@mod_scoring.route("/playoffs/<int:selected_round>/clear", methods=['GET', 'POST'])
+@login_required
+def clear_round(selected_round):
+    if request.method == 'POST':
+        # clear all scores for this round and any future round
+        scores = RobotScore.query.filter(RobotScore.round_number >= selected_round)
+        for score in scores:
+            db.session.delete(score)
+
+        # reset 'highest round reached' field for teams in this round or future rounds
+        teams = Team.query.filter(Team.highest_round_reached >= selected_round)
+        for team in teams:
+            if team.highest_round_reached == 4:
+                team.highest_round_reached = 0
+            else:
+                team.highest_round_reached = selected_round - 1
+        db.session.commit()
+        return redirect(url_for(".playoffs"))
+    return render_template("scoring/clear_round.html", identifier=get_round_name(selected_round))
 
 
 # Utility method to get live score when score form is being filled out
@@ -266,6 +264,60 @@ def add_numbers():
     return jsonify(result=score.total)
 
 
+# Populate a score object from form data
+# TODO this could be removed by creating a custom form field for the select-button-group fields
+def populate_score(score, form):
+    # M04 yellow/ blue bars
+    score.bars_in_west_transfer = form.bars_in_west_transfer.data
+    score.bars_never_in_west_transfer = form.bars_never_in_west_transfer.data
+
+    # M04 black bars
+    score.black_bars_in_original_position = form.black_bars_in_original_position.data
+    score.black_bars_in_green_or_landfill = form.black_bars_in_green_or_landfill.data
+    score.black_bars_elsewhere = form.black_bars_elsewhere.data
+
+    # M02 Methane
+    score.methane_in_truck_or_factory = form.methane_in_truck_or_factory.data
+
+    # M03 Transport
+    score.truck_supports_yellow_bin = form.truck_supports_yellow_bin.data == 'True'
+    score.yellow_bin_east_of_guide = form.yellow_bin_east_of_guide.data == 'True'
+
+    # M05 Careers
+    score.anyone_in_sorter_area = form.anyone_in_sorter_area.data == 'True'
+
+    # M06 Scrap Cars
+    score.engine_installed = form.engine_installed.data == 'True'
+    score.car_folded_in_east_transfer = form.car_folded_in_east_transfer.data == 'True'
+    score.car_never_in_safety = form.car_never_in_safety.data == 'True'
+
+    # M08 Composting
+    score.compost_ejected_not_in_safety = form.compost_ejected_not_in_safety.data == 'True'
+    score.compost_ejected_in_safety = form.compost_ejected_in_safety.data == 'True'
+
+    # M07 Cleanup
+    score.plastic_bags_in_safety = form.plastic_bags_in_safety.data
+    score.animals_in_circles_without_bags = form.animals_in_circles_without_bags.data
+    score.chicken_in_small_landfill_circle = form.chicken_in_small_landfill_circle.data == 'True'
+
+    # M10 Demolition
+    score.all_beams_not_in_setup_position = form.all_beams_not_in_setup_position.data == 'True'
+
+    # M01 Recycled Material
+    score.green_bins_in_opp_safety = form.green_bins_in_opp_safety.data
+    score.opp_green_bins_in_safety = form.opp_green_bins_in_safety.data
+
+    # M09 Salvage
+    score.valuables_in_safety = form.valuables_in_safety.data == 'True'
+
+    # M11 Purchasing Decisions
+    score.planes_in_safety = form.planes_in_safety.data
+
+    # M12 Repurposing
+    score.compost_in_toy_package = form.compost_in_toy_package.data == 'True'
+    score.package_in_original_condition = form.package_in_original_condition.data == 'True'
+
+
 # Sort teams by number
 def by_team(team):
     return team.number
@@ -277,3 +329,28 @@ def by_team_best(team):
         return team.best.total
     else:
         return 0
+
+
+def by_quarterfinal(team):
+    if team.quarterfinal:
+        return team.quarterfinal.total
+    else:
+        return 0
+
+
+def by_semifinal(team):
+    if team.semifinal:
+        return team.semifinal.total
+    else:
+        return 0
+
+
+def get_round_name(round_number):
+    if round_number == 4:
+        return "Quarterfinals"
+    elif round_number == 5:
+        return "Semifinals"
+    elif round_number == 6:
+        return "Finals"
+    else:
+        return "qualifying round %d" % round_number

@@ -185,6 +185,27 @@ def populate(selected_round):
                                incomplete_data=incomplete_data)
 
 
+@mod_scoring.route("/playoffs/<int:selected_round>/clear", methods=['GET', 'POST'])
+@login_required
+def clear_round(selected_round):
+    if request.method == 'POST':
+        # clear all scores for this round and any future round
+        scores = RobotScore.query.filter(RobotScore.round_number >= selected_round)
+        for score in scores:
+            db.session.delete(score)
+
+        # reset 'highest round reached' field for teams in this round or future rounds
+        teams = Team.query.filter(Team.highest_round_reached >= selected_round)
+        for team in teams:
+            if team.highest_round_reached == 4:
+                team.highest_round_reached = 0
+            else:
+                team.highest_round_reached = selected_round - 1
+        db.session.commit()
+        return redirect(url_for(".playoffs"))
+    return render_template("scoring/clear_round.html", identifier=get_round_name(selected_round))
+
+
 # Utility method to get live score when score form is being filled out
 @mod_scoring.route('/_add_numbers')
 def add_numbers():

@@ -4,14 +4,11 @@
     <h1>Playoffs</h1>
     <div class="col-md-4">
         <h2 style="text-align: center;">Quarterfinals</h2>
-        <!-- TODO hide this until at least one score is entered for previous round -->
-        <!-- TODO hide this until at least one score is entered for previous round -->
         <p style="text-align: center;">
             {% if quarterfinal_teams.count() == 0 %}
                 <a href="{{ url_for('.populate', selected_round=4) }}">Populate</a>
             {% else %}
-                <!-- TODO Add an option to clear this round (teams and scores) -->
-                Clear
+                <a href="{{ url_for('.clear_round', selected_round=4) }}">Clear</a>
             {% endif %}
         </p>
         <table class="table table-hover display" width="100%">
@@ -44,14 +41,11 @@
     </div>
     <div class="col-md-4">
         <h2 style="text-align: center;">Semifinals</h2>
-        <!-- TODO hide this until at least one score is entered for previous round -->
-        <!-- TODO hide this until at least one score is entered for previous round -->
         <p style="text-align: center;">
             {% if semifinal_teams.count() == 0 %}
                 <a href="{{ url_for('.populate', selected_round=5) }}">Populate</a>
             {% else %}
-                <!-- TODO Add an option to clear this round (teams and scores) -->
-                Clear
+                <a href="{{ url_for('.clear_round', selected_round=5) }}">Clear</a>
             {% endif %}
         </p>
         <table class="table table-hover display" width="100%">
@@ -84,13 +78,11 @@
     </div>
     <div class="col-md-4">
         <h2 style="text-align: center;">Finals</h2>
-        <!-- TODO hide this until at least one score is entered for previous round -->
         <p style="text-align: center;">
             {% if final_teams.count() == 0 %}
                 <a href="{{ url_for('.populate', selected_round=6) }}">Populate</a>
             {% else %}
-                <!-- TODO Add an option to clear this round (teams and scores) -->
-                Clear
+                <a href="{{ url_for('.clear_round', selected_round=6) }}">Clear</a>
             {% endif %}
         </p>
         <table class="table table-hover display" width="100%">

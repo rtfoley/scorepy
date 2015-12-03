@@ -2,7 +2,7 @@
 An attempt at an FLL tournament scoring application using Python and Flask
 
 ### Existing Functionality
-- Add/ edit/ remove teams, robot game scores, judge evaluations, and award minners
+- Add/ edit/ remove teams, robot game scores, judge evaluations, and award winners
 - Import CSV team list
 - Generate team list, robot score rankings, award winner, and category result reports
 - Real-time rankings display

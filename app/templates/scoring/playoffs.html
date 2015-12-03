@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% import "scoring/_scoring_helpers.html" as macros %}
 {% block title %}FLL Playoffs{% endblock %}
 {% block pageContent %}
     <h1>Playoffs</h1>
@@ -25,15 +26,7 @@
                     <tr>
                         <td>{{ team.number }}</td>
                         <td>{{ team.name }}</td>
-                        <!-- TODO could this be made into a template helper? -->
-                        <td>
-                            {% if team.quarterfinal != None %}
-                                <a href="{{ url_for('.edit', score_id=team.quarterfinal.id) }}">{{ team.quarterfinal.total }}</a>
-                                <a href="{{ url_for('.delete', score_id=team.quarterfinal.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
-                            {% else %}
-                                <a href="{{ url_for('.add', team_id=team.id, round=4) }}">Add</a>
-                            {% endif %}
-                        </td>
+                        <td>{{ macros.render_score(team.quarterfinal, team, 4) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -62,15 +55,7 @@
                     <tr>
                         <td>{{ team.number }}</td>
                         <td>{{ team.name }}</td>
-                        <!-- TODO could this be made into a template helper? -->
-                        <td>
-                            {% if team.semifinal != None %}
-                                <a href="{{ url_for('.edit', score_id=team.semifinal.id) }}">{{ team.semifinal.total }}</a>
-                                <a href="{{ url_for('.delete', score_id=team.semifinal.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
-                            {% else %}
-                                <a href="{{ url_for('.add', team_id=team.id, round=5) }}">Add</a>
-                            {% endif %}
-                        </td>
+                        <td>{{ macros.render_score(team.semifinal, team, 5) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -99,15 +84,7 @@
                     <tr>
                         <td>{{ team.number }}</td>
                         <td>{{ team.name }}</td>
-                        <!-- TODO could this be made into a template helper? -->
-                        <td>
-                            {% if team.final != None %}
-                                <a href="{{ url_for('.edit', score_id=team.final.id) }}">{{ team.final.total }}</a>
-                                <a href="{{ url_for('.delete', score_id=team.final.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
-                            {% else %}
-                                <a href="{{ url_for('.add', team_id=team.id, round=6) }}">Add</a>
-                            {% endif %}
-                        </td>
+                        <td>{{ macros.render_score(team.final, team, 6) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -1,0 +1,9 @@
+{% macro render_score(score, team, round_number) %}
+    <!-- TODO could this be made into a template helper? -->
+    {% if score != None %}
+        <a href="{{ url_for('.edit', score_id=score.id) }}">{{ score.total }} </a>
+        <a href="{{ url_for('.delete', score_id=score.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+    {% else %}
+        <a href="{{ url_for('.add', team_id=team.id, round=round_number) }}">Add</a>
+    {% endif %}
+{%- endmacro %}

@@ -9,7 +9,10 @@
             $(".table").DataTable({
             scrollY:        '50vh',
             scrollCollapse: true,
-            paging:         false
+            paging:         false,
+            columnDefs: [
+                { orderable: false, targets: -1 }
+            ]
             });
         });
     </script>

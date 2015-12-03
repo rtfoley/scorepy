@@ -5,9 +5,7 @@ from models import RobotScore
 
 class ScoreForm(Form):
     team_id = SelectField(u'Team', coerce=int)
-    round_number = SelectField(u'Round',
-                               choices=[(1, '1'), (2, '2'), (3, '3')],
-                               coerce=int)
+    round_number = SelectField(u'Round', coerce=int)
     # M04 yellow/ blue bars
     bars_in_west_transfer = RadioField('Yellow/ Blue Bars in matching green bins completely on/in West Transfer',
                                        choices=[(x, '%d' % x) for x in range(0, 16)],

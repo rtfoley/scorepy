@@ -1,35 +1,25 @@
 # ScorePy
 An attempt at an FLL tournament scoring application using Python and Flask
 
-### 2015 Progress
-- [x] basic layout (layout.html, navbar, footer, bootstrap/ fontawesome)
-- [x] page shells (main, about, teams, awards, playoffs, pit display, playoff display)
-- [ ] event settings page (event name)
-- [x] team list page
-- [x] team management via form
-- [x] team CSV import
-- [x] team list report
-- [x] basic score management per team (with team and round selection, but using simplified score form)
-- [x] full 2015 score form
-- [x] rankings report
-- [x] qualification rankings display
-- [x] judge evaluation management
-- [x] category results report (all 10 category scores, by team)
-- [x] manual award winner selection
-- [ ] automatic award winner selection
-- [x] award winner report
+### Existing Functionality
+- Add/ edit/ remove teams, robot game scores, judge evaluations, and award minners
+- Import CSV team list
+- Generate team list, robot score rankings, award winner, and category result reports
+- Real-time rankings display
+- User system for basic security
+- Manage playoff rounds and scores
 
 ### Future functionality
+- [ ] import a match schedule
+- [ ] announcers report
+- [ ] event settings page (event name)
+- [ ] automatic award winner selection
 - [ ] state championship qualifying report
-- [ ] login system
-- [ ] playoff management
 - [ ] playoff display
 - [ ] individualized team results reports
 - [ ] save database via UI
 - [ ] upload database via UI
-- [ ] import a match schedule
 - [ ] generate a match schedule
-- [ ] announcers report
 - [ ] referee interface
 - [ ] head referee interface
 - [ ] judges interface (with ability to add notes)

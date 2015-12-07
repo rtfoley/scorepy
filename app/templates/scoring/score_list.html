@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% import "scoring/_scoring_helpers.html" as macros %}
 {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
 {% endblock %}
@@ -14,9 +15,9 @@
         });
     </script>
 {% endblock %}
-{% block title %}FLL EM{% endblock %}
+{% block title %}FLL Qualifying Scores{% endblock %}
 {% block pageContent %}
-  <h1>Scores</h1>
+  <h1>Qualifying Scores</h1>
   <a href="{{ url_for('.add') }}">Add a new score</a>
   <table class="table table-hover display" width="100%">
     <thead>
@@ -43,32 +44,9 @@
           {% else %}
             <td></td>
           {% endif %}
-
-          {% if team.round1 != None %}
-            <td>
-              <a href="{{ url_for('.edit', score_id=team.round1.id) }}">{{ team.round1.total }}</a>
-              <!--TODO should score deletion only be an option from the edit form?-->
-              <a href="{{ url_for('.delete', score_id=team.round1.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
-            </td>
-          {% else %}
-            <td></td>
-          {% endif %}
-          {% if team.round2 != None %}
-            <td>
-              <a href="{{ url_for('.edit', score_id=team.round2.id) }}">{{ team.round2.total }}</a>
-              <a href="{{ url_for('.delete', score_id=team.round2.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
-            </td>
-          {% else %}
-            <td></td>
-          {% endif %}
-          {% if team.round3 != None %}
-            <td>
-              <a href="{{ url_for('.edit', score_id=team.round3.id) }}">{{ team.round3.total }}</a>
-              <a href="{{ url_for('.delete', score_id=team.round3.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
-            </td>
-          {% else %}
-            <td></td>
-          {% endif %}
+          <td>{{ macros.render_score(team, 1) }}</td>
+          <td>{{ macros.render_score(team, 2) }}</td>
+          <td>{{ macros.render_score(team, 3) }}</td>
         </tr>
       {% endfor %}
     </tbody>

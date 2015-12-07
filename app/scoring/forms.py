@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import SelectField, RadioField, IntegerField
 from models import RobotScore
+from app.teams.models import Team
 
 
 class ScoreForm(Form):
@@ -146,6 +147,12 @@ class ScoreForm(Form):
                 self.round_number.errors.append("Score already exists for this \
                                             round")
                 form_valid = False
+            else:
+                # Ensure that the selected round is valid for this team
+                team = Team.query.filter_by(id=self.team_id.data).one()
+                if self.round_number.data >= 4 and team.highest_round_reached < self.round_number.data:
+                    self.round_number.errors.append("Team is not participating in the selected round, please select another")
+                    form_valid = False
 
         # Check that compost isn't marked as being both in and out of safety
         if self.compost_ejected_in_safety.data == 'True' and self.compost_ejected_not_in_safety.data == 'True':

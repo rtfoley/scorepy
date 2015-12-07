@@ -60,12 +60,16 @@ def api():
 @mod_scoring.route("/add", methods=['GET', 'POST'])
 @login_required
 def add():
+    teams = Team.query.all()
     form = ScoreForm()
     form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
+                            sorted(teams, key=by_team)]
 
-    # TODO don't allow playoff options during qualifying, or qualifying during playoffs
-    form.round_number.choices = [(1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+    # don't allow playoff round options during qualifying, or qualifying during playoffs
+    if any(team.highest_round_reached > 3 for team in teams):
+        form.round_number.choices = [(1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+    else:
+        form.round_number.choices = [(1, '1'), (2, '2'), (3, '3')]
 
     # Gather and preset the team ID and round number fields if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)

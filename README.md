@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/rtfoley/scorepy.png?label=ready&title=Ready)](https://waffle.io/rtfoley/scorepy)
 # ScorePy
 An attempt at an FLL tournament scoring application using Python and Flask
 

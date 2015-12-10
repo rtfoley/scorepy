@@ -24,7 +24,7 @@ def index():
 
 
 # Add a presentation judging entry
-@mod_judging.route('/judging/presentation/new', methods=['GET', 'POST'])
+@mod_judging.route('/presentation/new', methods=['GET', 'POST'])
 def add_presentation():
     form = PresentationForm()
     form.team_id.choices = [(t.id, t.number) for t in
@@ -37,11 +37,11 @@ def add_presentation():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("judging/presentation_form.html", form=form)
+    return render_template("judging/presentation_form.html", form=form, id=None)
 
 
 # Edit a previously-entered presentation judging entry
-@mod_judging.route("/judging/presentation/<int:presentation_id>/edit",
+@mod_judging.route("/presentation/<int:presentation_id>/edit",
                    methods=['GET', 'POST'])
 def edit_presentation(presentation_id):
     presentation = Presentation.query.get(presentation_id)
@@ -55,11 +55,11 @@ def edit_presentation(presentation_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/presentation_form.html", form=form,
-                           team_id=presentation.team_id)
+                           team_id=presentation.team_id, id=presentation.id)
 
 
 # Delete a presentation judging entry
-@mod_judging.route("/judging/presentation/<int:presentation_id>/delete",
+@mod_judging.route("/presentation/<int:presentation_id>/delete",
                    methods=['GET', 'POST'])
 def delete_presentation(presentation_id):
     presentation = Presentation.query.get(presentation_id)
@@ -73,7 +73,7 @@ def delete_presentation(presentation_id):
 
 
 # Add a technical judging entry
-@mod_judging.route('/judging/technical/new', methods=['GET', 'POST'])
+@mod_judging.route('/technical/new', methods=['GET', 'POST'])
 def add_technical():
     form = TechnicalForm()
     form.team_id.choices = [(t.id, t.number) for t in
@@ -86,11 +86,11 @@ def add_technical():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("judging/technical_form.html", form=form)
+    return render_template("judging/technical_form.html", form=form, id=None)
 
 
 # Edit a previously-entered technical judging entry
-@mod_judging.route("/judging/technical/<int:technical_id>/edit",
+@mod_judging.route("/technical/<int:technical_id>/edit",
                    methods=['GET', 'POST'])
 def edit_technical(technical_id):
     technical = Technical.query.get(technical_id)
@@ -104,11 +104,11 @@ def edit_technical(technical_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/technical_form.html", form=form,
-                           team_id=technical.team_id)
+                           team_id=technical.team_id, id=technical.id)
 
 
 # Delete a technical judging entry
-@mod_judging.route("/judging/technical/<int:technical_id>/delete",
+@mod_judging.route("/technical/<int:technical_id>/delete",
                    methods=['GET', 'POST'])
 def delete_technical(technical_id):
     technical = Technical.query.get(technical_id)
@@ -122,7 +122,7 @@ def delete_technical(technical_id):
 
 
 # Add a core values judging entry
-@mod_judging.route('/judging/core_values/new', methods=['GET', 'POST'])
+@mod_judging.route('/core_values/new', methods=['GET', 'POST'])
 def add_core_values():
     form = CoreValuesForm()
     form.team_id.choices = [(t.id, t.number) for t in
@@ -135,11 +135,11 @@ def add_core_values():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("judging/core_values_form.html", form=form)
+    return render_template("judging/core_values_form.html", form=form, id=None)
 
 
 # Edit a previously-entered core values judging entry
-@mod_judging.route("/judging/core_values/<int:core_values_id>/edit",
+@mod_judging.route("/core_values/<int:core_values_id>/edit",
                    methods=['GET', 'POST'])
 def edit_core_values(core_values_id):
     core_values = CoreValues.query.get(core_values_id)
@@ -153,11 +153,11 @@ def edit_core_values(core_values_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/core_values_form.html", form=form,
-                           team_id=core_values.team_id)
+                           team_id=core_values.team_id, id=core_values.id)
 
 
 # Delete a core values judging entry
-@mod_judging.route("/judging/core_values/<int:core_values_id>/delete",
+@mod_judging.route("/core_values/<int:core_values_id>/delete",
                    methods=['GET', 'POST'])
 def delete_core_values(core_values_id):
     core_values = CoreValues.query.get(core_values_id)

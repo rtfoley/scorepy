@@ -83,10 +83,16 @@
 {#
   Render a submit field
 #}
-{% macro render_submit(action_text='Submit', btn_class='btn btn-default') -%}
+{% macro render_submit(action_text='Submit', btn_class='btn btn-primary', cancel_link=None, delete_link=None) -%}
   <div class="form-group row">
     <div class="col-sm-offset-3 col-sm-9" style="{{ kwargs.pop('style_', '') }}">
       <button type="submit" class="{{ btn_class }}">{{ action_text }}</button>
+      {% if cancel_link!=None %}
+        <a href="{{ cancel_link }}" class="btn btn-default">Cancel</a>
+      {% endif %}
+      {% if delete_link!=None %}
+        <a href="{{ delete_link }}" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Delete</a>
+      {% endif %}
     </div>
   </div>
 {%- endmacro %}

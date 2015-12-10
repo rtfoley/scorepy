@@ -38,8 +38,6 @@
           {% if team.best != None %}
             <td>
               <a href="{{ url_for('.edit', score_id=team.best.id) }}">{{ team.best.total }}</a>
-              <!--TODO should score deletion only be an option from the edit form?-->
-              <a href="{{ url_for('.delete', score_id=team.best.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
             </td>
           {% else %}
             <td></td>

@@ -34,7 +34,7 @@ def add():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("teams/team_form.html", form=form)
+    return render_template("teams/team_form.html", form=form, id=None)
 
 
 # Upload teams via CSV file
@@ -104,7 +104,7 @@ def edit(team_id):
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("teams/team_form.html", form=form, number=team.number)
+    return render_template("teams/team_form.html", form=form, number=team.number, id=team.id)
 
 
 # Delete a team

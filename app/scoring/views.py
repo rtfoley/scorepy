@@ -90,7 +90,7 @@ def add():
             return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("scoring/score_form.html", form=form)
+    return render_template("scoring/score_form.html", form=form, id=None)
 
 
 # Edit a previously-entered score
@@ -114,7 +114,8 @@ def edit(score_id):
     return render_template("scoring/score_form.html",
                            form=form,
                            team_id=score.team_id,
-                           round_number=score.round_number)
+                           round_number=score.round_number,
+                           id=score.id)
 
 
 # Delete a score

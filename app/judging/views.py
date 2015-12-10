@@ -37,7 +37,7 @@ def add_presentation():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("judging/presentation_form.html", form=form)
+    return render_template("judging/presentation_form.html", form=form, id=None)
 
 
 # Edit a previously-entered presentation judging entry
@@ -55,7 +55,7 @@ def edit_presentation(presentation_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/presentation_form.html", form=form,
-                           team_id=presentation.team_id)
+                           team_id=presentation.team_id, id=presentation.id)
 
 
 # Delete a presentation judging entry
@@ -86,7 +86,7 @@ def add_technical():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("judging/technical_form.html", form=form)
+    return render_template("judging/technical_form.html", form=form, id=None)
 
 
 # Edit a previously-entered technical judging entry
@@ -104,7 +104,7 @@ def edit_technical(technical_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/technical_form.html", form=form,
-                           team_id=technical.team_id)
+                           team_id=technical.team_id, id=technical.id)
 
 
 # Delete a technical judging entry
@@ -135,7 +135,7 @@ def add_core_values():
         return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
-    return render_template("judging/core_values_form.html", form=form)
+    return render_template("judging/core_values_form.html", form=form, id=None)
 
 
 # Edit a previously-entered core values judging entry
@@ -153,7 +153,7 @@ def edit_core_values(core_values_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/core_values_form.html", form=form,
-                           team_id=core_values.team_id)
+                           team_id=core_values.team_id, id=core_values.id)
 
 
 # Delete a core values judging entry

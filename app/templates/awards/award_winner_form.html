@@ -5,11 +5,12 @@
     <div class="row">
         <h1>FLL Award Assignment</h1>
     </div>
-    {% call macros.render_form(form, class_="awardWinnerForm") %}
+    {% call macros.render_form(form, class_="awardWinnerForm", include_submit=false) %}
         <label class="col-sm-3 control-label">Award</label>
         <div class="col-sm-9">
             <p class="form-control-static">{{ award }}</p>
         </div>
         {{ macros.render_field(form.team_id) }}
+        {{ macros.render_submit(cancel_link=url_for('.index')) }}
     {% endcall %}
 {% endblock %}

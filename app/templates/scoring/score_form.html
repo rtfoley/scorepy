@@ -60,35 +60,35 @@
             return false;
         }
     </script>
-    <div class="row">
-        <h1>FLL Score Entry</h1>
-        <h4>Total: <span id="result">0</span></h4>
-    </div>
     {% call macros.render_form(form, class_="scoreForm", include_submit=false) %}
-        <div id="scrollingForm" class="row" style="overflow-y: scroll;">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">General Information</h3>
-                </div>
-                <div class="panel-body">
-                    {% if team_id and round_number %}
+        <div class="row">
+            <div class="col-sm-4">
+                {% if team_id and round_number %}
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Team</label>
                         <div class="col-sm-9">
                             <p class="form-control-static">{{ team_id }}</p>
                         </div>
                     </div>
+                {% else %}
+                    {{ macros.render_field(form.team_id) }}
+                {% endif %}
+            </div>
+            <div class="col-sm-4">
+                {% if team_id and round_number %}
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Round</label>
                         <div class="col-sm-9">
                             <p class="form-control-static">{{ round_number }}</p>
                         </div>
                     </div>
-                    {% else %}
-                        {{ macros.render_field(form.team_id) }}
-                        {{ macros.render_field(form.round_number) }}
-                    {% endif %}
-                </div>
+                {% else %}
+                    {{ macros.render_field(form.round_number) }}
+                {% endif %}
+            </div>
+            <div class="col-sm-4">
+                <h4>Total: <span id="result">0</span></h4>
+            </div>
             </div>
             {{ macros.render_fields("M04: Sorting (Yellow/ Blue bars in matching Green Bins)",
                                     form.bars_in_west_transfer,

@@ -7,7 +7,7 @@
 {% macro render_with_errors(field, label_visible=true) %}
   <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
     {% if (field.type != 'HiddenField' and field.type !='CSRFTokenField') and label_visible %}
-      <label for="{{ field.id }}" class="control-label col-sm-3">{{ field.label }}</label>
+      <label for="{{ field.id }}" class="control-label col-sm-3 ">{{ field.label }}</label>
     {% endif %}
     <div class="col-sm-9">
       {{ caller() }}
@@ -85,7 +85,7 @@
 #}
 {% macro render_submit(action_text='Submit', btn_class='btn btn-primary', cancel_link=None, delete_link=None) -%}
   <div class="form-group row">
-    <div class="col-sm-offset-3 col-sm-9" style="{{ kwargs.pop('style_', '') }}">
+    <div style="{{ kwargs.pop('style_', '') }}">
       <button type="submit" class="{{ btn_class }}">{{ action_text }}</button>
       {% if cancel_link!=None %}
         <a href="{{ cancel_link }}" class="btn btn-default">Cancel</a>

@@ -61,7 +61,7 @@
         }
     </script>
     {% call macros.render_form(form, class_="scoreForm", include_submit=false) %}
-        <div class="row">
+        <div>
             <div class="col-sm-4">
                 {% if team_id and round_number %}
                     <div class="form-group">
@@ -89,56 +89,61 @@
             <div class="col-sm-4">
                 <h4>Total: <span id="result">0</span></h4>
             </div>
-            </div>
-            {{ macros.render_fields("M04: Sorting (Yellow/ Blue bars in matching Green Bins)",
+        </div>
+        <div class="col-sm-6">
+            <div class="col-md-12">
+                {{ macros.render_fields("M04: Sorting (Yellow/ Blue bars in matching Green Bins)",
                                     form.bars_in_west_transfer,
                                     form.bars_never_in_west_transfer) }}
 
-            {{ macros.render_fields("M04: Sorting (Black Bars in matching Green Bin)",
-                                    form.black_bars_in_original_position,
-                                    form.black_bars_in_green_or_landfill,
-                                    form.black_bars_elsewhere) }}
+                {{ macros.render_fields("M04: Sorting (Black Bars in matching Green Bin)",
+                                        form.black_bars_in_original_position,
+                                        form.black_bars_in_green_or_landfill,
+                                        form.black_bars_elsewhere) }}
 
-            {{ macros.render_fields("M02: Methane", form.methane_in_truck_or_factory) }}
+                {{ macros.render_fields("M02: Methane", form.methane_in_truck_or_factory) }}
 
-            {{ macros.render_fields("M03: Transport",
-                                    form.truck_supports_yellow_bin,
-                                    form.yellow_bin_east_of_guide) }}
+                {{ macros.render_fields("M03: Transport",
+                                        form.truck_supports_yellow_bin,
+                                        form.yellow_bin_east_of_guide) }}
 
-            {{ macros.render_fields("M05: Careers", form.anyone_in_sorter_area) }}
-
-            {{ macros.render_fields("M06: Scrap Cars",
-                                    form.engine_installed,
-                                    form.car_folded_in_east_transfer,
-                                    form.car_never_in_safety) }}
-
-            {{ macros.render_fields("M08: Composting",
+                {{ macros.render_fields("M05: Careers", form.anyone_in_sorter_area) }}
+                {{ macros.render_fields("M06: Scrap Cars",
+                                        form.engine_installed,
+                                        form.car_folded_in_east_transfer,
+                                        form.car_never_in_safety) }}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-md-12">
+                {{ macros.render_fields("M08: Composting",
                                     form.compost_ejected_not_in_safety,
                                     form.compost_ejected_in_safety) }}
 
-            {{ macros.render_fields("M07: Cleanup",
-                                    form.plastic_bags_in_safety,
-                                    form.animals_in_circles_without_bags,
-                                    form.chicken_in_small_landfill_circle) }}
+                {{ macros.render_fields("M07: Cleanup",
+                                        form.plastic_bags_in_safety,
+                                        form.animals_in_circles_without_bags,
+                                        form.chicken_in_small_landfill_circle) }}
 
-            {{ macros.render_fields("M10: Demolition", form.all_beams_not_in_setup_position) }}
+                {{ macros.render_fields("M10: Demolition", form.all_beams_not_in_setup_position) }}
 
-            {{ macros.render_fields("M01: Using Recycled Material",
-                                    form.green_bins_in_opp_safety,
-                                    form.opp_green_bins_in_safety) }}
+                {{ macros.render_fields("M01: Using Recycled Material",
+                                        form.green_bins_in_opp_safety,
+                                        form.opp_green_bins_in_safety) }}
 
-            {{ macros.render_fields("M09: Salvage", form.valuables_in_safety) }}
+                {{ macros.render_fields("M09: Salvage", form.valuables_in_safety) }}
 
-            {{ macros.render_fields("M11: Purchasing Decisions", form.planes_in_safety) }}
+                {{ macros.render_fields("M11: Purchasing Decisions", form.planes_in_safety) }}
 
-            {{ macros.render_fields("M12: Repurposing",
-                                    form.compost_in_toy_package,
-                                    form.package_in_original_condition) }}
-            {% if id!=None %}
-                {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete', score_id=id)) }}
-            {% else %}
-                {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index')) }}
-            {% endif %}
+                {{ macros.render_fields("M12: Repurposing",
+                                        form.compost_in_toy_package,
+                                        form.package_in_original_condition) }}
+            </div>
         </div>
+        {% if id!=None %}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete', score_id=id)) }}
+        {% else %}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index')) }}
+        {% endif %}
     {% endcall %}
 {% endblock %}

@@ -28,3 +28,7 @@
 #pitDisplay .roundHeader {
   text-align: center;
 }
+
+label {
+  font-weight: normal;
+}

@@ -35,7 +35,7 @@
     {% if field.type == 'FileField' %}
       {{field(**kwargs)}}
     {% else %}
-      {{field(class="form-control", **kwargs)}}
+      {{field(class="form-control input-sm", **kwargs)}}
     {% endif %}
   {%- endcall %}
 {%- endmacro %}

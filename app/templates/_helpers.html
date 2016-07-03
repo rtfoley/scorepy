@@ -117,9 +117,6 @@
 #}
 {% macro render_fields(title) %}
   <div>
-      <h5 class="form-section-header">{{ title }}</h5>
-  </div>
-  <div>
       {% for f in varargs %}
         {{ render_field(f) }}
       {% endfor %}

@@ -6,11 +6,8 @@
         <h1>Core Values Entry</h1>
     </div>
     {% call macros.render_form(form, class_="teamworkForm", include_submit=false) %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">General Information</h3>
-            </div>
-            <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-3">
                 {% if team_id %}
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Team</label>
@@ -18,9 +15,9 @@
                         <p class="form-control-static">{{ team_id }}</p>
                     </div>
                 </div>
-                {% else %}
-                    {{ macros.render_field(form.team_id) }}
-                {% endif %}
+            {% else %}
+                {{ macros.render_field(form.team_id) }}
+            {% endif %}
             </div>
         </div>
         {{ macros.render_fields("Inspiration",

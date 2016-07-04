@@ -8,32 +8,32 @@ class ScoreForm(Form):
     team_id = SelectField(u'Team', coerce=int)
     round_number = SelectField(u'Round', coerce=int)
     # M04 yellow/ blue bars
-    bars_in_west_transfer = SelectField('Yellow/ Blue Bars in matching green bins completely on/in West Transfer',
+    bars_in_west_transfer = SelectField('4. Yellow/ Blue Bars in matching green bins completely on/in West Transfer',
                                         choices=[(x, '%d' % x) for x in range(0, 16)],
                                         coerce=int,
                                         default=0)
     bars_never_in_west_transfer = SelectField(
-        'Yellow/ Blue Bars in matching green bins NEVER completely on/in West Transfer ',
+        '4. Yellow/ Blue Bars in matching green bins NEVER completely on/in West Transfer ',
         choices=[(x, '%d' % x) for x in range(0, 16)],
         coerce=int,
         default=0)
 
     # M04 black bars
-    black_bars_in_original_position = SelectField('Black Bars in original position / scoring Flower Box',
+    black_bars_in_original_position = SelectField('4. Black Bars in original position / scoring Flower Box',
                                                   choices=[(x, '%d' % x) for x in range(0, 13)],
                                                   coerce=int,
                                                   default=12)
-    black_bars_in_green_or_landfill = SelectField('Black bars in matching Green Bin or Landfill',
+    black_bars_in_green_or_landfill = SelectField('4. Black bars in matching Green Bin or Landfill',
                                                   choices=[(x, '%d' % x) for x in range(0, 9)],
                                                   coerce=int,
                                                   default=0)
-    black_bars_elsewhere = SelectField('Black bars elsewhere in play',
+    black_bars_elsewhere = SelectField('4. Black bars elsewhere in play',
                                        choices=[(x, '%d' % x) for x in range(0, 13)],
                                        coerce=int,
                                        default=0)
 
     # M02 Methane
-    methane_in_truck_or_factory = SelectField(u'Methane in Truck and/or Factory',
+    methane_in_truck_or_factory = SelectField('2. Methane in Truck and/or Factory',
                                               choices=[(0, '0'),
                                                        (1, '1'),
                                                        (2, '2')],
@@ -42,52 +42,52 @@ class ScoreForm(Form):
 
     # M03 Transport
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    truck_supports_yellow_bin = SelectField(u'Truck supports all of Yellow Bin\'s weight',
+    truck_supports_yellow_bin = SelectField('3. Truck supports all of Yellow Bin\'s weight',
                                             choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                             default='False')
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    yellow_bin_east_of_guide = SelectField(u'Yellow Bin completely East of Truck\'s guide',
+    yellow_bin_east_of_guide = SelectField('3. Yellow Bin completely East of Truck\'s guide',
                                            choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                            default='False')
 
     # M05 Careers
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    anyone_in_sorter_area = SelectField(u'1+ people completely in Sorter Area',
+    anyone_in_sorter_area = SelectField('5. 1+ people completely in Sorter Area',
                                         choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                         default='False')
 
     # M06 Scrap Cars
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    engine_installed = SelectField(u'Engine/ Windshield installed in unfolded car',
+    engine_installed = SelectField('6. Engine/ Windshield installed in unfolded car',
                                    choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                    default='False')
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    car_folded_in_east_transfer = SelectField(u'Car completely folded in East Transfer',
+    car_folded_in_east_transfer = SelectField('6. Car completely folded in East Transfer',
                                               choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                               default='False')
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    car_never_in_safety = SelectField(u'Car never even partly in Safety',
+    car_never_in_safety = SelectField('6. Car never even partly in Safety',
                                       choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                       default='False')
 
     # M08 Composting
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    compost_ejected_not_in_safety = SelectField(u'Compost ejected, NOT completely in Safety',
+    compost_ejected_not_in_safety = SelectField('8. Compost ejected, NOT completely in Safety',
                                                 choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                                 default='False')
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    compost_ejected_in_safety = SelectField(u'Compost ejected, AND completely in Safety',
+    compost_ejected_in_safety = SelectField('8. Compost ejected, AND completely in Safety',
                                             choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                             default='False')
 
     # M07 Cleanup
-    plastic_bags_in_safety = SelectField(u'Plastic Bags completely in Safety',
+    plastic_bags_in_safety = SelectField('7. Plastic Bags completely in Safety',
                                          choices=[(0, '0'),
                                                   (1, '1'),
                                                   (2, '2')],
                                          coerce=int,
                                          default=0)
-    animals_in_circles_without_bags = SelectField(u'Animals completely in any Circle without Bags',
+    animals_in_circles_without_bags = SelectField('7. Animals completely in any Circle without Bags',
                                                   choices=[(0, '0'),
                                                            (1, '1'),
                                                            (2, '2'),
@@ -95,24 +95,24 @@ class ScoreForm(Form):
                                                   coerce=int,
                                                   default=0)
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    chicken_in_small_landfill_circle = SelectField(u'Chicken completely in Small Landfill Circle',
+    chicken_in_small_landfill_circle = SelectField('7. Chicken completely in Small Landfill Circle',
                                                    choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                                    default='False')
 
     # M10 Demolition
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    all_beams_not_in_setup_position = SelectField(u'All Beams no longer in setup position',
+    all_beams_not_in_setup_position = SelectField('10. All Beams no longer in setup position',
                                                   choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                                   default='False')
 
     # M01 Recycled Material
-    green_bins_in_opp_safety = SelectField(u'Your Green Bins w/ Matching Yellow/ Blue bars in Opposing Safety',
+    green_bins_in_opp_safety = SelectField('1. Your Green Bins w/ Matching Yellow/ Blue bars in Opposing Safety',
                                            choices=[(0, '0'),
                                                     (1, '1'),
                                                     (2, '2')],
                                            coerce=int,
                                            default=0)
-    opp_green_bins_in_safety = SelectField(u'Opposing Green Bins w/ Matching Yellow/ Blue bars in Your Safety',
+    opp_green_bins_in_safety = SelectField('1. Opposing Green Bins w/ Matching Yellow/ Blue bars in Your Safety',
                                            choices=[(0, '0'),
                                                     (1, '1'),
                                                     (2, '2')],
@@ -121,12 +121,12 @@ class ScoreForm(Form):
 
     # M09 Salvage
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    valuables_in_safety = SelectField(u'Valuables completely in Safety',
+    valuables_in_safety = SelectField('9. Valuables completely in Safety',
                                       choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                       default='False')
 
     # M11 Purchasing Decisions
-    planes_in_safety = SelectField(u'Toy Planes completely in Safety',
+    planes_in_safety = SelectField('11. Toy Planes completely in Safety',
                                    choices=[(0, '0'),
                                             (1, '1'),
                                             (2, '2')],
@@ -135,11 +135,11 @@ class ScoreForm(Form):
 
     # M12 Repurposing
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    compost_in_toy_package = SelectField(u'Compost perfectly nested in empty Toy Package',
+    compost_in_toy_package = SelectField('12. Compost perfectly nested in empty Toy Package',
                                          choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                          default='False')
     # TODO this could be switched to a boolean coersion if radio field not going to be used
-    package_in_original_condition = SelectField(u'Package in original condition',
+    package_in_original_condition = SelectField('12. Package in original condition',
                                                 choices=[('False', '0 - No'), ('True', '1 - Yes')],
                                                 default='False')
 

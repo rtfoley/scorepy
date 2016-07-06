@@ -29,6 +29,12 @@ def add_presentation():
     form = PresentationForm()
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
+
+    # Gather and preset the team ID field if provided in URL
+    preselected_team = request.args.get('team_id', default=None, type=int)
+    if preselected_team is not None:
+        form.team_id.data = preselected_team
+
     if request.method == 'POST' and form.validate_on_submit():
         presentation = Presentation()
         form.populate_obj(presentation)
@@ -78,6 +84,12 @@ def add_technical():
     form = TechnicalForm()
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
+
+    # Gather and preset the team ID field if provided in URL
+    preselected_team = request.args.get('team_id', default=None, type=int)
+    if preselected_team is not None:
+        form.team_id.data = preselected_team
+
     if request.method == 'POST' and form.validate_on_submit():
         technical = Technical()
         form.populate_obj(technical)
@@ -127,6 +139,12 @@ def add_core_values():
     form = CoreValuesForm()
     form.team_id.choices = [(t.id, t.number) for t in
                             sorted(Team.query.all(), key=by_team)]
+
+    # Gather and preset the team ID field if provided in URL
+    preselected_team = request.args.get('team_id', default=None, type=int)
+    if preselected_team is not None:
+        form.team_id.data = preselected_team
+        
     if request.method == 'POST' and form.validate_on_submit():
         core_values = CoreValues()
         form.populate_obj(core_values)

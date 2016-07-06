@@ -11,12 +11,12 @@
     {% endif %}
     <div class="pull-right">
       {{ caller() }}
-      {% if field.errors %}
-        {% for e in field.errors %}
-          <p class="help-block">{{ e }}</p>
-        {% endfor %}
-      {% endif %}
     </div>
+    {% if field.errors %}
+      {% for e in field.errors %}
+        <p class="help-block">{{ e }}</p>
+      {% endfor %}
+    {% endif %}
   </div>
 {%- endmacro %}
 

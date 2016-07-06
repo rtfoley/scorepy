@@ -10,20 +10,17 @@ An attempt at an FLL tournament scoring application using Python and Flask
 - User system for basic security
 - Manage playoff rounds and scores
 
-### Future functionality
+### Planned future functionality
 - [ ] import a match schedule
 - [ ] announcers report
 - [ ] event settings page (event name)
-- [ ] automatic award winner selection
-- [ ] state championship qualifying report
 - [ ] playoff display
-- [ ] individualized team results reports
-- [ ] save database via UI
-- [ ] upload database via UI
-- [ ] generate a match schedule
+
+### Possible future features
+- [ ] state championship qualifying report
+- [ ] automatic award winner selection
 - [ ] referee interface
 - [ ] head referee interface
-- [ ] judges interface (with ability to add notes)
 
 ### Setting up and running the application:
 Install Python 2.7.x: https://www.python.org/downloads/

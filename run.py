@@ -1,5 +1,6 @@
 from cherrypy import wsgiserver
 from app import app
+import jinja2.ext
 
 # from http://flask.pocoo.org/snippets/24/
 d = wsgiserver.WSGIPathInfoDispatcher({'/': app})

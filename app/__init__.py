@@ -1,4 +1,5 @@
 # Python library imports
+import os, sys
 from flask import Flask
 from flask import render_template, redirect, url_for, request
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -7,8 +8,18 @@ from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.login import login_required
 
+# http://dev.prositen.com/wp/make-a-win32-exe-of-a-python-3-flask-app/
+# Fetch files from app directory by default, from script directory if code is frozen
+basedir = os.path.dirname(__file__)
+if getattr(sys, 'frozen', False):
+    basedir = os.path.dirname(sys.executable)
+
+# Instruct Flask to load templates from the appropriate directories
+app = Flask(__name__,
+            template_folder=os.path.join(basedir, 'templates'),
+            static_folder=os.path.join(basedir, 'static'))
+
 # Setup application
-app = Flask(__name__)
 app.config.from_object('config')
 
 # Setup login manager
@@ -26,7 +37,6 @@ db.init_app(app)
 
 from models import User
 from forms import LoginForm, ChangePasswordForm
-
 
 @login_manager.user_loader
 def load_user(userid):

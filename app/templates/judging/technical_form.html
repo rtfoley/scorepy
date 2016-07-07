@@ -16,24 +16,28 @@
                     </div>
                 </div>
             {% else %}
-                {{ macros.render_field(form.team_id) }}
+                {{ macros.render_selector(form.team_id) }}
             {% endif %}
             </div>
         </div>
-        {{ macros.render_fields("Mechanical Design",
-                                form.mechanical_durability,
-                                form.mechanical_efficiency,
-                                form.mechanization) }}
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-1">
+                {{ macros.render_fields("Mechanical Design",
+                                        form.mechanical_durability,
+                                        form.mechanical_efficiency,
+                                        form.mechanization) }}
 
-        {{ macros.render_fields("Programming",
-                                form.programming_quality,
-                                form.programming_efficiency,
-                                form.autonomous_navigation) }}
+                {{ macros.render_fields("Programming",
+                                        form.programming_quality,
+                                        form.programming_efficiency,
+                                        form.autonomous_navigation) }}
 
-        {{ macros.render_fields("Strategy and Innovation",
-                                form.design_process,
-                                form.mission_strategy,
-                                form.innovation) }}
+                {{ macros.render_fields("Strategy and Innovation",
+                                        form.design_process,
+                                        form.mission_strategy,
+                                        form.innovation) }}
+            </div>
+        </div>
 
         {% if id!=None %}
             {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete_technical', technical_id=id)) }}

@@ -4,25 +4,29 @@
 {% block pageContent %}
     <h1>Team Form</h1>
     {% call macros.render_form(form, class_="teamForm", include_submit=false) %}
-        {% if number %}
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Number</label>
-          <div class="col-sm-9">
-              <p class="form-control-static">{{ number }}</p>
-          </div>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-1">
+                {% if number %}
+                <div class="form-group">
+                  <label class="col-sm-8 control-label">Number</label>
+                  <div class="col-sm-4">
+                      <p class="form-control-static">{{ number }}</p>
+                  </div>
+                </div>
+                {% else %}
+                    {{ macros.render_field(form.number) }}
+                {% endif %}
+                {{ macros.render_field(form.name) }}
+                {{ macros.render_field(form.affiliation) }}
+                {{ macros.render_field(form.city) }}
+                {{ macros.render_field(form.state) }}
+                {{ macros.render_field(form.is_rookie) }}
+                {% if id!=None %}
+                    {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete', team_id=id)) }}
+                {% else %}
+                    {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index')) }}
+                {% endif %}
+            </div>
         </div>
-        {% else %}
-            {{ macros.render_field(form.number) }}
-        {% endif %}
-        {{ macros.render_field(form.name) }}
-        {{ macros.render_field(form.affiliation) }}
-        {{ macros.render_field(form.city) }}
-        {{ macros.render_field(form.state) }}
-        {{ macros.render_field(form.is_rookie) }}
-        {% if id!=None %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete', team_id=id)) }}
-        {% else %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index')) }}
-        {% endif %}
     {% endcall %}
 {% endblock %}

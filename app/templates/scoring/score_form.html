@@ -62,11 +62,11 @@
     </script>
     {% call macros.render_form(form, class_="scoreForm", include_submit=false) %}
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 {% if team_id and round_number %}
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Team</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-8 control-label">Team</label>
+                        <div class="col-sm-4">
                             <p class="form-control-static">{{ team_id }}</p>
                         </div>
                     </div>
@@ -74,11 +74,11 @@
                     {{ macros.render_selector(form.team_id) }}
                 {% endif %}
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 {% if team_id and round_number %}
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Round</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-8 control-label">Round</label>
+                        <div class="col-sm-4">
                             <p class="form-control-static">{{ round_number }}</p>
                         </div>
                     </div>
@@ -86,8 +86,8 @@
                     {{ macros.render_selector(form.round_number) }}
                 {% endif %}
             </div>
-            <div class="col-sm-5">
-                <h4 align="right">Total: <span id="result">0</span></h4>
+            <div class="col-sm-4">
+                <h4 align="center">Total: <span id="result">0</span></h4>
             </div>
         </div>
         <div class="row">

@@ -7,11 +7,11 @@
     </div>
     {% call macros.render_form(form, class_="presentationForm", include_submit=false) %}
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-6 col-sm-offset-1">
                 {% if team_id %}
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Team</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-8 control-label">Team</label>
+                    <div class="col-sm-4">
                         <p class="form-control-static">{{ team_id }}</p>
                     </div>
                 </div>

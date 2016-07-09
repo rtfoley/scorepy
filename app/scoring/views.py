@@ -113,7 +113,7 @@ def edit(score_id):
         flash('Failed validation')
     return render_template("scoring/score_form.html",
                            form=form,
-                           team_id=score.team_id,
+                           team_id=score.team.number,
                            round_number=score.round_number,
                            id=score.id)
 

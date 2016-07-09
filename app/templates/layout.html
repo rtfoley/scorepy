@@ -35,8 +35,25 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="{{ url_for('teams.index') }}"><span class="fa fa-users"></span> Teams</a></li>
-            <li><a href="{{ url_for('scoring.index') }}"><span class="fa fa-calculator"></span> Scores</a></li>
-            <li><a href="{{ url_for('judging.index') }}"><span class="fa fa-gavel"></span> Judging</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-calculator"></span> Scoring <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('scoring.index') }}">List</a></li>
+                <li><a href="{{ url_for('scoring.add', round=1, repeat=true) }}"><span class="fa fa-plus"></span> Round 1</a></li>
+                <li><a href="{{ url_for('scoring.add', round=1, repeat=true) }}"><span class="fa fa-plus"></span> Round 2</a></li>
+                <li><a href="{{ url_for('scoring.add', round=1, repeat=true) }}"><span class="fa fa-plus"></span> Round 3</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-gavel"></span> Judging <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('judging.index') }}">List</a></li>
+                <li><a href="{{ url_for('judging.add_presentation', repeat=true) }}"><span class="fa fa-plus"></span> Project</a></li>
+                <li><a href="{{ url_for('judging.add_technical', repeat=true) }}"><span class="fa fa-plus"></span> Robot Design</a></li>
+                <li><a href="{{ url_for('judging.add_core_values', repeat=true) }}"><span class="fa fa-plus"></span> Core Values</a></li>
+              </ul>
+            </li>
+
             <li><a href="{{ url_for('awards.index') }}"><span class="fa fa-trophy"></span> Awards</a></li>
             <li><a href="{{ url_for('scoring.playoffs') }}"><span class="fa fa-tachometer"></span> Playoffs</a></li>
             <li class="dropdown">

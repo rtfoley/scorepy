@@ -40,7 +40,11 @@ def add_presentation():
         form.populate_obj(presentation)
         db.session.add(presentation)
         db.session.commit()
-        return redirect(url_for(".index"))
+        repeat = request.args.get('repeat', default=False, type=bool)
+        if repeat:
+            return redirect(url_for(".add_presentation", repeat = True))
+        else:
+            return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/presentation_form.html", form=form, id=None)
@@ -95,7 +99,11 @@ def add_technical():
         form.populate_obj(technical)
         db.session.add(technical)
         db.session.commit()
-        return redirect(url_for(".index"))
+        repeat = request.args.get('repeat', default=False, type=bool)
+        if repeat:
+            return redirect(url_for(".add_presentation", repeat = True))
+        else:
+            return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/technical_form.html", form=form, id=None)
@@ -144,13 +152,17 @@ def add_core_values():
     preselected_team = request.args.get('team_id', default=None, type=int)
     if preselected_team is not None:
         form.team_id.data = preselected_team
-        
+
     if request.method == 'POST' and form.validate_on_submit():
         core_values = CoreValues()
         form.populate_obj(core_values)
         db.session.add(core_values)
         db.session.commit()
-        return redirect(url_for(".index"))
+        repeat = request.args.get('repeat', default=False, type=bool)
+        if repeat:
+            return redirect(url_for(".add_presentation", repeat = True))
+        else:
+            return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/core_values_form.html", form=form, id=None)

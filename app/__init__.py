@@ -99,7 +99,6 @@ def change_password():
 def pit_display():
     return render_template("pit_display.html", title="Southern Maine FLL Qualifier", subtitle="Rankings")
 
-
 # Pit Display page
 @app.route("/settings", methods=['GET'])
 @login_required
@@ -137,3 +136,17 @@ def setup_database():
         user = User("admin", "changeme")
         db.session.add(user)
         db.session.commit()
+
+from app.teams.models import Team
+
+# Pit Display page
+@app.route("/review", methods=['GET'])
+@login_required
+def review():
+    teams = Team.query.all()
+    return render_template("review.html",
+                           teams=sorted(teams, key=by_team))
+
+# Sort teams by number
+def by_team(team):
+    return team.number

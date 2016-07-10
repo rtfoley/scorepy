@@ -40,7 +40,11 @@ def add_presentation():
         form.populate_obj(presentation)
         db.session.add(presentation)
         db.session.commit()
-        return redirect(url_for(".index"))
+        repeat = request.args.get('repeat', default=False, type=bool)
+        if repeat:
+            return redirect(url_for(".add_presentation", repeat = True))
+        else:
+            return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/presentation_form.html", form=form, id=None)
@@ -61,7 +65,7 @@ def edit_presentation(presentation_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/presentation_form.html", form=form,
-                           team_id=presentation.team_id, id=presentation.id)
+                           team_id=presentation.team.number, id=presentation.id)
 
 
 # Delete a presentation judging entry
@@ -95,7 +99,11 @@ def add_technical():
         form.populate_obj(technical)
         db.session.add(technical)
         db.session.commit()
-        return redirect(url_for(".index"))
+        repeat = request.args.get('repeat', default=False, type=bool)
+        if repeat:
+            return redirect(url_for(".add_presentation", repeat = True))
+        else:
+            return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/technical_form.html", form=form, id=None)
@@ -116,7 +124,7 @@ def edit_technical(technical_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/technical_form.html", form=form,
-                           team_id=technical.team_id, id=technical.id)
+                           team_id=technical.team.number, id=technical.id)
 
 
 # Delete a technical judging entry
@@ -144,13 +152,17 @@ def add_core_values():
     preselected_team = request.args.get('team_id', default=None, type=int)
     if preselected_team is not None:
         form.team_id.data = preselected_team
-        
+
     if request.method == 'POST' and form.validate_on_submit():
         core_values = CoreValues()
         form.populate_obj(core_values)
         db.session.add(core_values)
         db.session.commit()
-        return redirect(url_for(".index"))
+        repeat = request.args.get('repeat', default=False, type=bool)
+        if repeat:
+            return redirect(url_for(".add_presentation", repeat = True))
+        else:
+            return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/core_values_form.html", form=form, id=None)
@@ -171,7 +183,7 @@ def edit_core_values(core_values_id):
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("judging/core_values_form.html", form=form,
-                           team_id=core_values.team_id, id=core_values.id)
+                           team_id=core_values.team.number, id=core_values.id)
 
 
 # Delete a core values judging entry

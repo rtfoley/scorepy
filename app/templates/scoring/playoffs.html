@@ -2,7 +2,7 @@
 {% import "scoring/_scoring_helpers.html" as macros %}
 {% block title %}FLL Playoffs{% endblock %}
 {% block pageContent %}
-    <h1>Playoffs</h1>
+    <h3>Playoffs</h3>
     {{ macros.render_playoff_round("Quarterfinals", 4, quarterfinal_teams) }}
     {{ macros.render_playoff_round("Semifinals", 5, semifinal_teams) }}
     {{ macros.render_playoff_round("Finals", 6, final_teams) }}

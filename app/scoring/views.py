@@ -74,8 +74,10 @@ def add():
     # Gather and preset the team ID and round number fields if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
     preselected_round = request.args.get('round', default=None, type=int)
-    if preselected_team is not None and preselected_round is not None:
+    if preselected_team is not None:
         form.team_id.data = preselected_team
+
+    if preselected_round is not None:
         form.round_number.data = preselected_round
 
     if request.method == 'POST' and form.validate_on_submit():
@@ -84,10 +86,15 @@ def add():
         populate_score(score, form)
         db.session.add(score)
         db.session.commit()
-        if form.round_number.data <= 3:
-            return redirect(url_for(".index"))
+        repeat = request.args.get('repeat', default=False, type=bool)
+        if repeat:
+            flash('Added score for %s round %s' % (score.team.number, score.round_number))
+            return redirect(url_for(".add", round = preselected_round, repeat = True))
         else:
-            return redirect(url_for(".playoffs"))
+            if form.round_number.data <= 3:
+                return redirect(url_for(".index"))
+            else:
+                return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
         flash('Failed validation')
     return render_template("scoring/score_form.html", form=form, id=None)
@@ -113,7 +120,7 @@ def edit(score_id):
         flash('Failed validation')
     return render_template("scoring/score_form.html",
                            form=form,
-                           team_id=score.team_id,
+                           team_id=score.team.number,
                            round_number=score.round_number,
                            id=score.id)
 

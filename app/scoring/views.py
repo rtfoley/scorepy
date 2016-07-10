@@ -88,7 +88,7 @@ def add():
         db.session.commit()
         repeat = request.args.get('repeat', default=False, type=bool)
         if repeat:
-            flash('Added score for %s round %s' % (score.team.number, score.round_number))
+            flash('Added score for %s round %s' % (score.team.number, score.round_number), 'success')
             return redirect(url_for(".add", round = preselected_round, repeat = True))
         else:
             if form.round_number.data <= 3:

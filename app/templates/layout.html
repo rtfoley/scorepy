@@ -11,6 +11,7 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
     {% block scripts %}
     {% endblock %}
 
@@ -88,13 +89,14 @@
     <main id="content" role="main" class="container" style="padding-top: 70px;">
 
       <!--Display messages-->
-      <!-- TODO remove message feature? -->
-      {% with messages = get_flashed_messages() %}
+      <!--https://gist.github.com/vicow/fc16173c356b79f951d2-->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
         {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-block alert-error fade in">
-              <a class="close" data-dismiss="alert">&times;</a>
-              {{ message }}
+          {% for category, message in messages %}
+            <div class="row col-sm-11 alert alert-{{ category }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <!-- <strong>Title</strong> --> {{ message }}
             </div>
           {% endfor %}
         {% endif %}

@@ -33,7 +33,7 @@ def add():
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
-        flash('Failed validation')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("teams/team_form.html", form=form, id=None)
 
 
@@ -69,7 +69,7 @@ def upload():
         if teamCount > 0:
             db.session.commit()
 
-        flash('Imported %d teams' % teamCount)
+        flash('Imported %d teams' % teamCount, 'success')
         os.remove(filename)
         return redirect(url_for(".index"))
     return render_template("teams/team_upload_form.html", form=form)
@@ -103,7 +103,7 @@ def edit(team_id):
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
-        flash('Failed validation')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("teams/team_form.html", form=form, number=team.number, id=team.id)
 
 

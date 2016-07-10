@@ -88,7 +88,7 @@ def add():
         db.session.commit()
         repeat = request.args.get('repeat', default=False, type=bool)
         if repeat:
-            flash('Added score for %s round %s' % (score.team.number, score.round_number))
+            flash('Added score for %s round %s' % (score.team.number, score.round_number), 'success')
             return redirect(url_for(".add", round = preselected_round, repeat = True))
         else:
             if form.round_number.data <= 3:
@@ -96,7 +96,7 @@ def add():
             else:
                 return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
-        flash('Failed validation')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("scoring/score_form.html", form=form, id=None)
 
 
@@ -117,7 +117,7 @@ def edit(score_id):
         else:
             return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
-        flash('Failed validation')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("scoring/score_form.html",
                            form=form,
                            team_id=score.team.number,

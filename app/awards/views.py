@@ -56,7 +56,7 @@ def assign_award_winner(award_winner_id):
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
-        flash('Failed validation')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("awards/award_winner_form.html", form=form, award=award_winner.friendly_award_name)
 
 
@@ -92,7 +92,7 @@ def populate_slots():
         for slot in slots:
             db.session.add(slot)
         db.session.commit()
-        flash("Populated slots")
+        flash("Populated slots", 'success')
         return redirect(url_for(".index"))
     return render_template("awards/populate_slots.html")
 

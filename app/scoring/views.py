@@ -96,7 +96,7 @@ def add():
             else:
                 return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
-        flash('Failed validation', 'danger')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("scoring/score_form.html", form=form, id=None)
 
 
@@ -117,7 +117,7 @@ def edit(score_id):
         else:
             return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
-        flash('Failed validation', 'danger')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("scoring/score_form.html",
                            form=form,
                            team_id=score.team.number,

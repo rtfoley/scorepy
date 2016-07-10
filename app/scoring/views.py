@@ -74,10 +74,10 @@ def add():
     # Gather and preset the team ID and round number fields if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
     preselected_round = request.args.get('round', default=None, type=int)
-    if preselected_team is not None:
+    if preselected_team is not None and request.method == 'GET':
         form.team_id.data = preselected_team
 
-    if preselected_round is not None:
+    if preselected_round is not None and request.method == 'GET':
         form.round_number.data = preselected_round
 
     if request.method == 'POST' and form.validate_on_submit():

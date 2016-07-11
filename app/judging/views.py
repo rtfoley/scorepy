@@ -48,7 +48,7 @@ def add_presentation():
             flash('Added presentation score for %s' % (presentation.team.number), 'success')
             return redirect(url_for(".add_presentation", repeat = True))
         else:
-            return redirect(url_for(".index"))
+            return redirect(url_for("review"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("judging/presentation_form.html", form=form, id=None, repeat=repeat)
@@ -174,7 +174,7 @@ def add_core_values():
             flash('Added core values score for %s' % (core_values.team.number), 'success')
             return redirect(url_for(".add_core_values", repeat = True))
         else:
-            return redirect(url_for(".index"))
+            return redirect(url_for("review"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("judging/core_values_form.html", form=form, id=None, repeat=repeat)

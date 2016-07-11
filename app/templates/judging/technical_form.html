@@ -40,9 +40,11 @@
         </div>
 
         {% if id!=None %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete_technical', technical_id=id)) }}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review'), delete_link=url_for('.delete_technical', technical_id=id)) }}
+        {% elif repeat == true %}
+            {{ macros.render_submit(style_='padding-left: 23px', include_reset=true) }}
         {% else %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index')) }}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review')) }}
         {% endif %}
     {% endcall %}
 {% endblock %}

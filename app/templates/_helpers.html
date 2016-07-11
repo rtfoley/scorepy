@@ -99,10 +99,13 @@
 {#
   Render a submit field
 #}
-{% macro render_submit(action_text='Submit', btn_class='btn btn-primary', cancel_link=None, delete_link=None) -%}
+{% macro render_submit(action_text='Submit', btn_class='btn btn-primary', cancel_link=None, delete_link=None, include_reset=false) -%}
   <div class="form-group row">
     <div style="{{ kwargs.pop('style_', '') }}">
-      <button type="submit" class="{{ btn_class }}">{{ action_text }}</button>
+      <button type="submit" class="{{ btn_class }}" value="submit" name="end">{{ action_text }}</button>
+      {% if include_reset %}
+        <button type="submit" class="btn btn-default" value="reset" name="end">Reset</button>
+      {% endif %}
       {% if cancel_link!=None %}
         <a href="{{ cancel_link }}" class="btn btn-default">Cancel</a>
       {% endif %}

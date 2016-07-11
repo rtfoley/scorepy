@@ -111,7 +111,7 @@ def add_technical():
             flash('Added technical score for %s' % (technical.team.number), 'success')
             return redirect(url_for(".add_technical", repeat = True))
         else:
-            return redirect(url_for(".index"))
+            return redirect(url_for("review"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("judging/technical_form.html", form=form, id=None, repeat=repeat)

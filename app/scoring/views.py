@@ -95,7 +95,7 @@ def add():
             return redirect(url_for(".add", round = preselected_round, repeat = True))
         else:
             if form.round_number.data <= 3:
-                return redirect(url_for(".index"))
+                return redirect(url_for("review"))
             else:
                 return redirect(url_for(".playoffs"))
     elif request.method == 'POST':

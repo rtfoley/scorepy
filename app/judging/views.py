@@ -62,7 +62,7 @@ def edit_presentation(presentation_id):
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(presentation)
         db.session.commit()
-        return redirect(url_for(".index"))
+        return redirect(url_for("review"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("judging/presentation_form.html", form=form,
@@ -122,7 +122,7 @@ def edit_technical(technical_id):
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(technical)
         db.session.commit()
-        return redirect(url_for(".index"))
+        return redirect(url_for("review"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("judging/technical_form.html", form=form,
@@ -182,7 +182,7 @@ def edit_core_values(core_values_id):
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(core_values)
         db.session.commit()
-        return redirect(url_for(".index"))
+        return redirect(url_for("review"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("judging/core_values_form.html", form=form,

@@ -113,7 +113,7 @@ def edit(score_id):
         populate_score(score, form)
         db.session.commit()
         if score.round_number <= 3:
-            return redirect(url_for(".index"))
+            return redirect(url_for("review"))
         else:
             return redirect(url_for(".playoffs"))
     elif request.method == 'POST':

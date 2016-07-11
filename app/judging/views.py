@@ -77,7 +77,7 @@ def delete_presentation(presentation_id):
     if request.method == 'POST':
         db.session.delete(presentation)
         db.session.commit()
-        return redirect(url_for(".index"))
+        return redirect(url_for("review"))
     return render_template("delete.html",
                            identifier="presentation evaluation for team %d"
                            % presentation.team.number)
@@ -137,7 +137,7 @@ def delete_technical(technical_id):
     if request.method == 'POST':
         db.session.delete(technical)
         db.session.commit()
-        return redirect(url_for(".index"))
+        return redirect(url_for("review"))
     return render_template("delete.html",
                            identifier="technical evaluation for team %d"
                            % technical.team.number)
@@ -197,7 +197,7 @@ def delete_core_values(core_values_id):
     if request.method == 'POST':
         db.session.delete(core_values)
         db.session.commit()
-        return redirect(url_for(".index"))
+        return redirect(url_for("review"))
     return render_template("delete.html",
                            identifier="core values evaluation for team %d"
                            % core_values.team.number)

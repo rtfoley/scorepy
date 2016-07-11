@@ -134,7 +134,7 @@ def delete(score_id):
         db.session.delete(score)
         db.session.commit()
         if score.round_number <= 3:
-            return redirect(url_for(".index"))
+            return redirect(url_for("review"))
         else:
             return redirect(url_for(".playoffs"))
     return render_template("delete.html",

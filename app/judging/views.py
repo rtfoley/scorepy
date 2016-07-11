@@ -35,12 +35,15 @@ def add_presentation():
     if preselected_team is not None:
         form.team_id.data = preselected_team
 
-    if request.method == 'POST' and form.validate_on_submit():
+    repeat = request.args.get('repeat', default=False, type=bool)
+
+    if request.method == 'POST' and request.form['end'] == 'reset':
+        return redirect(url_for(".add_presentation", repeat = True))
+    elif request.method == 'POST' and request.form['end'] == 'submit' and form.validate_on_submit():
         presentation = Presentation()
         form.populate_obj(presentation)
         db.session.add(presentation)
         db.session.commit()
-        repeat = request.args.get('repeat', default=False, type=bool)
         if repeat:
             flash('Added presentation score for %s' % (presentation.team.number), 'success')
             return redirect(url_for(".add_presentation", repeat = True))
@@ -48,7 +51,7 @@ def add_presentation():
             return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
-    return render_template("judging/presentation_form.html", form=form, id=None)
+    return render_template("judging/presentation_form.html", form=form, id=None, repeat=repeat)
 
 
 # Edit a previously-entered presentation judging entry
@@ -95,12 +98,15 @@ def add_technical():
     if preselected_team is not None:
         form.team_id.data = preselected_team
 
-    if request.method == 'POST' and form.validate_on_submit():
+    repeat = request.args.get('repeat', default=False, type=bool)
+
+    if request.method == 'POST' and request.form['end'] == 'reset':
+        return redirect(url_for(".add_technical", repeat = True))
+    elif request.method == 'POST' and request.form['end'] == 'submit' and form.validate_on_submit():
         technical = Technical()
         form.populate_obj(technical)
         db.session.add(technical)
         db.session.commit()
-        repeat = request.args.get('repeat', default=False, type=bool)
         if repeat:
             flash('Added technical score for %s' % (technical.team.number), 'success')
             return redirect(url_for(".add_technical", repeat = True))
@@ -108,7 +114,7 @@ def add_technical():
             return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
-    return render_template("judging/technical_form.html", form=form, id=None)
+    return render_template("judging/technical_form.html", form=form, id=None, repeat=repeat)
 
 
 # Edit a previously-entered technical judging entry
@@ -155,12 +161,15 @@ def add_core_values():
     if preselected_team is not None:
         form.team_id.data = preselected_team
 
-    if request.method == 'POST' and form.validate_on_submit():
+    repeat = request.args.get('repeat', default=False, type=bool)
+
+    if request.method == 'POST' and request.form['end'] == 'reset':
+        return redirect(url_for(".add_core_values", repeat = True))
+    elif request.method == 'POST' and request.form['end'] == 'submit' and form.validate_on_submit():
         core_values = CoreValues()
         form.populate_obj(core_values)
         db.session.add(core_values)
         db.session.commit()
-        repeat = request.args.get('repeat', default=False, type=bool)
         if repeat:
             flash('Added core values score for %s' % (core_values.team.number), 'success')
             return redirect(url_for(".add_core_values", repeat = True))
@@ -168,7 +177,7 @@ def add_core_values():
             return redirect(url_for(".index"))
     elif request.method == 'POST':
         flash('Failed validation', 'danger alert-auto-dismiss')
-    return render_template("judging/core_values_form.html", form=form, id=None)
+    return render_template("judging/core_values_form.html", form=form, id=None, repeat=repeat)
 
 
 # Edit a previously-entered core values judging entry

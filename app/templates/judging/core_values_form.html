@@ -37,9 +37,9 @@
             </div>
         </div>
         {% if id!=None %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete_core_values', core_values_id=id)) }}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review'), delete_link=url_for('.delete_core_values', core_values_id=id)) }}
         {% else %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index')) }}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review')) }}
         {% endif %}
     {% endcall %}
 {% endblock %}

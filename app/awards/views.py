@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, flash, request, redirect, \
     url_for
 from flask.ext.login import login_required
 from app import db
-from app.util import create_pdf
+from app.util import create_pdf, sortTeamsWithPlaceholder
 from app.teams.models import Team
 from models import AwardWinner, AwardCategory
 from forms import AwardWinnerForm
@@ -49,7 +49,7 @@ def assign_award_winner(award_winner_id):
     award_winner = AwardWinner.query.get(award_winner_id)
     form = AwardWinnerForm(obj=award_winner)
     form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
+                            sortTeamsWithPlaceholder(Team.query.all())]
 
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(award_winner)

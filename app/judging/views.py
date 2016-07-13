@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from flask.ext.login import login_required
 from app import db
+from app.util import sortTeamsWithPlaceholder
 from app.teams.models import Team
 from models import Presentation, Technical, CoreValues
 from forms import PresentationForm, TechnicalForm, CoreValuesForm
@@ -28,7 +29,7 @@ def index():
 def add_presentation():
     form = PresentationForm()
     form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
+                            sortTeamsWithPlaceholder(Team.query.all())]
 
     # Gather and preset the team ID field if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
@@ -91,7 +92,7 @@ def delete_presentation(presentation_id):
 def add_technical():
     form = TechnicalForm()
     form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
+                            sortTeamsWithPlaceholder(Team.query.all())]
 
     # Gather and preset the team ID field if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
@@ -154,7 +155,7 @@ def delete_technical(technical_id):
 def add_core_values():
     form = CoreValuesForm()
     form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
+                            sortTeamsWithPlaceholder(Team.query.all())]
 
     # Gather and preset the team ID field if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)

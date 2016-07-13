@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, \
     url_for, jsonify
 from flask.ext.login import login_required
 from app import db
-from app.util import create_pdf
+from app.util import create_pdf, sortTeamsWithPlaceholder
 from app.teams.models import Team
 from forms import ScoreForm
 from models import RobotScore
@@ -62,14 +62,15 @@ def api():
 def add():
     teams = Team.query.all()
     form = ScoreForm()
+
     form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(teams, key=by_team)]
+                            sortTeamsWithPlaceholder(teams)]
 
     # don't allow playoff round options during qualifying, or qualifying during playoffs
     if any(team.highest_round_reached > 3 for team in teams):
-        form.round_number.choices = [(1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+        form.round_number.choices = [(-1, 'Select'), (1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
     else:
-        form.round_number.choices = [(1, '1'), (2, '2'), (3, '3')]
+        form.round_number.choices = [(-1, 'Select'), (1, '1'), (2, '2'), (3, '3')]
 
     # Gather and preset the team ID and round number fields if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)

@@ -153,20 +153,29 @@ class ScoreForm(Form):
 
         # Team-ID and round-number fields don't exist on an 'edit' form
         if self.team_id and self.round_number:
-            # New score being entered, check if one already exists for team/ round
-            score = RobotScore.query.filter_by(round_number=self.round_number.data,
-                                               team_id=self.team_id.data).first()
-            if score is not None:
-                self.round_number.errors.append("Score already exists for this \
-                                            round")
+            if self.team_id.data==-1:
+                self.team_id.errors.append("Please select a team")
                 form_valid = False
-            else:
-                # Ensure that the selected round is valid for this team
-                team = Team.query.filter_by(id=self.team_id.data).one()
-                if self.round_number.data >= 4 and team.highest_round_reached < self.round_number.data:
-                    self.round_number.errors.append(
-                        "Team is not participating in the selected round, please select another")
+
+            if self.round_number.data==-1:
+                self.round_number.errors.append("Please select a round")
+                form_valid = False
+
+            if self.team_id.data != -1 and self.round_number.data != -1:
+                # New score being entered, check if one already exists for team/ round
+                score = RobotScore.query.filter_by(round_number=self.round_number.data,
+                                                   team_id=self.team_id.data).first()
+                if score is not None:
+                    self.round_number.errors.append("Score already exists for this \
+                                                round")
                     form_valid = False
+                else:
+                    # Ensure that the selected round is valid for this team
+                    team = Team.query.filter_by(id=self.team_id.data).one()
+                    if self.round_number.data >= 4 and team.highest_round_reached < self.round_number.data:
+                        self.round_number.errors.append(
+                            "Team is not participating in the selected round, please select another")
+                        form_valid = False
 
         # Check that compost isn't marked as being both in and out of safety
         if self.compost_ejected_in_safety.data == 'True' and self.compost_ejected_not_in_safety.data == 'True':

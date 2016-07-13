@@ -68,9 +68,9 @@ def add():
 
     # don't allow playoff round options during qualifying, or qualifying during playoffs
     if any(team.highest_round_reached > 3 for team in teams):
-        form.round_number.choices = [(1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+        form.round_number.choices = [(0, 'Select'), (1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
     else:
-        form.round_number.choices = [(1, '1'), (2, '2'), (3, '3')]
+        form.round_number.choices = [(0, 'Select'), (1, '1'), (2, '2'), (3, '3')]
 
     # Gather and preset the team ID and round number fields if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)

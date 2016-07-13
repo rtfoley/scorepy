@@ -65,25 +65,25 @@
             <div class="col-sm-4">
                 {% if team_id and round_number %}
                     <div class="form-group">
-                        <label class="col-sm-8 control-label">Team</label>
-                        <div class="col-sm-4">
+                        <label class="col-sm-6 control-label">Team</label>
+                        <div class="col-sm-6">
                             <p class="form-control-static">{{ team_id }}</p>
                         </div>
                     </div>
                 {% else %}
-                    {{ macros.render_selector(form.team_id) }}
+                    {{ macros.render_selector(form.team_id, label_size=6, selector_size=6) }}
                 {% endif %}
             </div>
             <div class="col-sm-4">
                 {% if team_id and round_number %}
                     <div class="form-group">
-                        <label class="col-sm-8 control-label">Round</label>
-                        <div class="col-sm-4">
+                        <label class="col-sm-6 control-label">Round</label>
+                        <div class="col-sm-6">
                             <p class="form-control-static">{{ round_number }}</p>
                         </div>
                     </div>
                 {% else %}
-                    {{ macros.render_selector(form.round_number) }}
+                    {{ macros.render_selector(form.round_number, label_size=6, selector_size=6) }}
                 {% endif %}
             </div>
             <div class="col-sm-4">

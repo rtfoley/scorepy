@@ -63,6 +63,11 @@ class PresentationForm(Form):
         if not self.team_id:
             return True
 
+        # Check for placeholder
+        if self.team_id.data==-1:
+            self.team_id.errors.append("Please select a team")
+            return False
+
         # New score being entered, check if one already exists for team/ round
         p = Presentation.query.filter_by(team_id=self.team_id.data).first()
         if p is not None:
@@ -124,6 +129,11 @@ class CoreValuesForm(Form):
         if not self.team_id:
             return True
 
+        # Check for placeholder
+        if self.team_id.data==-1:
+            self.team_id.errors.append("Please select a team")
+            return False
+
         # New score being entered, check if one already exists for team/ round
         t = CoreValues.query.filter_by(team_id=self.team_id.data).first()
         if t is not None:
@@ -184,6 +194,11 @@ class TechnicalForm(Form):
         # Team-ID fields doesn't exist on an 'edit' form
         if not self.team_id:
             return True
+
+        # Check for placeholder
+        if self.team_id.data==-1:
+            self.team_id.errors.append("Please select a team")
+            return False
 
         # New score being entered, check if one already exists for team/ round
         t = Technical.query.filter_by(team_id=self.team_id.data).first()

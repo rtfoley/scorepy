@@ -22,7 +22,8 @@ build_exe_options = {
     "include_files": [
         "config.py",
         "app/templates/",
-        "app/static/"
+        "app/static/",
+        "LICENSE.txt"
     ]}
 
 # GUI applications require a different base on Windows (the default is for a
@@ -31,7 +32,7 @@ base = None
 
 setup(  name = "FLL Scorepy",
         author='Ryan Foley',
-        version = "0.1",
+        version = "0.2",
         description = "A FLL event management/ scoring solution ",
         options = {"build_exe": build_exe_options},
         executables = [Executable(

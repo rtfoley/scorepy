@@ -22,7 +22,16 @@ An attempt at an FLL tournament scoring application using Python and Flask
 - [ ] referee interface
 - [ ] head referee interface
 
-### Setting up and running the application:
+### Installing and running the application on Windows
+1. Download the latest release from the [releases](https://github.com/rtfoley/scorepy/releases) page
+2. Run the msi installer
+3. Double-click the shortcut on the desktop, which should open a command window and start the webserver.
+4. Navigate to http://localhost:8080/
+
+### Installing and running the application on MacOS
+Coming soon...
+
+### Setting up for development
 Install Python 2.7.x: https://www.python.org/downloads/
 
 Install pip: https://pip.pypa.io/en/latest/installing.html

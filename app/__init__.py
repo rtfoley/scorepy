@@ -65,7 +65,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.is_correct_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            app.info("User %s logged in" % user.username)
+            app.logger.info("User %s logged in" % user.username)
             next_page = request.args.get('next')
 
             # TODO should validate the next parameter before using it

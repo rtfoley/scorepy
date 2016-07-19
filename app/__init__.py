@@ -7,6 +7,8 @@ from flask.ext.login import LoginManager
 from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.login import login_required
+import logging
+from logging.handlers import RotatingFileHandler
 
 # http://dev.prositen.com/wp/make-a-win32-exe-of-a-python-3-flask-app/
 # Fetch files from app directory by default, from script directory if code is frozen
@@ -30,10 +32,18 @@ login_manager.login_view = "login"
 # Setup password encryption
 bcrypt = Bcrypt(app)
 
+# Setup logging
+handler = RotatingFileHandler(app.config['LOGGING_LOCATION'], maxBytes=10000, backupCount=1)
+handler.setLevel(app.config['LOGGING_LEVEL'])
+formatter = logging.Formatter(app.config['LOGGING_FORMAT'])
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+app.logger.info("Application starting")
+
 # Setup database
 db = SQLAlchemy(app)
 db.init_app(app)
-
+app.logger.info("Database initialized")
 
 from models import User
 from forms import LoginForm, ChangePasswordForm
@@ -55,6 +65,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.is_correct_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
+            app.logger.info("User %s logged in" % user.username)
             next_page = request.args.get('next')
 
             # TODO should validate the next parameter before using it
@@ -71,7 +82,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-
     return redirect(url_for('index'))
 
 
@@ -109,8 +119,14 @@ def settings():
 # Sample HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
+    app.logger.error('Page not found: %s', (request.path))
     return render_template('404.html'), 404
 
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    app.logger.error('Server Error: %s', (error))
+    return render_template('500.html'), 500
 
 # Import a module / component using its blueprint handler variable (mod_auth)
 from app.teams.views import mod_teams as teams_module

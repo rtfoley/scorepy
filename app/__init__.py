@@ -112,6 +112,11 @@ def not_found(error):
     return render_template('404.html'), 404
 
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    app.logger.error('Server Error: %s', (error))
+    return render_template('500.html'), 500
+
 # Import a module / component using its blueprint handler variable (mod_auth)
 from app.teams.views import mod_teams as teams_module
 from app.scoring.views import mod_scoring as scoring_module

@@ -38,12 +38,10 @@ handler.setLevel(app.config['LOGGING_LEVEL'])
 formatter = logging.Formatter(app.config['LOGGING_FORMAT'])
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
-app.logger.info("Application starting")
 
 # Setup database
 db = SQLAlchemy(app)
 db.init_app(app)
-app.logger.info("Database initialized")
 
 from models import User
 from forms import LoginForm, ChangePasswordForm

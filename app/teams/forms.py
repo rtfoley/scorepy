@@ -11,10 +11,6 @@ class TeamForm(Form):
     affiliation = StringField("Affiliation", [validators.Length(min=1, max=200)])
     city = StringField("City", [validators.Length(min=1, max=50)])
     state = StringField("State", [validators.Length(min=2, max=2)])
-    highest_round_reached = SelectField(u'Highest playoff round reached',
-                                        choices=[(0, 'None'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')],
-                                        coerce=int,
-                                        default=0)
     is_rookie = BooleanField("Rookie?")
 
     def validate(self):

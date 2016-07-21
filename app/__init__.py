@@ -22,7 +22,7 @@ app = Flask(__name__,
             static_folder=os.path.join(basedir, 'static'))
 
 # Setup application
-app.config.from_object('config')
+app.config.from_object('config.BaseConfiguration')
 
 # Setup login manager
 login_manager = LoginManager()

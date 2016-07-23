@@ -1,11 +1,10 @@
 from flask.ext.testing import TestCase
 import unittest
-from app import app, db
+from app import create_app, db
 
 class BaseTestCase(TestCase):
     def create_app(self):
-        app.config.from_object('config.TestingConfiguration')
-        return app
+        return create_app('config.TestingConfiguration')
 
     def setUp(self):
         db.create_all()

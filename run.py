@@ -1,8 +1,9 @@
 from cherrypy import wsgiserver
-from app import app
+from app import create_app
 import jinja2.ext
 
 if __name__ == '__main__':
+    app = create_app('config')
     if app.debug:
         app.run('0.0.0.0', port=8080, debug=app.debug)
     else:

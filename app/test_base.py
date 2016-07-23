@@ -2,6 +2,7 @@ from flask.ext.testing import TestCase
 import unittest
 from app import create_app, db
 
+
 class BaseTestCase(TestCase):
     def create_app(self):
         return create_app('config.TestingConfiguration')
@@ -13,7 +14,7 @@ class BaseTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def login(self, username, password):
+    def login(self, username='admin', password='changeme'):
         return self.client.post('/login', data=dict(
             username=username,
             password=password

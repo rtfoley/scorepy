@@ -1,10 +1,10 @@
 import unittest
-from app import app
+from app import create_app
 
 class TestScorepy(unittest.TestCase):
     def setUp(self):
+        app = create_app('config.TestingConfiguration')
         self.app = app.test_client()
-        self.app.testing = True
 
     def tearDown(self):
         pass

@@ -10,7 +10,7 @@ from flask.ext.login import login_required
 import logging
 from logging.handlers import RotatingFileHandler
 
-db=SQLAlchemy()
+db = SQLAlchemy()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 

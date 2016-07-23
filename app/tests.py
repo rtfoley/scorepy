@@ -5,7 +5,7 @@ class TestTopLevelFunctions(BaseTestCase):
     def test_index_response(self):
         response = self.client.get('/')
         self.assert200(response)
-        
+
     def test_login_required(self):
         self.check_login_required('/scores/add', '/login?next=%2Fscores%2Fadd')
         self.check_login_required('/judging/presentation/new', '/login?next=%2Fjudging%2Fpresentation%2Fnew')

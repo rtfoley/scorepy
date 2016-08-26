@@ -120,7 +120,8 @@ def create_app(config_object):
     # Pit Display page
     @app.route("/pit", methods=['GET'])
     def pit_display():
-        return render_template("pit_display.html", title="Southern Maine FLL Qualifier", subtitle="Rankings")
+        title = EventSettings.query.first().name
+        return render_template("pit_display.html", title=title, subtitle="Rankings")
 
     # Pit Display page
     @app.route("/settings", methods=["GET", "POST"])

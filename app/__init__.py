@@ -59,8 +59,8 @@ def create_app(config_object):
     app.register_blueprint(judging_module)
     app.register_blueprint(awards_module)
 
-    from models import User
-    from forms import LoginForm, ChangePasswordForm
+    from models import User, EventSettings
+    from forms import LoginForm, ChangePasswordForm, EventSettingsForm
 
     @login_manager.user_loader
     def load_user(userid):
@@ -123,10 +123,18 @@ def create_app(config_object):
         return render_template("pit_display.html", title="Southern Maine FLL Qualifier", subtitle="Rankings")
 
     # Pit Display page
-    @app.route("/settings", methods=['GET'])
+    @app.route("/settings", methods=["GET", "POST"])
     @login_required
     def settings():
-        return render_template("settings.html")
+        eventSettings = EventSettings.query.first()
+        form = EventSettingsForm(obj = eventSettings)
+        if request.method == 'POST' and form.validate_on_submit():
+            form.populate_obj(eventSettings)
+            db.session.commit()
+            return redirect(url_for(".index"))
+        elif request.method == 'POST':
+            flash('Failed validation', 'danger alert-auto-dismiss')
+        return render_template("settings.html", form=form)
 
 
     # Sample HTTP error handling
@@ -150,6 +158,11 @@ def create_app(config_object):
         if User.query.filter_by(username=username).first() is None:
             user = User("admin", "changeme")
             db.session.add(user)
+            db.session.commit()
+            
+        if EventSettings.query.first() is None:
+            eventSettings = EventSettings('Maine FLL Qualifier', False)
+            db.session.add(eventSettings)
             db.session.commit()
 
     from app.teams.models import Team

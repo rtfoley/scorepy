@@ -27,7 +27,7 @@ def ranks_pdf():
     for i, team in enumerate(ranked_teams):
         team.rank = i + 1
 
-    ranks = render_template("scoring/ranks.html", teams=ranked_teams)
+    ranks = render_template("scoring/ranks.html", teams=ranked_teams, title="Ranking Report")
     pdf = create_pdf(ranks, 'ranks.pdf')
     return pdf
 

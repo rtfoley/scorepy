@@ -141,7 +141,8 @@ def delete(team_id):
 def teams_pdf():
     teams = Team.query.all()
     team_report = render_template("teams/team_report.html",
-                                  teams=sorted(teams, key=by_team))
+                                  teams=sorted(teams, key=by_team),
+                                  title="Team Report")
     pdf = create_pdf(team_report, 'teams.pdf')
     return pdf
 
@@ -151,7 +152,8 @@ def teams_pdf():
 def category_results_pdf():
     teams = Team.query.all()
     data = render_template("teams/category_results.html",
-                           teams=sorted(teams, key=by_team))
+                           teams=sorted(teams, key=by_team),
+                           title="Category Results Report")
 
     pdf = create_pdf(data, 'category_results.pdf')
     return pdf

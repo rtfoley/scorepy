@@ -38,7 +38,7 @@ def awards_pdf():
     for winner in award_winners:
         winner.category_name = AwardCategory(winner.category_id).friendly_name
 
-    awards = render_template("awards/awards_report.html", award_winners=award_winners)
+    awards = render_template("awards/awards_report.html", award_winners=award_winners, title="Award Winners Report")
     pdf = create_pdf(awards, 'awards_report.pdf')
     return pdf
 

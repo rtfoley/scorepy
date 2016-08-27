@@ -6,6 +6,7 @@ from app.util import create_pdf, sortTeamsWithPlaceholder
 from app.teams.models import Team
 from models import AwardWinner, AwardCategory
 from forms import AwardWinnerForm
+from app.models import EventSettings
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_awards = Blueprint('awards', __name__, url_prefix='/awards')
@@ -33,12 +34,16 @@ def index():
 @mod_awards.route("/awards_report.pdf")
 def awards_pdf():
     award_winners = AwardWinner.query.all()
+    title = EventSettings.query.first().name
 
     award_winners = sorted(award_winners, key=lambda x: x.friendly_award_name)
     for winner in award_winners:
         winner.category_name = AwardCategory(winner.category_id).friendly_name
 
-    awards = render_template("awards/awards_report.html", award_winners=award_winners, title="Award Winners Report")
+    awards = render_template("awards/awards_report.html",
+                             award_winners=award_winners,
+                             title="Award Winners Report: %s" % title)
+
     pdf = create_pdf(awards, 'awards_report.pdf')
     return pdf
 

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
+{% import "_helpers.html" as macros %}
 {% block title %}FLL System Settings{% endblock %}
 {% block pageContent %}
   <h1>Settings</h1>
-  <p>todo</p>
+  {{ macros.render_form(form, action_url="", action_text="Save", class_="event_settings_form") }}
 {% endblock %}

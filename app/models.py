@@ -22,3 +22,14 @@ class User(db.Model, UserMixin):
 
     def is_correct_password(self, plaintext):
         return bcrypt.check_password_hash(self._password, plaintext)
+        
+class EventSettings(db.Model):
+    __tablename__ = 'event_settings'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200))
+    is_championship = db.Column(db.Boolean)
+    
+    def __init__(self, name, championship):
+        self.name = name
+        self.is_championship = championship

@@ -6,6 +6,7 @@ from app.util import create_pdf, sortTeamsWithPlaceholder
 from app.teams.models import Team
 from forms import ScoreForm
 from models import RobotScore
+from app.models import EventSettings
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_scoring = Blueprint('scoring', __name__, url_prefix='/scores')
@@ -23,11 +24,15 @@ def index():
 @mod_scoring.route('/ranks.pdf')
 def ranks_pdf():
     teams = Team.query.all()
+    title = EventSettings.query.first().name
     ranked_teams = sorted(teams, key=by_team_best, reverse=True)
     for i, team in enumerate(ranked_teams):
         team.rank = i + 1
 
-    ranks = render_template("scoring/ranks.html", teams=ranked_teams)
+    ranks = render_template("scoring/ranks.html",
+                            teams=ranked_teams,
+                            title="Ranking Report: %s" % title)
+    
     pdf = create_pdf(ranks, 'ranks.pdf')
     return pdf
 

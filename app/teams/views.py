@@ -7,6 +7,7 @@ from app import db
 from app.util import create_pdf
 from models import Team
 from forms import TeamForm, UploadForm
+from app.models import EventSettings
 
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -140,8 +141,10 @@ def delete(team_id):
 @mod_teams.route('/teams_report.pdf')
 def teams_pdf():
     teams = Team.query.all()
+    title = EventSettings.query.first().name
     team_report = render_template("teams/team_report.html",
-                                  teams=sorted(teams, key=by_team))
+                                  teams=sorted(teams, key=by_team),
+                                  title="Team Report: %s" % title)
     pdf = create_pdf(team_report, 'teams.pdf')
     return pdf
 
@@ -150,8 +153,10 @@ def teams_pdf():
 @login_required
 def category_results_pdf():
     teams = Team.query.all()
+    title = EventSettings.query.first().name
     data = render_template("teams/category_results.html",
-                           teams=sorted(teams, key=by_team))
+                           teams=sorted(teams, key=by_team),
+                           title="Category Results Report: %s" % title)
 
     pdf = create_pdf(data, 'category_results.pdf')
     return pdf

@@ -1,102 +1,62 @@
-<html>
-  <head>
-    <title>FLL Category Results</title>
-    <style>
-      @page {
-        size: letter portrait;
-        @frame header_frame {           /* Static frame */
-            -pdf-frame-content: header_content;
-            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
-        }
-        @frame main_frame {             /* Content frame 1 */
-            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
-        }
-        @frame footer_frame {           /* Static frame */
-            -pdf-frame-content: footer_content;
-            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
-        }
-      }
-
-      table, th, td {
-         table-layout: fixed;
-         border: 1px solid black;
-         border-collapse: collapse;
-         padding: 5px;
-      }
-
-      table {
-        width: 100%;
-      }
-
-      td {
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="header_content">FLL Category Results</div>
-    <div id="footer_content">
-      (c) - page <pdf:pagenumber> of <pdf:pagecount>
-    </div>
+{% extends "report_base.html" %}
+{% block reportContent %}
     <table repeat="1">
-      <thead>
-        <tr>
-          <th>Team #</th>
-          <th>MechD</th>
-          <th>Prog</th>
-          <th>S & I</th>
-          <th>BotP</th>
-          <th>Res</th>
-          <th>IS</th>
-          <th>Pres</th>
-          <th>Insp</th>
-          <th>Team</th>
-          <th>GP</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for team in teams %}
-          <tr>
-            <td>{{ team.number }}</td>
-            {% if team.technical != None %}
-              <td>{{ "%0.2f" % team.technical.mechanical_score }}</td>
-              <td>{{ "%0.2f" % team.technical.programming_score }}</td>
-              <td>{{ "%0.2f" % team.technical.strategy_innovation_score }}</td>
-            {% else %}
-              <td></td>
-              <td></td>
-              <td></td>
-            {% endif %}
+        <thead>
+            <tr>
+                <th>Team #</th>
+                <th>MechD</th>
+                <th>Prog</th>
+                <th>S & I</th>
+                <th>BotP</th>
+                <th>Res</th>
+                <th>IS</th>
+                <th>Pres</th>
+                <th>Insp</th>
+                <th>Team</th>
+                <th>GP</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+                <tr>
+                    <td>{{ team.number }}</td>
+                    {% if team.technical != None %}
+                        <td>{{ "%0.2f" % team.technical.mechanical_score }}</td>
+                        <td>{{ "%0.2f" % team.technical.programming_score }}</td>
+                        <td>{{ "%0.2f" % team.technical.strategy_innovation_score }}</td>
+                    {% else %}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    {% endif %}
 
-            {% if team.best != None %}
-              <td>{{ "%0.2f" % team.best.total }}</td>
-            {% else %}
-              <td></td>
-            {% endif %}
+                    {% if team.best != None %}
+                        <td>{{ "%0.2f" % team.best.total }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
 
-            {% if team.presentation != None %}
-              <td>{{ "%0.2f" % team.presentation.research_score }}</td>
-              <td>{{ "%0.2f" % team.presentation.innovative_solution_score }}</td>
-              <td>{{ "%0.2f" % team.presentation.presentation_score }}</td>
-            {% else %}
-              <td></td>
-              <td></td>
-              <td></td>
-            {% endif %}
+                    {% if team.presentation != None %}
+                        <td>{{ "%0.2f" % team.presentation.research_score }}</td>
+                        <td>{{ "%0.2f" % team.presentation.innovative_solution_score }}</td>
+                        <td>{{ "%0.2f" % team.presentation.presentation_score }}</td>
+                    {% else %}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    {% endif %}
 
-            {% if team.core_values != None %}
-              <td>{{ "%0.2f" % team.core_values.inspiration_score }}</td>
-              <td>{{ "%0.2f" % team.core_values.teamwork_score }}</td>
-              <td>{{ "%0.2f" % team.core_values.gp_score }}</td>
-            {% else %}
-              <td></td>
-              <td></td>
-              <td></td>
-            {% endif %}
-          </tr>
-        {% endfor %}
-      </tbody>
+                    {% if team.core_values != None %}
+                        <td>{{ "%0.2f" % team.core_values.inspiration_score }}</td>
+                        <td>{{ "%0.2f" % team.core_values.teamwork_score }}</td>
+                        <td>{{ "%0.2f" % team.core_values.gp_score }}</td>
+                    {% else %}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
-
-  </body>
-</html>
+{% endblock %}

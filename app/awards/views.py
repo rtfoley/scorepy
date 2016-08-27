@@ -88,12 +88,15 @@ def populate_slots():
 
         # Seed new slots
         slots = []
+        is_championship = EventSettings.query.first().is_championship
+
         for category in AwardCategory:
-            if category == AwardCategory.Champions or category == AwardCategory.Robot_Performance:
+            if is_championship or category == AwardCategory.Champions or category == AwardCategory.Robot_Performance:
                 for i in range(0, 2):
                     slots.append(AwardWinner(category_id=category.value, place=i))
             else:
                 slots.append(AwardWinner(category_id=category.value, place=0))
+
         for slot in slots:
             db.session.add(slot)
         db.session.commit()

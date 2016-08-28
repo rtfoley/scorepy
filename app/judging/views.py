@@ -27,9 +27,14 @@ def index():
 # Add a presentation judging entry
 @mod_judging.route('/presentation/new', methods=['GET', 'POST'])
 def add_presentation():
+    teams = Team.query.all()
+
+    if not teams:
+        return render_template("no_teams.html")
+
     form = PresentationForm()
     form.team_id.choices = [(t.id, t.number) for t in
-                            sortTeamsWithPlaceholder(Team.query.all())]
+                            sortTeamsWithPlaceholder(teams)]
 
     # Gather and preset the team ID field if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
@@ -90,9 +95,14 @@ def delete_presentation(presentation_id):
 # Add a technical judging entry
 @mod_judging.route('/technical/new', methods=['GET', 'POST'])
 def add_technical():
+    teams = Team.query.all()
+
+    if not teams:
+        return render_template("no_teams.html")
+
     form = TechnicalForm()
     form.team_id.choices = [(t.id, t.number) for t in
-                            sortTeamsWithPlaceholder(Team.query.all())]
+                            sortTeamsWithPlaceholder(teams)]
 
     # Gather and preset the team ID field if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
@@ -153,9 +163,14 @@ def delete_technical(technical_id):
 # Add a core values judging entry
 @mod_judging.route('/core_values/new', methods=['GET', 'POST'])
 def add_core_values():
+    teams = Team.query.all()
+
+    if not teams:
+        return render_template("no_teams.html")
+
     form = CoreValuesForm()
     form.team_id.choices = [(t.id, t.number) for t in
-                            sortTeamsWithPlaceholder(Team.query.all())]
+                            sortTeamsWithPlaceholder(teams)]
 
     # Gather and preset the team ID field if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)

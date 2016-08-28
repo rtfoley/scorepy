@@ -22,6 +22,11 @@ def before_request():
 # Awards page
 @mod_awards.route("/", methods=['GET'])
 def index():
+    teams = Team.query.all()
+
+    if not teams:
+        return render_template("no_teams.html")
+
     award_winners = AwardWinner.query.all()
 
     award_winners = sorted(award_winners, key=lambda x: x.friendly_award_name)
@@ -51,10 +56,15 @@ def awards_pdf():
 # Edit a previously-entered award winner
 @mod_awards.route("/<int:award_winner_id>/assign", methods=['GET', 'POST'])
 def assign_award_winner(award_winner_id):
+    teams = Team.query.all()
+
+    if not teams:
+        return render_template("no_teams.html")
+
     award_winner = AwardWinner.query.get(award_winner_id)
     form = AwardWinnerForm(obj=award_winner)
     form.team_id.choices = [(t.id, t.number) for t in
-                            sortTeamsWithPlaceholder(Team.query.all())]
+                            sortTeamsWithPlaceholder(teams)]
 
     if request.method == 'POST' and form.validate_on_submit():
         form.populate_obj(award_winner)

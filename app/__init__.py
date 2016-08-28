@@ -174,6 +174,10 @@ def create_app(config_object):
     @login_required
     def review():
         teams = Team.query.all()
+
+        if not teams:
+            return render_template("no_teams.html")
+
         return render_template("review.html",
                                teams=sorted(teams, key=by_team))
 

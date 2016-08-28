@@ -24,6 +24,7 @@ def index():
 @mod_scoring.route('/ranks.pdf')
 def ranks_pdf():
     teams = Team.query.all()
+    
     title = EventSettings.query.first().name
     ranked_teams = sorted(teams, key=by_team_best, reverse=True)
     for i, team in enumerate(ranked_teams):
@@ -66,6 +67,10 @@ def api():
 @login_required
 def add():
     teams = Team.query.all()
+
+    if not teams:
+        return render_template("no_teams.html")
+
     form = ScoreForm()
 
     form.team_id.choices = [(t.id, t.number) for t in
@@ -157,6 +162,10 @@ def delete(score_id):
 @mod_scoring.route("/playoffs", methods=['GET'])
 @login_required
 def playoffs():
+    teams = Team.query.all()
+    if not teams:
+        return render_template("no_teams.html")
+
     quarterfinal_teams = Team.query.filter(Team.highest_round_reached >= 4)
     semifinal_teams = Team.query.filter(Team.highest_round_reached >= 5)
     final_teams = Team.query.filter(Team.highest_round_reached >= 6)

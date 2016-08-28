@@ -7,11 +7,11 @@
     </div>
     {% call macros.render_form(form, class_="technicalForm", include_submit=false) %}
         <div class="row">
-            <div class="col-sm-6 col-sm-offset-1">
+            <div class="col-sm-8 col-sm-offset-1">
                 {% if team_id %}
                 <div class="form-group">
-                    <label class="col-sm-8 control-label">Team</label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-6 control-label">Team</label>
+                    <div class="col-sm-6">
                         <p class="form-control-static">{{ team_id }}</p>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-sm-offset-1">
+            <div class="col-sm-8 col-sm-offset-1">
                 {{ macros.render_fields("Mechanical Design",
                                         form.mechanical_durability,
                                         form.mechanical_efficiency,

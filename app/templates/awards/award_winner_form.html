@@ -7,13 +7,13 @@
     </div>
     {% call macros.render_form(form, class_="awardWinnerForm", include_submit=false) %}
         <div class="row">
-            <div class="col-sm-6 col-sm-offset-1">
-                <label class="col-sm-8 control-label">Award</label>
-            <div class="col-sm-4">
-                <p class="form-control-static">{{ award }}</p>
-            </div>
-            {{ macros.render_field(form.team_id) }}
-            {{ macros.render_submit(cancel_link=url_for('.index')) }}
+            <div class="col-sm-8 col-sm-offset-1">
+                <label class="col-sm-6 control-label">Award</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static">{{ award }}</p>
+                </div>
+                {{ macros.render_field(form.team_id) }}
+                {{ macros.render_submit(cancel_link=url_for('.index')) }}
             </div>
         </div>
     {% endcall %}

@@ -33,6 +33,7 @@ def create_app(config_object):
 
     login_manager.init_app(app)
     login_manager.login_view = "login"
+    login_manager.login_message_category = "danger alert-auto-dismiss"
 
     # Setup password encryption
     bcrypt.init_app(app)

@@ -53,12 +53,14 @@ def create_app(config_object):
     from app.scoring.views import mod_scoring as scoring_module
     from app.judging.views import mod_judging as judging_module
     from app.awards.views import mod_awards as awards_module
+    from app.matches.views import mod_matches as matches_module
 
     # Register blueprint(s)
     app.register_blueprint(teams_module)
     app.register_blueprint(scoring_module)
     app.register_blueprint(judging_module)
     app.register_blueprint(awards_module)
+    app.register_blueprint(matches_module)
 
     from models import User, EventSettings
     from forms import LoginForm, ChangePasswordForm, EventSettingsForm

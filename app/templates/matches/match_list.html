@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/datatables.min.js') }}"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $(".table").DataTable({
+            scrollY:        '52.75vh',
+            scrollCollapse: true,
+            paging:         false,
+            columnDefs: [
+                { orderable: false, targets: -1 }
+            ]
+            });
+        });
+    </script>
+{% endblock %}
+{% block title %}Matches{% endblock %}
+{% block pageContent %}
+  <h3>Matches</h3>
+  <a href="{{ url_for('.upload') }}">Upload CSV</a></a>
+  <table class="table table-hover display" width="100%">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Number</th>
+        <th>Type</th>
+        <th>Round</th>
+        {% for competition_table in competition_tables %}
+            <th>{{ competition_table.name }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for match in matches %}
+        <tr>
+          <td>{{ match.time }}</td>
+          <td>{{ match.number }}</td>
+          <td>{{ match.match_type }}</td>
+          <td>{{ match.round_number }}</td>
+          {% for slot in match.slots %}
+            <td>{{ slot.team.number }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

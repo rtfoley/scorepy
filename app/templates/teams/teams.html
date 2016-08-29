@@ -7,7 +7,7 @@
     <script type="text/javascript">
         $( document ).ready(function() {
             $(".table").DataTable({
-            scrollY:        '50vh',
+            scrollY:        '52.75vh',
             scrollCollapse: true,
             paging:         false,
             columnDefs: [
@@ -19,10 +19,9 @@
 {% endblock %}
 {% block title %}Teams{% endblock %}
 {% block pageContent %}
-  <h1>Teams</h1>
+  <h3>Teams</h3>
   <!-- TODO add icons to these, format as buttons-->
-  <a href="{{ url_for('.upload') }}">Upload CSV</a><br>
-  <a href="{{ url_for('.add') }}">Add a new team</a>
+  <a href="{{ url_for('.upload') }}">Upload CSV</a> | <a href="{{ url_for('.add') }}">Add a new team</a>
   <table class="table table-hover display" width="100%">
     <thead>
       <tr>

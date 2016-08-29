@@ -2,10 +2,9 @@
 {% macro render_score(team, round_number) %}
     {% set score = team.get_score_for_round(round_number) %}
     {% if score != None %}
-        <a href="{{ url_for('.edit', score_id=score.id) }}">{{ score.total }} </a>
-        <a href="{{ url_for('.delete', score_id=score.id) }}" class="btn btn-xs btn-danger fa fa-trash-o"></a>
+        <a href="{{ url_for('scoring.edit', score_id=score.id) }}">{{ score.total }} </a>
     {% else %}
-        <a href="{{ url_for('.add', team_id=team.id, round=round_number) }}">Add</a>
+        <a href="{{ url_for('scoring.add', team_id=team.id, round=round_number) }}"><i>add</i></a>
     {% endif %}
 {%- endmacro %}
 
@@ -15,9 +14,9 @@
         <h2 style="text-align: center;">{{ round_name }}</h2>
         <p style="text-align: center;">
             {% if teams.count() == 0 %}
-                <a href="{{ url_for('.populate', selected_round=round_number) }}">Populate</a>
+                <a href="{{ url_for('scoring.populate', selected_round=round_number) }}">Populate</a>
             {% else %}
-                <a href="{{ url_for('.clear_round', selected_round=round_number) }}">Clear</a>
+                <a href="{{ url_for('scoring.clear_round', selected_round=round_number) }}">Clear</a>
             {% endif %}
         </p>
         <table class="table table-hover display" width="100%">

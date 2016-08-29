@@ -6,38 +6,45 @@
         <h1>Robot Design Entry</h1>
     </div>
     {% call macros.render_form(form, class_="technicalForm", include_submit=false) %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">General Information</h3>
-            </div>
-            <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-1">
                 {% if team_id %}
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Team</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-6 control-label">Team</label>
+                    <div class="col-sm-6">
                         <p class="form-control-static">{{ team_id }}</p>
                     </div>
                 </div>
-                {% else %}
-                    {{ macros.render_field(form.team_id) }}
-                {% endif %}
+            {% else %}
+                {{ macros.render_selector(form.team_id) }}
+            {% endif %}
             </div>
         </div>
-        {{ macros.render_fields("Mechanical Design",
-                                form.mechanical_durability,
-                                form.mechanical_efficiency,
-                                form.mechanization) }}
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-1">
+                {{ macros.render_fields("Mechanical Design",
+                                        form.mechanical_durability,
+                                        form.mechanical_efficiency,
+                                        form.mechanization) }}
 
-        {{ macros.render_fields("Programming",
-                                form.programming_quality,
-                                form.programming_efficiency,
-                                form.autonomous_navigation) }}
+                {{ macros.render_fields("Programming",
+                                        form.programming_quality,
+                                        form.programming_efficiency,
+                                        form.autonomous_navigation) }}
 
-        {{ macros.render_fields("Strategy and Innovation",
-                                form.design_process,
-                                form.mission_strategy,
-                                form.innovation) }}
+                {{ macros.render_fields("Strategy and Innovation",
+                                        form.design_process,
+                                        form.mission_strategy,
+                                        form.innovation) }}
+            </div>
+        </div>
 
-        {{ macros.render_submit(style_='padding-left: 23px') }}
+        {% if id!=None %}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review'), delete_link=url_for('.delete_technical', technical_id=id)) }}
+        {% elif repeat == true %}
+            {{ macros.render_submit(style_='padding-left: 23px', include_reset=true) }}
+        {% else %}
+            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review')) }}
+        {% endif %}
     {% endcall %}
 {% endblock %}

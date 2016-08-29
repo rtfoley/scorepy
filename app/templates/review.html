@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% import "scoring/_scoring_helpers.html" as macros %}
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/libs/datatables.min.js') }}"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $(".table").DataTable({
+            scrollY:        '52.5vh',
+            scrollCollapse: true,
+            paging:         false
+            });
+        });
+    </script>
+{% endblock %}
+{% block title %}FLL EM{% endblock %}
+{% block pageContent %}
+  <h3>Data Review</h3>
+  <table class="table table-hover display" width="100%">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th>Best</th>
+        <th>Round 1</th>
+        <th>Round 2</th>
+        <th>Round 3</th>
+        <th>Project</th>
+        <th>Robot Design</th>
+        <th>Core Values</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for team in teams %}
+        <tr>
+          <td>{{ team.number }}</td>
+          <td>{{ team.name }}</td>
+          {% if team.best != None %}
+            <td>
+              <a href="{{ url_for('scoring.edit', score_id=team.best.id) }}">{{ team.best.total }}</a>
+            </td>
+          {% else %}
+            <td></td>
+          {% endif %}
+          <td>{{ macros.render_score(team, 1) }}</td>
+          <td>{{ macros.render_score(team, 2) }}</td>
+          <td>{{ macros.render_score(team, 3) }}</td>
+          {% if team.presentation != None %}
+            <td>
+              <a href="{{ url_for('judging.edit_presentation', presentation_id=team.presentation.id) }}">{{ "%0.2f" % team.presentation.overall_score }}</a>
+            </td>
+          {% else %}
+            <td>
+              <a href="{{ url_for('judging.add_presentation', team_id=team.id) }}"><i>add</i></a>
+            </td>
+          {% endif %}
+
+          {% if team.technical != None %}
+            <td>
+              <a href="{{ url_for('judging.edit_technical', technical_id=team.technical.id) }}">{{ "%0.2f" % team.technical.overall_score }}</a>
+            </td>
+          {% else %}
+            <td>
+              <a href="{{ url_for('judging.add_technical', team_id=team.id) }}"><i>add</i></a>
+            </td>
+          {% endif %}
+          {% if team.core_values != None %}
+            <td>
+              <a href="{{ url_for('judging.edit_core_values', core_values_id=team.core_values.id) }}">{{ "%0.2f" % team.core_values.overall_score }}</a>
+            </td>
+          {% else %}
+            <td>
+              <a href="{{ url_for('judging.add_core_values', team_id=team.id) }}"><i>add</i></a>
+            </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+{% endblock %}

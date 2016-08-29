@@ -7,6 +7,7 @@ from app import db
 from app.util import create_pdf
 from models import Team
 from forms import TeamForm, UploadForm
+from app.models import EventSettings
 
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -33,8 +34,8 @@ def add():
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
-        flash('Failed validation')
-    return render_template("teams/team_form.html", form=form)
+        flash('Failed validation', 'danger alert-auto-dismiss')
+    return render_template("teams/team_form.html", form=form, id=None)
 
 
 # Upload teams via CSV file
@@ -69,7 +70,7 @@ def upload():
         if teamCount > 0:
             db.session.commit()
 
-        flash('Imported %d teams' % teamCount)
+        flash('Imported %d teams' % teamCount, 'success')
         os.remove(filename)
         return redirect(url_for(".index"))
     return render_template("teams/team_upload_form.html", form=form)
@@ -103,8 +104,8 @@ def edit(team_id):
         db.session.commit()
         return redirect(url_for(".index"))
     elif request.method == 'POST':
-        flash('Failed validation')
-    return render_template("teams/team_form.html", form=form, number=team.number)
+        flash('Failed validation', 'danger alert-auto-dismiss')
+    return render_template("teams/team_form.html", form=form, number=team.number, id=team.id)
 
 
 # Delete a team
@@ -140,8 +141,10 @@ def delete(team_id):
 @mod_teams.route('/teams_report.pdf')
 def teams_pdf():
     teams = Team.query.all()
+    title = EventSettings.query.first().name
     team_report = render_template("teams/team_report.html",
-                                  teams=sorted(teams, key=by_team))
+                                  teams=sorted(teams, key=by_team),
+                                  title="Team Report: %s" % title)
     pdf = create_pdf(team_report, 'teams.pdf')
     return pdf
 
@@ -150,8 +153,10 @@ def teams_pdf():
 @login_required
 def category_results_pdf():
     teams = Team.query.all()
+    title = EventSettings.query.first().name
     data = render_template("teams/category_results.html",
-                           teams=sorted(teams, key=by_team))
+                           teams=sorted(teams, key=by_team),
+                           title="Category Results Report: %s" % title)
 
     pdf = create_pdf(data, 'category_results.pdf')
     return pdf

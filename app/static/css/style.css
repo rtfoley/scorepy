@@ -28,3 +28,21 @@
 #pitDisplay .roundHeader {
   text-align: center;
 }
+
+label {
+  font-weight: normal;
+}
+
+.form-section-header {
+  font-weight: bold;
+}
+
+.form-group {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+.alert {
+	position:absolute;
+  z-index:1;
+}

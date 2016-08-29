@@ -2,10 +2,11 @@ from flask import Blueprint, render_template, request, flash, redirect, \
     url_for, jsonify
 from flask.ext.login import login_required
 from app import db
-from app.util import create_pdf
+from app.util import create_pdf, sortTeamsWithPlaceholder
 from app.teams.models import Team
 from forms import ScoreForm
 from models import RobotScore
+from app.models import EventSettings
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_scoring = Blueprint('scoring', __name__, url_prefix='/scores')
@@ -23,11 +24,16 @@ def index():
 @mod_scoring.route('/ranks.pdf')
 def ranks_pdf():
     teams = Team.query.all()
+    
+    title = EventSettings.query.first().name
     ranked_teams = sorted(teams, key=by_team_best, reverse=True)
     for i, team in enumerate(ranked_teams):
         team.rank = i + 1
 
-    ranks = render_template("scoring/ranks.html", teams=ranked_teams)
+    ranks = render_template("scoring/ranks.html",
+                            teams=ranked_teams,
+                            title="Ranking Report: %s" % title)
+    
     pdf = create_pdf(ranks, 'ranks.pdf')
     return pdf
 
@@ -60,33 +66,55 @@ def api():
 @mod_scoring.route("/add", methods=['GET', 'POST'])
 @login_required
 def add():
-    form = ScoreForm()
-    form.team_id.choices = [(t.id, t.number) for t in
-                            sorted(Team.query.all(), key=by_team)]
+    teams = Team.query.all()
 
-    # TODO don't allow playoff options during qualifying, or qualifying during playoffs
-    form.round_number.choices = [(1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+    if not teams:
+        return render_template("no_teams.html")
+
+    form = ScoreForm()
+
+    form.team_id.choices = [(t.id, t.number) for t in
+                            sortTeamsWithPlaceholder(teams)]
+
+    # don't allow playoff round options during qualifying, or qualifying during playoffs
+    if any(team.highest_round_reached > 3 for team in teams):
+        form.round_number.choices = [(-1, 'Select'), (1, '1'), (2, '2'), (3, '3'), (4, 'Quarterfinals'), (5, 'Semifinals'), (6, 'Finals')]
+    else:
+        form.round_number.choices = [(-1, 'Select'), (1, '1'), (2, '2'), (3, '3')]
 
     # Gather and preset the team ID and round number fields if provided in URL
     preselected_team = request.args.get('team_id', default=None, type=int)
     preselected_round = request.args.get('round', default=None, type=int)
-    if preselected_team is not None and preselected_round is not None:
+    if preselected_team is not None and request.method == 'GET':
         form.team_id.data = preselected_team
+
+    if preselected_round is not None and request.method == 'GET':
         form.round_number.data = preselected_round
 
-    if request.method == 'POST' and form.validate_on_submit():
+    repeat = request.args.get('repeat', default=False, type=bool)
+
+    if request.method == 'POST' and request.form['end'] == 'reset':
+        return redirect(url_for(".add", round = preselected_round, repeat = True))
+    elif request.method == 'POST' and request.form['end'] == 'submit' and form.validate_on_submit():
         score = RobotScore(team=form.team_id.data,
                            round_number=form.round_number.data)
         populate_score(score, form)
         db.session.add(score)
         db.session.commit()
-        if form.round_number.data <= 3:
-            return redirect(url_for(".index"))
+        if repeat:
+            flash('Added score for %s round %s' % (score.team.number, score.round_number), 'success')
+            return redirect(url_for(".add", round = preselected_round, repeat = True))
         else:
-            return redirect(url_for(".playoffs"))
+            if form.round_number.data <= 3:
+                return redirect(url_for("review"))
+            else:
+                return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
-        flash('Failed validation')
-    return render_template("scoring/score_form.html", form=form)
+        flash('Failed validation', 'danger alert-auto-dismiss')
+    return render_template("scoring/score_form.html",
+                           form=form,
+                           id=None,
+                           repeat=repeat)
 
 
 # Edit a previously-entered score
@@ -102,15 +130,16 @@ def edit(score_id):
         populate_score(score, form)
         db.session.commit()
         if score.round_number <= 3:
-            return redirect(url_for(".index"))
+            return redirect(url_for("review"))
         else:
             return redirect(url_for(".playoffs"))
     elif request.method == 'POST':
-        flash('Failed validation')
+        flash('Failed validation', 'danger alert-auto-dismiss')
     return render_template("scoring/score_form.html",
                            form=form,
-                           team_id=score.team_id,
-                           round_number=score.round_number)
+                           team_id=score.team.number,
+                           round_number=score.round_number,
+                           id=score.id)
 
 
 # Delete a score
@@ -122,7 +151,7 @@ def delete(score_id):
         db.session.delete(score)
         db.session.commit()
         if score.round_number <= 3:
-            return redirect(url_for(".index"))
+            return redirect(url_for("review"))
         else:
             return redirect(url_for(".playoffs"))
     return render_template("delete.html",
@@ -133,6 +162,10 @@ def delete(score_id):
 @mod_scoring.route("/playoffs", methods=['GET'])
 @login_required
 def playoffs():
+    teams = Team.query.all()
+    if not teams:
+        return render_template("no_teams.html")
+
     quarterfinal_teams = Team.query.filter(Team.highest_round_reached >= 4)
     semifinal_teams = Team.query.filter(Team.highest_round_reached >= 5)
     final_teams = Team.query.filter(Team.highest_round_reached >= 6)

@@ -3,13 +3,18 @@
 {% block title %}Award Winner Form{% endblock %}
 {% block pageContent %}
     <div class="row">
-        <h1>FLL Award Assignment</h1>
+        <h3>FLL Award Assignment</h3>
     </div>
-    {% call macros.render_form(form, class_="awardWinnerForm") %}
-        <label class="col-sm-3 control-label">Award</label>
-        <div class="col-sm-9">
-            <p class="form-control-static">{{ award }}</p>
+    {% call macros.render_form(form, class_="awardWinnerForm", include_submit=false) %}
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-1">
+                <label class="col-sm-6 control-label">Award</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static">{{ award }}</p>
+                </div>
+                {{ macros.render_field(form.team_id) }}
+                {{ macros.render_submit(cancel_link=url_for('.index')) }}
+            </div>
         </div>
-        {{ macros.render_field(form.team_id) }}
     {% endcall %}
 {% endblock %}

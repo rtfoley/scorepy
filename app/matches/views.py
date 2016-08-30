@@ -38,6 +38,7 @@ def upload():
         file.save(filename)
 
         # extract team data from file
+        # TODO wipe all previous tables/ matches, with warning first
         tables = addTablesFromCsv(filename)
         matchCount = addMatchesFromCsv(filename, tables)
         flash('Imported %d matches' % matchCount, 'success')
@@ -80,6 +81,7 @@ def addMatchesFromCsv(filename, tables):
 
         j = 1
         for row in reader:
+            # TODO handle 12pm correctly
             match = Match(j, 'Q', row['Round'], row['Time'])
             j += 1
             for key, value in competition_tables.iteritems():

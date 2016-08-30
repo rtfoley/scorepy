@@ -42,7 +42,7 @@ label {
     margin-bottom: 5px;
 }
 
-.alert {
+.alert:not(.inline-alert) {
 	position:absolute;
   z-index:1;
 }

@@ -37,8 +37,20 @@ def upload():
         file = request.files['file']
         file.save(filename)
 
-        # extract team data from file
-        # TODO wipe all previous tables/ matches, with warning first
+        
+        # wipe all previous tables/ matches, with warning first
+        for existing_slot in MatchSlot.query.all():
+            db.session.delete(existing_slot)
+        
+        for existing_table in CompetitionTable.query.all():
+            db.session.delete(existing_table)
+        
+        for existing_match in Match.query.all():
+            db.session.delete(existing_match)
+            
+        db.session.commit()
+        
+        # extract data from file
         tables = addTablesFromCsv(filename)
         matchCount = addMatchesFromCsv(filename, tables)
         flash('Imported %d matches' % matchCount, 'success')

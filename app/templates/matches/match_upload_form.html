@@ -3,5 +3,6 @@
 {% block title %}Match CSV Upload{% endblock %}
 {% block pageContent %}
   <h1>Match Upload</h1>
+  <p class="alert alert-danger inline-alert">Warning: All existing matches will be erased!</p>
   {{ macros.render_form(form, action_url="./upload", action_text="Upload", class_="upload_form", enctype="multipart/form-data") }}
 {% endblock %}

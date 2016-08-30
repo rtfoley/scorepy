@@ -59,6 +59,7 @@ def upload():
         return redirect(url_for(".index"))
     return render_template("matches/match_upload_form.html", form=form)
 
+
 def addTablesFromCsv(filename):
     competition_tables = []
 
@@ -67,6 +68,8 @@ def addTablesFromCsv(filename):
 
         i = 0
         fields = reader.fieldnames
+        
+        # Get the fields that start with 'Table' (may want to make this more flexible later on)
         table_names = filter(lambda k: 'Table' in k, fields)
         for table in table_names:
             comp_table = CompetitionTable(i, table)
@@ -77,11 +80,13 @@ def addTablesFromCsv(filename):
         db.session.commit()
         return competition_tables
 
+
 def addMatchesFromCsv(filename, tables):
     matches = []
     competition_tables = {}
     teams = {}
 
+    # setup team and table dictionaries for quick access
     for team in Team.query.all():
         teams[team.number] = team.id
 
@@ -93,9 +98,12 @@ def addMatchesFromCsv(filename, tables):
 
         j = 1
         for row in reader:
+            # Create the overall match object
             match = Match(j, 'Q', row['Round'], row['Time'])
+            
             j += 1
             for key, value in competition_tables.iteritems():
+                # if there is a team number in the table column, then add a match-slot object
                 if row[key]:
                     team_id = Team.query.filter_by(number = row[key]).first().id
                     table_id = value

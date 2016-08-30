@@ -2,6 +2,7 @@ from app import db
 from app.scoring.models import RobotScore
 from app.judging.models import Presentation, Technical, CoreValues
 from app.awards.models import AwardWinner
+from app.matches.models import MatchSlot
 from operator import attrgetter
 
 
@@ -22,6 +23,7 @@ class Team(db.Model):
     technical = db.relationship('Technical', uselist=False, backref='team')
     core_values = db.relationship('CoreValues', uselist=False, backref='team')
     awards = db.relationship('AwardWinner', backref='team')
+    slots = db.relationship('MatchSlot', backref='team')
 
     def __init(self, number, name, affiliation, city, state, is_rookie):
         self.number = number

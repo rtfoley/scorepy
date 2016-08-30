@@ -40,8 +40,14 @@
           <td>{{ match.number }}</td>
           <td>{{ match.match_type }}</td>
           <td>{{ match.round_number }}</td>
-          {% for slot in match.slots %}
-            <td>{{ slot.team.number }}</td>
+          {% for competition_table in competition_tables %}
+            <td>
+              {% for slot in match.slots %}
+                {% if competition_table.name == slot.competition_table.name %}
+                  {{ slot.team.number }}
+                {% endif %}
+              {% endfor %}
+            </td>
           {% endfor %}
         </tr>
       {% endfor %}

@@ -41,5 +41,5 @@ class Match(db.Model):
     def __init__(self, number, match_type, round_number, time):
         self.number = int(number)
         self.match_type = match_type
-        self.time = datetime.strptime(time, '%I:%M')
+        self.time = datetime.strptime(time, '%I:%M%p')
         self.round_number = int(round_number)

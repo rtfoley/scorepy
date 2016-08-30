@@ -36,7 +36,7 @@
     <tbody>
       {% for match in matches %}
         <tr>
-          <td>{{ match.time }}</td>
+          <td>{{ match.time.strftime('%-I:%M%p')}}</td>
           <td>{{ match.number }}</td>
           <td>{{ match.match_type }}</td>
           <td>{{ match.round_number }}</td>

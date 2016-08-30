@@ -93,7 +93,6 @@ def addMatchesFromCsv(filename, tables):
 
         j = 1
         for row in reader:
-            # TODO handle 12pm correctly
             match = Match(j, 'Q', row['Round'], row['Time'])
             j += 1
             for key, value in competition_tables.iteritems():

@@ -43,3 +43,7 @@ class Match(db.Model):
         self.match_type = match_type
         self.time = datetime.strptime(time, '%I:%M%p')
         self.round_number = int(round_number)
+        
+    @property
+    def friendly_type(self):
+        return 'Qualification' if self.match_type == 'Q' else 'Playoff' 

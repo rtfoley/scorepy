@@ -102,6 +102,7 @@ def addMatchesFromCsv(filename, tables):
                     table_id = value
                     match.slots.append(MatchSlot(table_id, team_id))
 
+            matches.append(match)
             db.session.add(match)
 
         db.session.commit()

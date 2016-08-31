@@ -6,7 +6,7 @@ from flask.ext.login import login_required
 from app import db
 from app.util import create_pdf
 from models import Match, MatchSlot, CompetitionTable
-from forms import UploadForm
+from forms import UploadForm, AnnouncerDisplayForm
 from app.teams.models import Team
 
 
@@ -19,6 +19,32 @@ def index():
     matches = Match.query.all()
     competition_tables = CompetitionTable.query.all()
     return render_template("matches/match_list.html", matches=matches, competition_tables=competition_tables)
+
+
+@mod_matches.route("/announcer", methods=['GET', 'POST'], defaults={'match_id': None})
+@mod_matches.route("/announcer/<int:match_id>", methods=['GET', 'POST'])
+def announcer_display(match_id):
+    matches = Match.query.all()
+    
+    form = AnnouncerDisplayForm()
+    form.match_id.choices = [(m.id, m.number) for m in matches]
+    
+    match = None
+    if match_id is None:
+        match = matches[0]
+    else:
+        match = Match.query.filter_by(id = match_id).first()
+    
+    if request.method == 'POST' and request.form['end'] == 'jump':
+        return redirect(url_for(".announcer_display", match_id = request.form['match_id']))
+    elif request.method == 'POST' and request.form['end'] == 'previous':
+        new_match = Match.query.filter_by(number = match.number - 1).first()
+        return redirect(url_for(".announcer_display", match_id = new_match.id))
+    elif request.method == 'POST' and request.form['end'] == 'next':
+        new_match = Match.query.filter_by(number = match.number + 1).first()
+        return redirect(url_for(".announcer_display", match_id = new_match.id))
+    
+    return render_template("matches/announcer_display.html", form=form, match=match)
     
 @mod_matches.route("/upload", methods=['GET', 'POST'])
 @login_required

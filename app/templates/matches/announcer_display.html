@@ -27,7 +27,7 @@
             <thead>
                 <tr>
                     {% for slot in match.slots|sort(attribute='competition_table.number') %}
-                        <th>{{ slot.competition_table.name }}</th>
+                        <th width="{{100/(match.slots|length)}}%">{{ slot.competition_table.name }}</th>
                     {% endfor %}
                 </tr>
             </thead>

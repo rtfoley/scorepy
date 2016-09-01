@@ -38,7 +38,12 @@
             <tbody>
                 <tr>
                     {% for slot in match.slots|sort(attribute='competition_table.number') %}
-                        <td>#{{ slot.team.number }}</td>
+                        <td>
+                            #{{ slot.team.number }}
+                            {% if slot.team.is_rookie %}
+                                (rookie)
+                            {% endif %}
+                        </td>
                     {% endfor %}
                 </tr>
                 <tr>
@@ -54,17 +59,6 @@
                 <tr>
                     {% for slot in match.slots|sort(attribute='competition_table.number') %}
                         <td>{{ slot.team.city }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {% for slot in match.slots|sort(attribute='competition_table.number') %}
-                        <td>
-                            {% if slot.team.is_rookie %}
-                                Rookie
-                            {% else %}
-                                &nbsp;
-                            {% endif %}
-                        </td>
                     {% endfor %}
                 </tr>
             </tbody>

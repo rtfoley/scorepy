@@ -46,3 +46,13 @@ label {
 	position:absolute;
   z-index:1;
 }
+
+table.announcer_display_table {
+    width: 100%;
+    font-size: 150%;
+}
+
+.container {
+    margin: 0 auto;
+    width: 98%;
+}

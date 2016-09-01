@@ -4,7 +4,6 @@ import logging
 _cwd = dirname(abspath(__file__))
 
 class BaseConfiguration(object):
-    SERVER_NAME = 'localhost:8080'
     DEBUG = True
 
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(_cwd, 'scorepy.db')

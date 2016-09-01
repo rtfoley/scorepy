@@ -6,7 +6,9 @@
     {% call macros.render_form(form, class_="announcer_form", include_submit=false) %}
         <div class="row">
             <div class="col-sm-1">
-                <button type="submit" class="btn btn-danger pull-left" value="previous" name="end"><< Previous</button>
+                {% if allow_previous %}
+                    <button type="submit" class="btn btn-danger pull-left" value="previous" name="end"><< Previous</button>
+                {% endif %}
             </div>
             <div class="col-sm-10">
                 <div class="col-sm-6">
@@ -17,7 +19,9 @@
                 </div>
             </div>
             <div class="col-sm-1">
-                <button type="submit" class="btn btn-success pull-right" value="next" name="end">Next >></button>
+                {% if allow_next %}
+                    <button type="submit" class="btn btn-success pull-right" value="next" name="end">Next >></button>
+                {% endif %}
             </div>
         </div>
     {% endcall %}

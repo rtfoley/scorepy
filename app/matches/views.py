@@ -24,6 +24,7 @@ def index():
 @mod_matches.route("/announcer", methods=['GET', 'POST'], defaults={'match_id': None})
 @mod_matches.route("/announcer/<int:match_id>", methods=['GET', 'POST'])
 def announcer_display(match_id):
+    # TODO filter only on correct type once we have playoff matches
     matches = Match.query.all()
     
     form = AnnouncerDisplayForm()
@@ -33,7 +34,10 @@ def announcer_display(match_id):
     if match_id is None:
         match = matches[0]
     else:
-        match = Match.query.filter_by(id = match_id).first()
+        match = Match.query.filter_by(id=match_id).first()
+
+    allow_previous = match.number != 1
+    allow_next = match.number != len(matches)
     
     if request.method == 'POST' and request.form['end'] == 'jump':
         return redirect(url_for(".announcer_display", match_id = request.form['match_id']))
@@ -44,7 +48,11 @@ def announcer_display(match_id):
         new_match = Match.query.filter_by(number = match.number + 1).first()
         return redirect(url_for(".announcer_display", match_id = new_match.id))
     
-    return render_template("matches/announcer_display.html", form=form, match=match)
+    return render_template("matches/announcer_display.html",
+                           form=form,
+                           match=match,
+                           allow_previous=allow_previous,
+                           allow_next=allow_next)
     
 @mod_matches.route("/upload", methods=['GET', 'POST'])
 @login_required

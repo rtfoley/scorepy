@@ -65,7 +65,13 @@
                 <li><a href="{{ url_for('awards.awards_pdf') }}" target="blanks">Awards</a></li>
               </ul>
             </li>
-            <li><a href="{{ url_for('pit_display') }}" target="blank"><span class="fa fa-desktop"></span> Pit Display</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-desktop"></span> Displays<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('pit_display') }}" target="blank"><span class="fa fa-sort-numeric-asc"></span> Pit Display</a></li>
+                <li><a href="{{ url_for('matches.announcer_display') }}"><span class="fa fa-microphone"></span> Announcer Display</a></li>
+              </ul>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ url_for('settings') }}"><span class="fa fa-cog"></span> Settings</a></li>

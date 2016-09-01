@@ -2,9 +2,7 @@
 {% import "_helpers.html" as macros %}
 {% block title %}FLL Project Form{% endblock %}
 {% block pageContent %}
-    <div class="row">
-        <h1>Project Entry</h1>
-    </div>
+    <h1>Project Entry</h1>
     {% call macros.render_form(form, class_="presentationForm", include_submit=false) %}
         <div class="row">
             <div class="col-sm-8 col-sm-offset-1">

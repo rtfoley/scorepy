@@ -19,7 +19,7 @@ class TestTopLevelFunctions(BaseTestCase):
     def check_login_required(self, attempted_location, redirected_location):
         response = self.client.get(attempted_location)
         self.assertTrue(response.status_code in (301, 302))
-        self.assertEqual(response.location, 'http://' + self.app.config['SERVER_NAME'] + redirected_location)
+        self.assertEqual(response.location, 'http://localhost' + redirected_location)
         self.login('admin', 'changeme')
         response = self.client.get(attempted_location)
         self.assert200(response)

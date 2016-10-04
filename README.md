@@ -40,7 +40,7 @@ Clone the repository
 
 Create a virtual environment
 ```text
-> cd fllipit
+> cd scorepy
 > virtualenv venv
 ```
 Activate the virtual environment using one of the following commands:

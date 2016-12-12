@@ -1,6 +1,5 @@
 from app import db
 from app.scoring.models import RobotScore
-from app.judging.models import Presentation, Technical, CoreValues
 from app.awards.models import AwardWinner
 from app.matches.models import MatchSlot
 from operator import attrgetter
@@ -18,10 +17,6 @@ class Team(db.Model):
     is_rookie = db.Column(db.Boolean)
     highest_round_reached = db.Column(db.Integer)
     scores = db.relationship('RobotScore', backref='team')
-    presentation = db.relationship('Presentation', uselist=False,
-                                   backref='team')
-    technical = db.relationship('Technical', uselist=False, backref='team')
-    core_values = db.relationship('CoreValues', uselist=False, backref='team')
     awards = db.relationship('AwardWinner', backref='team')
     slots = db.relationship('MatchSlot', backref='team')
 

@@ -27,9 +27,6 @@
         <th>Round 1</th>
         <th>Round 2</th>
         <th>Round 3</th>
-        <th>Project</th>
-        <th>Robot Design</th>
-        <th>Core Values</th>
       </tr>
     </thead>
     <tbody>
@@ -47,34 +44,6 @@
           <td>{{ macros.render_score(team, 1) }}</td>
           <td>{{ macros.render_score(team, 2) }}</td>
           <td>{{ macros.render_score(team, 3) }}</td>
-          {% if team.presentation != None %}
-            <td>
-              <a href="{{ url_for('judging.edit_presentation', presentation_id=team.presentation.id) }}">{{ "%0.2f" % team.presentation.overall_score }}</a>
-            </td>
-          {% else %}
-            <td>
-              <a href="{{ url_for('judging.add_presentation', team_id=team.id) }}"><i>add</i></a>
-            </td>
-          {% endif %}
-
-          {% if team.technical != None %}
-            <td>
-              <a href="{{ url_for('judging.edit_technical', technical_id=team.technical.id) }}">{{ "%0.2f" % team.technical.overall_score }}</a>
-            </td>
-          {% else %}
-            <td>
-              <a href="{{ url_for('judging.add_technical', team_id=team.id) }}"><i>add</i></a>
-            </td>
-          {% endif %}
-          {% if team.core_values != None %}
-            <td>
-              <a href="{{ url_for('judging.edit_core_values', core_values_id=team.core_values.id) }}">{{ "%0.2f" % team.core_values.overall_score }}</a>
-            </td>
-          {% else %}
-            <td>
-              <a href="{{ url_for('judging.add_core_values', team_id=team.id) }}"><i>add</i></a>
-            </td>
-          {% endif %}
         </tr>
       {% endfor %}
     </tbody>

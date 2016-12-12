@@ -42,7 +42,11 @@
             <td>
               {% for slot in match.slots %}
                 {% if competition_table.name == slot.competition_table.name %}
+                  <!-- TODO Make this a link to the score if present? -->
                   {{ slot.team.number }}
+                  {% if slot.team.get_score_for_round(match.round_number) != None %}
+                    <span class="fa fa-check"></span>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             </td>

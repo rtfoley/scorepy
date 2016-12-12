@@ -13,6 +13,10 @@
                     <p class="form-control-static">{{ award }}</p>
                 </div>
                 {{ macros.render_field(form.team_id) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
                 {{ macros.render_submit(cancel_link=url_for('.index')) }}
             </div>
         </div>

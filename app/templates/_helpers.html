@@ -98,7 +98,7 @@
   Render a submit field
 #}
 {% macro render_submit(action_text='Submit', btn_class='btn btn-primary', cancel_link=None, delete_link=None, include_reset=false) -%}
-  <div class="form-group>
+  <div class="form-group">
     <div style="{{ kwargs.pop('style_', '') }}">
       <button type="submit" class="{{ btn_class }}" value="submit" name="end">{{ action_text }}</button>
       {% if include_reset %}
@@ -173,7 +173,11 @@
       </div>
     {% endif %}
     {% if include_submit %}
-      {{ render_submit(action_text, btn_class) }}
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          {{ render_submit(action_text, btn_class) }}
+        </div>
+      </div>
     {% endif %}
   </form>
 {%- endmacro %}

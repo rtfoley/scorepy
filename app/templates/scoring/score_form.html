@@ -142,12 +142,16 @@
               </div>
           </div>
         </div>
-        {% if id!=None %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review'), delete_link=url_for('.delete', score_id=id)) }}
-        {% elif repeat == true %}
-            {{ macros.render_submit(style_='padding-left: 23px', include_reset=true) }}
-        {% else %}
-            {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review')) }}
-        {% endif %}
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                {% if id!=None %}
+                    {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review'), delete_link=url_for('.delete', score_id=id)) }}
+                {% elif repeat == true %}
+                    {{ macros.render_submit(style_='padding-left: 23px', include_reset=true) }}
+                {% else %}
+                    {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('review')) }}
+                {% endif %}
+            </div>
+        </div>
     {% endcall %}
 {% endblock %}

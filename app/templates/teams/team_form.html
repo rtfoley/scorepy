@@ -21,6 +21,10 @@
                 {{ macros.render_field(form.city) }}
                 {{ macros.render_field(form.state) }}
                 {{ macros.render_field(form.is_rookie) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
                 {% if id!=None %}
                     {{ macros.render_submit(style_='padding-left: 23px', cancel_link=url_for('.index'), delete_link=url_for('.delete', team_id=id)) }}
                 {% else %}

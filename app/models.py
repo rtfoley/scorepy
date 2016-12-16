@@ -29,7 +29,13 @@ class EventSettings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
     is_championship = db.Column(db.Boolean)
+    quarter_finals_teams = db.Column(db.Integer)
+    semi_finals_teams = db.Column(db.Integer)
+    finals_teams = db.Column(db.Integer)
     
-    def __init__(self, name, championship):
+    def __init__(self, name, championship, quarter_finals_teams = 8, semi_finals_teams=4, finals_teams = 2):
         self.name = name
         self.is_championship = championship
+        self.quarter_finals_teams = quarter_finals_teams
+        self.semi_finals_teams = semi_finals_teams
+        self.finals_teams = finals_teams

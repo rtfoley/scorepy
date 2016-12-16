@@ -38,6 +38,9 @@ def announcer_display(match_id):
 
     allow_previous = match.number != 1
     allow_next = match.number != len(matches)
+
+    # set initial value for the match-jump drop-down
+    form.match_id.data = match_id
     
     if request.method == 'POST' and request.form['end'] == 'jump':
         return redirect(url_for(".announcer_display", match_id = request.form['match_id']))

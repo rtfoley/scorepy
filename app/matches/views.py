@@ -4,6 +4,7 @@ from flask import Blueprint, flash, render_template, request, redirect, \
     url_for
 from flask.ext.login import login_required
 from app import db
+from app.models import EventSettings
 from app.util import create_pdf
 from models import Match, MatchSlot, CompetitionTable
 from forms import UploadForm, AnnouncerDisplayForm
@@ -19,6 +20,19 @@ def index():
     matches = Match.query.all()
     competition_tables = CompetitionTable.query.all()
     return render_template("matches/match_list.html", matches=matches, competition_tables=competition_tables)
+
+
+@mod_matches.route("/match_schedule.pdf")
+def matches_pdf():
+    matches = Match.query.all()
+    competition_tables = CompetitionTable.query.all()
+    title = EventSettings.query.first().name
+    match_report = render_template("matches/match_report.html",
+                                   matches=matches,
+                                   competition_tables=competition_tables,
+                                   title="Match Report: %s" % title)
+    pdf = create_pdf(match_report, 'matches.pdf')
+    return pdf
 
 
 @mod_matches.route("/announcer", methods=['GET', 'POST'], defaults={'match_id': None})

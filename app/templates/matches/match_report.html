@@ -1,0 +1,35 @@
+{% extends "report_base.html" %}
+{% block reportContent %}
+    <table repeat="1">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Number</th>
+                <th>Type</th>
+                <th>Round</th>
+                {% for competition_table in competition_tables %}
+                    <th>{{ competition_table.name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in matches %}
+                <tr>
+                    <td>{{ match.time.strftime('%-I:%M%p')}}</td>
+                    <td>{{ match.number }}</td>
+                    <td>{{ match.friendly_type }}</td>
+                    <td>{{ match.round_number }}</td>
+                    {% for competition_table in competition_tables %}
+                        <td>
+                            {% for slot in match.slots %}
+                                {% if competition_table.name == slot.competition_table.name %}
+                                    {{ slot.team.number }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

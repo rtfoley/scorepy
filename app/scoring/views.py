@@ -177,19 +177,23 @@ def playoffs():
 @login_required
 def populate(selected_round):
     if request.method == 'POST':
+        event_settings = EventSettings.query.first()
+
         if selected_round == 4:
-            top_teams = sorted(Team.query.all(), key=by_team_best, reverse=True)[:8]
+            top_teams = sorted(Team.query.all(), key=by_team_best, reverse=True)[
+                        :event_settings.quarter_finals_teams]
             for team in top_teams:
                 team.highest_round_reached = 4
             db.session.commit()
         elif selected_round == 5:
             top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 4), key=by_quarterfinal, reverse=True)[
-                        :4]
+                        :event_settings.semi_finals_teams]
             for team in top_teams:
                 team.highest_round_reached = 5
             db.session.commit()
         elif selected_round == 6:
-            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 5), key=by_semifinal, reverse=True)[:2]
+            top_teams = sorted(Team.query.filter(Team.highest_round_reached >= 5), key=by_semifinal, reverse=True)[
+                        :event_settings.finals_teams]
             for team in top_teams:
                 team.highest_round_reached = 6
             db.session.commit()

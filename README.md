@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/rtfoley/scorepy.svg?branch=master)](https://travis-ci.org/rtfoley/scorepy) [![Stories in Ready](https://badge.waffle.io/rtfoley/scorepy.png?label=ready&title=Ready)](https://waffle.io/rtfoley/scorepy)
+[![Build Status](https://travis-ci.org/rtfoley/scorepy.svg?branch=master)](https://travis-ci.org/rtfoley/scorepy)
+
+### Note: this repository is no longer actively maintained
+
 # ScorePy
 An attempt at an FLL tournament scoring application using Python and Flask
 
